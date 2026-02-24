@@ -79,6 +79,7 @@ void CTickFlowManager::_14(CTickFlow::CreateFn createFn, u32 size, const TickFlo
 
     mSkipHandler = NULL;
     mSceneTransHandler = NULL;
+
     mSkipAllowed = false;
     mSkipControllerIndex = 0;
     mSkipButton = WPAD_BUTTON_MINUS;
@@ -268,21 +269,17 @@ void CTickFlowManager::fn_801E1E4C(void) {
     }
 }
 
-// TODO: match
 void CTickFlowManager::fn_801E2490(s32 category) {
-    CTickFlow *inst = mTickFlowHead;
-    for (;;) {
-        CTickFlow *next;
-        while (inst != NULL && inst->getCategory() <= category) {
-            next = inst->getNext();
-            inst = next;
+    CTickFlow *current = mTickFlowHead;
+    while (current != NULL) {
+        CTickFlow *next = current->getNext();
+        
+        u32 curCategory = current->getCategory();
+        if (curCategory > category) {
+            fn_801E1DC8(current);
         }
-    
-        fn_801E1DC8(inst);
 
-        if (mTickFlowHead == NULL) {
-            return;
-        }
+        current = next;
     }
 }
 
@@ -291,7 +288,6 @@ void CTickFlowManager::fn_801E2540(CTickFlow *tickFlow) {
     MEMFreeToExpHeap(mHeap, static_cast<void *>(tickFlow));
 }
 
-// TODO: regswaps
 void CTickFlowManager::_1C(CTickFlow::CreateFn createFn, u32 size) {
     mTickFlowCreateFn = createFn;
     mTickFlowSize = size;
@@ -299,7 +295,7 @@ void CTickFlowManager::_1C(CTickFlow::CreateFn createFn, u32 size) {
     CTickFlow *current = mTickFlowHead, *next;
     bool first = true;
     while (current != NULL) {
-        next = current->getNext();
+        next = static_cast<CTickFlow *>(current->getNext());
 
         void *block = MEMAllocFromExpHeap(mHeap, mTickFlowSize);
         CTICKFLOWMANAGER_DEBUG_HEAP_ALLOC(block);
