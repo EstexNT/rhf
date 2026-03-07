@@ -9,7 +9,11 @@
 
 #include "List.hpp"
 
+class CCellAnimManager; // Forward-declaration
+
 class CCellAnim : public CList {
+    friend class CCellAnimManager;
+
 public:
     typedef void (*CellAnimPrepFn)(CCellAnim *anim, u16 animID, u16 nextAnimID);
 
@@ -27,8 +31,8 @@ public:
 
     CCellAnim(void);
 
-    u8 getID(void) const { return mID; }
-    void setID(u8 id) { mID = id; }
+    u8 getBankID(void) const { return mBankID; }
+    void setBankID(u8 bankID) { mBankID = bankID; }
 
     u16 getAnimID(void) const { return mAnimID; }
 
@@ -94,17 +98,11 @@ public:
     CCellAnim *getBaseLinkedNext(void) const { return mBaseLinkedNext; }
     CCellAnim *getBaseLinkedPrev(void) const { return mBaseLinkedPrev; }
 
-    void clearBase(void) {
-        mBaseAnim = NULL;
-        mBaseLinkedNext = NULL;
-        mBaseLinkedPrev = NULL;
-    }
-
-    void init(u8 id, u16 animID);
+    void init(u8 bankID, u16 animID);
     bool update(void);
     void makeMtx(BOOL defMtx, Mtx baseMtx);
     void draw(BOOL forceDraw);
-    void setBase(CCellAnim *baseAnim, u16 partIndex, bool drawBase);
+    void setBase(CCellAnim *baseAnim, u16 objIndex, bool drawBase);
     void fn_801DCE9C(u16 animID);
     void fn_801DCEE0(u16 animID);
     void fn_801DCEE8(u16 animID, CellAnimPrepFn callback);
@@ -141,8 +139,14 @@ private:
         return nextAnimID;
     }
 
+    void clearBase(void) {
+        mBaseAnim = NULL;
+        mBaseLinkedNext = NULL;
+        mBaseLinkedPrev = NULL;
+    }
+
 private:
-    u8 mID;
+    u8 mBankID;
     u16 mAnimID;
 
     u16 mPrepAnimID[8];
@@ -182,7 +186,7 @@ private:
     CCellAnim *mBaseLinkedNext;
     CCellAnim *mBaseLinkedPrev;
 
-    u16 mBasePartIndex;
+    u16 mBaseOBJIndex;
     bool mBaseAnimDraw;
 };
 

@@ -181,15 +181,15 @@ void CSceneFork::_14(void) {
     }
 
     if (Fork::sceneVer == 1 || Fork::sceneVer == 2) {
-        mBalloonAnim->setID(1);
-        mHandAnim->setID(1);
+        mBalloonAnim->setBankID(1);
+        mHandAnim->setBankID(1);
 
         if (Fork::sceneVer == 1) {
             lbl_80320204->setEnabled(true);
             lbl_80320204->setPos(40.0f, 190.0f);
         }
         else if (Fork::sceneVer == 2) {
-            mFork[0].mForkAnim->setID(1);
+            mFork[0].mForkAnim->setBankID(1);
 
             lbl_80320208->setEnabled(true);
             lbl_80320208->setPos(40.0f, 190.0f);

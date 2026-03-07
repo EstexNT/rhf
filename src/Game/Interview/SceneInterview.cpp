@@ -307,33 +307,33 @@ void CSceneInterview::_14(void) {
         mWrestler[0].faceMark->setEnabled(true);
         mWrestler[0].faceMarkPaper->setEnabled(true);
 
-        mWrestler[0].bodyAnim->setID(wrestler_1P);
-        mWrestler[0].faceAnim->setID(wrestler_1P);
-        mWrestler[0].faceMark->setID(wrestler_1P);
-        mWrestler[0].shadowAnim->setID(wrestler_1P);
-        mWrestler[0].sweatBase->setID(wrestler_1P);
+        mWrestler[0].bodyAnim->setBankID(wrestler_1P);
+        mWrestler[0].faceAnim->setBankID(wrestler_1P);
+        mWrestler[0].faceMark->setBankID(wrestler_1P);
+        mWrestler[0].shadowAnim->setBankID(wrestler_1P);
+        mWrestler[0].sweatBase->setBankID(wrestler_1P);
 
-        mWrestler[0].bodyAnimPaper->setID(wrestler_1P);
-        mWrestler[0].faceAnimPaper->setID(wrestler_1P);
-        mWrestler[0].faceMarkPaper->setID(wrestler_1P);
-        mWrestler[0].shadowAnimPaper->setID(wrestler_1P);
-        mWrestler[0].sweatBasePaper->setID(wrestler_1P);
+        mWrestler[0].bodyAnimPaper->setBankID(wrestler_1P);
+        mWrestler[0].faceAnimPaper->setBankID(wrestler_1P);
+        mWrestler[0].faceMarkPaper->setBankID(wrestler_1P);
+        mWrestler[0].shadowAnimPaper->setBankID(wrestler_1P);
+        mWrestler[0].sweatBasePaper->setBankID(wrestler_1P);
     }
     else if (Interview::sceneVer == 2) {
         mWrestler[0].faceMark->setEnabled(true);
         mWrestler[0].faceMarkPaper->setEnabled(true);
 
-        mWrestler[0].bodyAnim->setID(wrestler_2P);
-        mWrestler[0].faceAnim->setID(wrestler_2P);
-        mWrestler[0].faceMark->setID(wrestler_2P);
-        mWrestler[0].shadowAnim->setID(wrestler_2P);
-        mWrestler[0].sweatBase->setID(wrestler_2P);
+        mWrestler[0].bodyAnim->setBankID(wrestler_2P);
+        mWrestler[0].faceAnim->setBankID(wrestler_2P);
+        mWrestler[0].faceMark->setBankID(wrestler_2P);
+        mWrestler[0].shadowAnim->setBankID(wrestler_2P);
+        mWrestler[0].sweatBase->setBankID(wrestler_2P);
 
-        mWrestler[0].bodyAnimPaper->setID(wrestler_2P);
-        mWrestler[0].faceAnimPaper->setID(wrestler_2P);
-        mWrestler[0].faceMarkPaper->setID(wrestler_2P);
-        mWrestler[0].shadowAnimPaper->setID(wrestler_2P);
-        mWrestler[0].sweatBasePaper->setID(wrestler_2P);
+        mWrestler[0].bodyAnimPaper->setBankID(wrestler_2P);
+        mWrestler[0].faceAnimPaper->setBankID(wrestler_2P);
+        mWrestler[0].faceMarkPaper->setBankID(wrestler_2P);
+        mWrestler[0].shadowAnimPaper->setBankID(wrestler_2P);
+        mWrestler[0].sweatBasePaper->setBankID(wrestler_2P);
     }
 
     mCameramenJumping.setEasing(0, 1);

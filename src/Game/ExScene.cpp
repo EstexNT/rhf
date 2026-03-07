@@ -556,13 +556,13 @@ void CExScene::fn_80009028(void) {
 
     lbl_803201CC->setPos(0.0f, 170.0f);
 
-    u16 partIndex = 3;
+    u16 objIndex = 3;
     if (SCGetAspectRatio() == SC_ASPECT_WIDE) {
-        partIndex = 7;
+        objIndex = 7;
     }
 
-    lbl_803201D0->setBase(lbl_803201E0, partIndex, false);
-    lbl_803201D4->setBase(lbl_803201E0, partIndex + 8, false);
+    lbl_803201D0->setBase(lbl_803201E0, objIndex, false);
+    lbl_803201D4->setBase(lbl_803201E0, objIndex + 8, false);
 
     lbl_803201EC->setPos(80.0f, 170.0f);
 
