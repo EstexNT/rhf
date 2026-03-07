@@ -89,7 +89,7 @@ void *CFileManager::fn_801D3C4C(const char *path, EHeapMEM heap, s32 alignment) 
     void *alloc = new (heap, alignment) u8[allocSize];
     DCInvalidateRange(alloc, allocSize);
 
-    DVDReadAsyncPrio(&mDVDFileInfo[fileInfoIndex], alloc, allocSize, 0, fn_801D392C, 2);
+    DVDReadAsyncPrio(&mDVDFileInfo[fileInfoIndex], alloc, allocSize, 0, fn_801D392C, DVD_PRIO_MEDIUM);
     mDVDFileInfoActive[fileInfoIndex] = true;
 
     return alloc;
@@ -142,7 +142,10 @@ void CFileManager::fn_801D3F94(s32 arcIndex, const char *path, EHeapMEM heap, s3
     mArchiveInfo[arcIndex].data = new (mArchiveInfo[arcIndex].heapType, alignment) u8[allocSize];
     DCInvalidateRange(mArchiveInfo[arcIndex].data, allocSize);
 
-    DVDReadAsyncPrio(&mDVDFileInfo[fileInfoIndex], mArchiveInfo[arcIndex].data, allocSize, 0, fn_801D3988, 2);
+    DVDReadAsyncPrio(
+        &mDVDFileInfo[fileInfoIndex], mArchiveInfo[arcIndex].data, allocSize, 0, fn_801D3988,
+        DVD_PRIO_MEDIUM
+    );
     mDVDFileInfoActive[fileInfoIndex] = true;
 }
 
@@ -155,6 +158,7 @@ void CFileManager::fn_801D412C(s32 result, DVDFileInfo *fileInfo) {
         }
     }
 
+    // @bug The case where result equals DVD_RESULT_CANCELED is not covered
     if (result == DVD_RESULT_FATAL) {
         return;
     }
