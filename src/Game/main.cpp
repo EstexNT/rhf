@@ -119,17 +119,17 @@ static const GXRenderModeObj sRenderModeEuRgb60Prog456 = {
 
 extern "C" void fn_8008E430(void);
 
-DONT_INLINE void fn_80038350(void);
-DONT_INLINE void fn_80038AE4(void);
-DONT_INLINE void fn_800393DC(void);
-DONT_INLINE void fn_80039900(void);
+DONT_INLINE static void fn_80038350(void);
+DONT_INLINE static void fn_80038AE4(void);
+DONT_INLINE static void fn_800393DC(void);
+DONT_INLINE static void fn_80039900(void);
 
 // @bug Should be initialized to false, but left uninitialized.
 // Used in DVD error functions to check if managers are up.
 static bool sInitIsDone;
 
 // DVD error has started (front)
-void funcDVDErrorF(void) {
+static void funcDVDErrorF(void) {
     OSReport("funcDVDErrorF\n");
 
     if (sInitIsDone) {
@@ -143,7 +143,7 @@ void funcDVDErrorF(void) {
 }
 
 // DVD error has ended (back)
-void funcDVDErrorB(void) {
+static void funcDVDErrorB(void) {
     OSReport("funcDVDErrorB\n");
 
     if (
@@ -188,20 +188,20 @@ void main(int argc, char **argv) {
         gGameManager->startMainLoop<CSceneError>();
     }
 
-    // End all managers
     fn_800393DC();
 
-    // @bug gFileManager is used directly after destruction ..
+    // @bug gFileManager is destroyed by the call to fn_800393DC
     gFileManager->fn_801D41CC(0);
 
-    // @bug This call requires gCellAnimManager and gFileManager, which are gone by now ..
+    // @bug This call requires gCellAnimManager and gFileManager, which both have been
+    //      destroyed by the call to fn_800393DC
     CExScene::fn_8000966C();
 }
 
 static GXRenderModeObj sRenderModeObj;
 static bool sIs60FPS;
 
-void fn_80038350(void) {
+static void fn_80038350(void) {
     VIInit();
 
     GXRenderModeObj ntscInt456 = sRenderModeNtscInt456;
@@ -262,7 +262,7 @@ void fn_80038350(void) {
 
 TFD_EXTERN(lbl_802BAD10);
 
-void fn_80038AE4(void) {
+static void fn_80038AE4(void) {
     fn_801D3564();
     
     fn_801D3568();
@@ -469,7 +469,7 @@ void fn_80038AE4(void) {
     gDebugPrint->_10();
 }
 
-void fn_800393DC(void) {
+static void fn_800393DC(void) {
     gRFLManager->fn_800C2E04();
     gRFLManager->fn_800C2C98();
 
@@ -594,7 +594,7 @@ void fn_800393DC(void) {
     gFileManager = NULL;
 }
 
-void fn_80039900(void) {
+static void fn_80039900(void) {
     fn_801D369C(eHeapGroup_CommonAsset);
 
     gLayoutManager->fn_801D6DAC(1);
