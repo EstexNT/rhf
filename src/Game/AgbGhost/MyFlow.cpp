@@ -16,11 +16,12 @@ AgbGhost::CMyFlow::~CMyFlow(void) {}
 bool AgbGhost::CMyFlow::_1C(u32 opcode, u32 arg0, const s32 *args) {
     switch (opcode) {
     case TF_AGBGHOST_INPUT: {
+        s32 s_args0 = args[0];
         CMyChecker *checker = gInputCheckManager->makeNew<CMyChecker>();
 
         checker->fn_801E7D5C(eInputType_TriggerA);
 
-        switch (args[0]) {
+        switch (s_args0) {
         case 0:
             checker->fn_801E7DBC(48.0f, -10.0f, -6.0f, 6.0f, 10.0f);
             break;
@@ -78,7 +79,8 @@ bool AgbGhost::CMyFlow::_1C(u32 opcode, u32 arg0, const s32 *args) {
 
     case TF_AGBGHOST_RAIN: {
         if (arg0 == 0) {
-            mScene->mRainSound.Pause(args[0], 30);
+            bool b_args0 = args[0];
+            mScene->mRainSound.Pause(!b_args0, 30);
         }
         else if (arg0 == 1) {
             mScene->fn_800A8788(args[0]);
