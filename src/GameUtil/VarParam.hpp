@@ -2,11 +2,11 @@
 #define GAMEUTIL_VARPARAMMANAGER_HPP
 
 #include <revolution/types.h>
+
+#include "List.hpp"
 #include "Singleton.hpp"
 
 #include "Mem.hpp"
-
-#include "List.hpp"
 
 class CVarParam : public CList {
 public:
@@ -35,7 +35,7 @@ class CVarParamManager : public TSingleton<CVarParamManager> {
 public:
     virtual void _08(void);
     virtual ~CVarParamManager(void);
-    virtual void _10(s32);
+    virtual void _10(s32 paramCount);
     virtual void _14(void);
 
     CVarParamManager(void);

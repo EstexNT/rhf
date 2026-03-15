@@ -1,6 +1,8 @@
 #include "VarParam.hpp"
-#include "DebugPrint.hpp"
+
 #include <revolution/GX.h>
+
+#include "DebugPrint.hpp"
 
 CVarParamManager::CVarParamManager(void) {
     mDisplayMode = 0;
@@ -11,26 +13,29 @@ CVarParamManager::~CVarParamManager(void) {
     _08();
 }
 
-void CVarParamManager::_10(s32 paramNum) {
-    // assumed CVarParam
-    u32 size = ROUND_UP(paramNum * sizeof(CVarParam), 32);
-    mHeapStart = new (eHeap_MEM2, 32) u8[size];
-    mHeap = MEMCreateExpHeap(mHeapStart, size);
-    mVarParamHead = 0;
+void CVarParamManager::_10(s32 paramCount) {
+    // @bug The heap won't end up being able to fit exactly as much CVarParam
+    //      instances as paramCount might suggest because of heap- header &
+    //      block data.
+    u32 heapSize = ROUND_UP(paramCount * sizeof(CVarParam), 32);
+
+    mHeapStart = new (eHeap_MEM2, 32) u8[heapSize];
+    mHeap = MEMCreateExpHeap(mHeapStart, heapSize);
+
+    mVarParamHead = NULL;
 }
 
-void CVarParamManager::_14(void) {
-
-}
+void CVarParamManager::_14(void) {}
 
 void CVarParamManager::_08(void) {
     mVarParamHead->removeAll();
-    mVarParamHead = 0;
+    mVarParamHead = NULL;
+
     MEMDestroyExpHeap(mHeap);
     delete[] mHeapStart;
 }
 
-CW_FORCE_STRINGS(var_param_manager, "==== VarParam Info ====\n", "========\n");
+CW_FORCE_STRINGS(GameUtil_VarParamManager_cpp, "==== VarParam Info ====\n", "========\n");
 
 void CVarParamManager::fn_801ED2AC(void) {
     s32 y;
