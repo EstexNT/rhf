@@ -26,7 +26,7 @@ public:
 
 private:
     void init(u32 arcIndex, const char *pathInArc);
-    wchar_t *getString(u32 id);
+    const wchar_t *getString(u32 id) const;
 
 private:
     void *mData;
@@ -62,13 +62,20 @@ public:
     void fn_80088474(nw4r::lyt::Pane *);
     void fn_80088FEC(nw4r::lyt::TextBox *, s32, s32);
 
-    void setupTextBox(nw4r::lyt::TextBox *textBox, const char *mesgIDStr, s32 bmgType) {
+    void setupTextBox(nw4r::lyt::TextBox *textBox, const char *mesgIDStr, s32 sourceID) {
         s32 mesgID = fn_80087708(mesgIDStr);
-        fn_80088FEC(textBox, mesgID, bmgType);
+        fn_80088FEC(textBox, mesgID, sourceID);
     }
 
     void setFormatMesgID(const char *mesgIDStr) {
         mFormatMesgID = fn_80087708(mesgIDStr);
+    }
+
+    const wchar_t *getString(s32 mesgID, s32 sourceID) const {
+        return mBMG[sourceID].getString(mesgID);
+    }
+    const wchar_t *getString(const char *mesgIDStr, s32 sourceID) const {
+        return getString(fn_80087708(mesgIDStr), sourceID);
     }
 
     static s32 fn_80087708(const char *mesgIDStr);

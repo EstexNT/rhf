@@ -62,17 +62,31 @@ Game/Prologue/ScenePrologue.cpp:
 	.sbss       start:0x80320238 end:0x80320240
 	.bss        start:0x8032A278 end:0x8032A378
 
-Game/Script/Prologue.cpp:
-	.rodata     start:0x801F9110 end:0x801F9664
-
 Game/Epilogue/MyFlow.cpp:
 	.text       start:0x8000B1D4 end:0x8000B294
+	.rodata     start:0x801F8E58 end:0x801F8E70
+	.data       start:0x802E5960 end:0x802E59A0
+	.sdata      start:0x8031EF70 end:0x8031EF78
 
 Game/Epilogue/MyLayout.cpp:
 	.text       start:0x8000B294 end:0x8000B4B4
+	.rodata     start:0x801F8E70 end:0x801F8EA8
+	.data       start:0x802E59A0 end:0x802E59D0
+	.sdata      start:0x8031EF78 end:0x8031EF88
+	.sbss       start:0x80320240 end:0x80320250
+	.sdata2     start:0x80321200 end:0x80321208
 
 Game/Epilogue/SceneEpilogue.cpp:
 	.text       start:0x8000B4B4 end:0x8000B888
+	.rodata     start:0x801F8EA8 end:0x801F8F30
+	.data       start:0x802E59D0 end:0x802E5A10
+	.sdata      start:0x8031EF88 end:0x8031EF90
+	.sbss       start:0x80320250 end:0x80320258
+	.sdata2     start:0x80321208 end:0x80321210
+	.bss        start:0x8032A378 end:0x8032A478
+
+Game/Script/Prologue.cpp:
+	.rodata     start:0x801F9110 end:0x801F9664
 
 Game/Grading/MyFlow.cpp:
 	.text       start:0x8000B888 end:0x8000BA78

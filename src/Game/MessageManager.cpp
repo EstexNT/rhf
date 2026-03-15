@@ -113,7 +113,7 @@ void CBMGRes::init(u32 arcIndex, const char *pathInArc) {
 }
 
 // TODO: match (regswaps)
-wchar_t *CBMGRes::getString(u32 id) {
+const wchar_t *CBMGRes::getString(u32 id) const {
     if (id == MESG_ID_INVALID) {
         return L"???";
     }
@@ -126,7 +126,7 @@ wchar_t *CBMGRes::getString(u32 id) {
         }
 
         if (i < mMessageIDInfo->numEntries) {
-            wchar_t *string = mMessageData->data + (mMessageInfo->entries[i].dataOffset / sizeof(wchar_t));
+            const wchar_t *string = mMessageData->data + (mMessageInfo->entries[i].dataOffset / sizeof(wchar_t));
             if (wcslen(string) != 0) {
                 return string;
             }

@@ -17,6 +17,7 @@
 #include "Rap/SceneRap.hpp"
 #include "Perfect/ScenePerfect.hpp"
 #include "Interview/SceneInterview.hpp"
+#include "Epilogue/SceneEpilogue.hpp"
 
 CSceneManager::CSceneManager(void) {}
 
@@ -92,7 +93,6 @@ extern "C" void fn_800AB9C8(void);
 extern "C" void fn_80092098(void);
 extern "C" void fn_8000EC28(void);
 extern "C" void fn_800A4674(void);
-extern "C" void fn_8000B4B4(void);
 extern "C" void fn_8000C2E4(void);
 extern "C" void fn_800CF810(void);
 extern "C" void fn_8009B39C(void);
@@ -353,7 +353,7 @@ void CSceneManager::fn_80089FE0(ESceneID sceneID, const TickFlowCode *tickFlowCo
         fn = CScenePrologue::create;
         break;
     case eScene_Epilogue:
-        fn = (CScene::CreateFn)fn_8000B4B4;
+        fn = CSceneEpilogue::create;
         break;
     case eScene_Grading:
         fn = (CScene::CreateFn)fn_8000C2E4;
@@ -448,7 +448,6 @@ extern s32 lbl_80320518;
 extern s32 lbl_803204A8;
 extern s32 lbl_80320270;
 extern s32 lbl_803204F8;
-extern s32 lbl_80320250;
 extern s32 lbl_80320260;
 extern s32 lbl_803205A0;
 extern s32 lbl_80320438;
@@ -628,7 +627,7 @@ void CSceneManager::fn_8008A4DC(ESceneID sceneID, s32 ver) {
         Prologue::sceneVer = ver;
         break;
     case eScene_Epilogue:
-        lbl_80320250 = ver;
+        Epilogue::sceneVer = ver;
         break;
     case eScene_Grading:
         lbl_80320260 = ver;
@@ -706,7 +705,6 @@ extern "C" void fn_800ABBC8(void);
 extern "C" void fn_80092104(void);
 extern "C" void fn_8000EC8C(void);
 extern "C" void fn_800A46D8(void);
-extern "C" void fn_8000B518(void);
 extern "C" void fn_8000C348(void);
 extern "C" void fn_800CF884(void);
 extern "C" void fn_8009B458(void);
@@ -885,7 +883,7 @@ void CSceneManager::fn_8008A704(ESceneID sceneID) {
         CScenePrologue::fn_8000AD98();
         break;
     case eScene_Epilogue:
-        fn_8000B518();
+        CSceneEpilogue::fn_8000B518();
         break;
     case eScene_Grading:
         fn_8000C348();

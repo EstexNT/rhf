@@ -46,6 +46,10 @@ public:
     void setUnk2FC(u32 arg1) {
         unk2FC = arg1;
     }
+    s32 getUnk2FC(void) const {
+        return unk2FC;
+    }
+
     u8 getUnk78(void) {
         return unk78;
     }
