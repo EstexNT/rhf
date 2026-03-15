@@ -309,7 +309,7 @@ TFD_STOP()
 // Menu Table
 
 // TODO: get this string to end up in .sdata2 instead of .sbss2
-const wchar_t lbl_803210FC[] = L"\0\0";
+const wchar_t lbl_803210FC[] = L"";
 
 const wchar_t lbl_801F78BC[] = L"ゲーム選択";
 const wchar_t lbl_801F78C8[] =

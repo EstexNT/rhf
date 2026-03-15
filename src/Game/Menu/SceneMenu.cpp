@@ -14,7 +14,7 @@
 #include "SaveData.hpp"
 #include "GameManager.hpp"
 
-#include "Menu/MenuData.inc"
+#include "Menu/MenuData.cpp.inc"
 
 #include "rev_tengoku.rsid"
 
