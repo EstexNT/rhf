@@ -78,7 +78,7 @@ void CFaderFlash::_24(u8 alpha) {
     GXSetProjection(projMtx, GX_ORTHOGRAPHIC);
 
     Mtx mtx;
-    PSMTXIdentity(mtx);
+    MTXIdentity(mtx);
     GXLoadPosMtxImm(mtx, 0);
     GXSetCurrentMtx(0);
 

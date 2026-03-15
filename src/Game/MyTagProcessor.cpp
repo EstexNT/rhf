@@ -48,25 +48,25 @@ CMyTagProcessor::Operation CMyTagProcessor::Process(u16 code, ContextType *ctx) 
                 myColor = origColor;
             }
             else if (strBytes[4] == 1) {
-                myColor = (GXColor) { 0xFF,0x00,0x00,alpha };
+                myColor = (GXColor){ 0xFF,0x00,0x00,alpha };
             }
             else if (strBytes[4] == 2) {
-                myColor = (GXColor) { 0x00,0xFF,0x00,alpha };
+                myColor = (GXColor){ 0x00,0xFF,0x00,alpha };
             }
             else if (strBytes[4] == 3) {
-                myColor = (GXColor) { 0x00,0x00,0xFF,alpha };
+                myColor = (GXColor){ 0x00,0x00,0xFF,alpha };
             }
             else if (strBytes[4] == 4) {
-                myColor = (GXColor) { 0xF2,0x0D,0x7A,alpha };
+                myColor = (GXColor){ 0xF2,0x0D,0x7A,alpha };
             }
             else if (strBytes[4] == 5) {
-                myColor = (GXColor) { 0xFA,0xFF,0x00,alpha };
+                myColor = (GXColor){ 0xFA,0xFF,0x00,alpha };
             }
             else if (strBytes[4] == 6) {
-                myColor = (GXColor) { 0x00,0x96,0xA0,alpha };
+                myColor = (GXColor){ 0x00,0x96,0xA0,alpha };
             }
             else if (strBytes[4] == 7) {
-                myColor = (GXColor) { 0xFF,0x8C,0x00,alpha };
+                myColor = (GXColor){ 0xFF,0x8C,0x00,alpha };
             }
 
             ctx->writer->ResetColorMapping();

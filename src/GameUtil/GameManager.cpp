@@ -248,7 +248,7 @@ void DVDMessageData::fn_801D77A4(void) {
     GXSetProjection(projMtx, GX_ORTHOGRAPHIC);
 
     Mtx mtx;
-    PSMTXIdentity(mtx);
+    MTXIdentity(mtx);
     GXLoadPosMtxImm(mtx, 0);
 
     GXSetCurrentMtx(0);

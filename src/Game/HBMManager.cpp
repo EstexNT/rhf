@@ -228,7 +228,7 @@ void CHBMManager::fn_80086B90(void) {
     GXSetProjection(projMtx, GX_ORTHOGRAPHIC);
 
     Mtx mtx;
-    PSMTXIdentity(mtx);
+    MTXIdentity(mtx);
     GXLoadPosMtxImm(mtx, 3);
 
     GXClearVtxDesc();

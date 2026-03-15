@@ -98,7 +98,7 @@ void CLayout::_20(nw4r::lyt::DrawInfo *drawInfo) {
     GXSetProjection(projMtx, GX_ORTHOGRAPHIC);
 
     nw4r::math::MTX34 viewMtx;
-    PSMTXIdentity(viewMtx.mtx);
+    MTXIdentity(viewMtx.mtx);
 
     drawInfo->SetViewMtx(viewMtx);
     drawInfo->SetViewRect(viewRect);
