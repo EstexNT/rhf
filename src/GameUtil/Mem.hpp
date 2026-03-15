@@ -8,16 +8,16 @@
 #include <new>
 
 enum EHeapMEM {
-    eHeap_MEM1 = 0,
-    eHeap_MEM2 = 1,
+    eHeap_MEM1,
+    eHeap_MEM2,
 };
 
 enum EHeapGroup {
-    eHeapGroup_Default = 0,
-    eHeapGroup_CommonAsset = 1, // allocate common assets (font, mesg, common cellanim & layout, etc.)
-    eHeapGroup_SceneAsset = 2,  // allocate scene assets (archives, etc.)
-    eHeapGroup_Scene = 3,       // allocate scene object
-    eHeapGroup_SceneEx = 4,     // allocate scene object (used only by SceneError)
+    eHeapGroup_Default,
+    eHeapGroup_CommonAsset, // allocate common assets (font, mesg, common cellanim & layout, etc.)
+    eHeapGroup_SceneAsset,  // allocate scene assets (archives, etc.)
+    eHeapGroup_Scene,       // allocate scene object
+    eHeapGroup_SceneEx,     // allocate scene object (used only by SceneError)
 };
 
 extern MEMiHeapHead *lbl_80320F80; // gHeapMEM1

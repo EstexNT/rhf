@@ -16,6 +16,8 @@ void GXLoadPosMtxImm(const Mtx mtx, u32 id);
 
 void GXSetCurrentMtx(u32 id);
 
+void GXLoadTexMtxImm(const f32 mtx[][4], u32 id, GXMtxType type);
+
 void GXSetViewportJitter(f32 ox, f32 oy, f32 sx, f32 sy, f32 near, f32 far,
                          u32 nextField);
 void GXSetViewport(f32 left, f32 top, f32 wd, f32 ht, f32 nearz, f32 farz);

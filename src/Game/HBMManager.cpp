@@ -333,9 +333,9 @@ void CHBMManager::_20(void) {
                 gBackupManager->waitAsync();
             }
 
-            bool doMenu;
+            bool doReturnToMenu;
             if ((gBackupManager != NULL) && (gBackupManager->getUnk4C() != 0)) {
-                doMenu = false;
+                doReturnToMenu = false;
             }
             else {
                 VISetBlack(TRUE);
@@ -347,10 +347,10 @@ void CHBMManager::_20(void) {
                 VIWaitForRetrace();
                 VIWaitForRetrace();
                 
-                doMenu = true;
+                doReturnToMenu = true;
             }
 
-            if (doMenu) {
+            if (doReturnToMenu) {
                 OSReport("OSReturnToMenu()\n");
                 OSReturnToMenu();
             }
