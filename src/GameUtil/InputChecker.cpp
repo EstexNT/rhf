@@ -34,7 +34,7 @@ u32 CInputChecker::_18(void) {
     if (!unk71 && (mTickPass > (mTickJust + mRangeMissB))) {
         unk71 = true;
         gInputCheckManager->fn_801E9488(0);
-        gCheckPointManager->fn_801EAF2C(unk78, 2);
+        gCheckPointManager->fn_801EAF2C(unk78, eCheckInputType_Through);
         if (_2C()) {
             return 1;
         }
