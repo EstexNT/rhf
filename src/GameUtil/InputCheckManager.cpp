@@ -251,7 +251,7 @@ void CInputCheckManager::fn_801E8BD0(void) {
                             break;
                         }
                         fn_801E9488(sp8);
-                        gCheckPointManager->fn_801EAF2C(cur->getUnk78(), 0);
+                        gCheckPointManager->fn_801EAF2C(cur->getUnk78(), eCheckInputType_Hit);
                         break;
                     case 1:
                         temp_r23 = 1;
@@ -259,7 +259,7 @@ void CInputCheckManager::fn_801E8BD0(void) {
                             break;
                         }
                         fn_801E9488(sp8);
-                        gCheckPointManager->fn_801EAF2C(cur->getUnk78(), 1);
+                        gCheckPointManager->fn_801EAF2C(cur->getUnk78(), eCheckInputType_Miss);
                         break;
                     default:
                         break;
@@ -283,10 +283,10 @@ void CInputCheckManager::fn_801E8BD0(void) {
                 if (cur->_30(temp_r20)) {
                     switch ((s32)cur->getUnk74()) {
                         case 0:
-                            gCheckPointManager->fn_801EB00C(cur->getUnk78(), 0);
+                            gCheckPointManager->fn_801EB00C(cur->getUnk78(), eCheckInputType_Hit);
                             break;
                         case 1:
-                            gCheckPointManager->fn_801EB00C(cur->getUnk78(), 1);
+                            gCheckPointManager->fn_801EB00C(cur->getUnk78(), eCheckInputType_Miss);
                             break;
                         default:
                             break;

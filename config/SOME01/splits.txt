@@ -3112,6 +3112,10 @@ GameUtil/List.cpp:
 
 GameUtil/CheckPointManager.cpp:
 	.text       start:0x801EAC38 end:0x801EC2B4
+	.rodata     start:0x802E50C0 end:0x802E5160
+	.data       start:0x8031EA58 end:0x8031EA90
+	.sdata      start:0x803200B8 end:0x803200D0
+	.sdata2     start:0x803297A0 end:0x803297B8
 
 GameUtil/SDManager.cpp:
 	.text       start:0x801EC2B4 end:0x801EC3B0
