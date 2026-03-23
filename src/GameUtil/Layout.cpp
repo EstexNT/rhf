@@ -4,24 +4,247 @@
 
 #include "LayoutManager.hpp"
 
-// TODO: match https://decomp.me/scratch/EEu7e
+#include "Controller.hpp"
+
+#include "Sound.hpp"
+
+nw4r::math::VEC2 lbl_80320FA0 (-9999.0f, -9999.0f);
+
 bool CBtnPane::fn_801D85BC(nw4r::lyt::Pane *pane, nw4r::lyt::DrawInfo *drawInfo) {
     if (!drawInfo->IsLocationAdjust()) {
         return false;
     }
-    else {
+    
+    nw4r::lyt::Pane *parent = pane->GetParent();
+    if (parent == NULL) {
+        return pane->IsLocationAdjust();
+    }
+    
+    return (pane->IsLocationAdjust() || fn_801D85BC(parent, drawInfo));
+}
+
+nw4r::math::VEC2 CBtnPane::fn_801D86D0(nw4r::lyt::Pane *pane, nw4r::lyt::DrawInfo *drawInfo) {
+    nw4r::math::VEC2 vec (0.0f, 0.0f);
+
+    for (pane; pane != NULL; pane = pane->GetParent()) {
         nw4r::lyt::Pane *parent = pane->GetParent();
-        if (parent == NULL) {
-            return pane->IsLocationAdjust();
-        }
-        else {
-            if (!pane->IsLocationAdjust()) {
-                return fn_801D85BC(parent, drawInfo);
+        if (parent != NULL) {
+            if (fn_801D85BC(parent, drawInfo)) {
+                vec.x += pane->GetTranslate().x * drawInfo->GetLocationAdjustScale().x;
+                vec.y += pane->GetTranslate().y;
+                continue;
             }
-            return false;
         }
+        vec.x += pane->GetTranslate().x;
+        vec.y += pane->GetTranslate().y;
+    }
+    
+    return vec;
+}
+
+nw4r::math::VEC3 CBtnPane::fn_801D887C(nw4r::lyt::Pane *pane, nw4r::lyt::DrawInfo *drawInfo) {
+    nw4r::math::VEC2 tmp (fn_801D86D0(pane, drawInfo));
+    
+    return nw4r::math::VEC3(tmp.x, tmp.y, 0.0f);
+}
+
+f32 fn_801D8A5C(nw4r::lyt::TextBox *textBox, f32 fontWidth, f32 fontHeight) {
+    nw4r::ut::WideTextWriter textWriter;
+
+    textWriter.SetFont(*textBox->GetFont());
+    textWriter.SetFontSize(fontWidth, fontHeight);
+    textWriter.SetLineSpace(textBox->GetLineSpace());
+    textWriter.SetCharSpace(textBox->GetCharSpace());
+
+    f32 strWidth = textWriter.CalcStringWidth(textBox->GetString());
+    f32 strWidthR;
+    if (strWidth > textBox->GetSize().width) {
+        strWidthR = (textBox->GetSize().width * 0.95f) / strWidth;
+    } else {
+        strWidthR = 1.0f;
+    }
+    fontWidth *= strWidthR;
+    textBox->SetFontSize(nw4r::lyt::Size(fontWidth, fontHeight));
+
+    return strWidthR;
+}
+
+
+void CExBtnPane::fn_801D8FFC(nw4r::lyt::Pane *pane) {
+    mPane = pane;
+    mDefaultAnime = NULL;
+    mFocusAnime = NULL;
+    mActionAnime = NULL;
+    mEnabled = true;
+    mUnk25 = false;
+    mUnk28 = true;
+    _10(eBtnState_Default, true);
+    mUnk18 = 0;
+    mVibrateOnHover = true;
+    mSelectSfxID = -1;
+    mActionSfxID = -1;
+    mControllerChan = 0;
+    mUnk26 = false;
+    mUnk27 = false;
+}
+
+// not matching (stack swaps)
+EBtnState CExBtnPane::fn_801D9090(nw4r::math::VEC2 *arg0, bool arg1, nw4r::lyt::DrawInfo *drawInfo) {
+    mUnk26 = false;
+    mUnk27 = false;
+    if (!mEnabled) {
+        return eBtnState_Default;
+    }
+    
+    arg0 = (arg0) ? arg0 : &nw4r::math::VEC2(-9999.0f, -9999.0f);
+
+    nw4r::lyt::Pane *pane = mPane;
+    nw4r::math::VEC2 posVec = *arg0;
+    nw4r::ut::Rect paneRect = pane->GetPaneRect(*drawInfo);
+    if (fn_801D85BC(pane, drawInfo)) {
+        paneRect.left *= drawInfo->GetLocationAdjustScale().x;
+        paneRect.right *= drawInfo->GetLocationAdjustScale().x;
+    }
+
+    nw4r::math::VEC2 vec = fn_801D86D0(pane, drawInfo);
+    paneRect.left += vec.x;
+    paneRect.right += vec.x;
+    paneRect.top += vec.y;
+    paneRect.bottom += vec.y;
+    bool temp = ((paneRect.left <= posVec.x)   && (posVec.x <= paneRect.right) &&
+                 (paneRect.bottom <= posVec.y) && (posVec.y <= paneRect.top));
+
+    switch (mState) {
+        case eBtnState_Default:
+            if (temp && !isFocusPlaying()) {
+                _10(eBtnState_Selected, true);
+                return eBtnState_Selected;
+            }
+
+            if ((mDefaultAnime != NULL) && (!mDefaultAnime->getIsPlaying())) {
+                if (!isFocusPlaying()) {
+                    mDefaultAnime->playFromBeginning();
+                }
+            }
+            break;
+        
+        case eBtnState_Selected:
+            if (!temp && !isFocusPlaying()) {
+                _10(eBtnState_Default, true);
+                break;
+            }
+
+            if (temp && arg1 && !isActionPlaying()) {
+                _10(eBtnState_Active, true);
+                mUnk26 = true;
+                return eBtnState_Active;
+            }
+            break;
+        
+        case eBtnState_Active:
+            if (!isActionPlaying()) {
+                _10(eBtnState_Unk03, true);
+                mUnk27 = true;
+                return eBtnState_Unk03;
+            }
+            break;
+        
+        case eBtnState_Unk03:
+            if (temp && mUnk25) {
+                s32 selectSfxTemp;
+                bool vibrateTemp;
+
+                vibrateTemp = mVibrateOnHover;
+                selectSfxTemp = mSelectSfxID;
+                
+                mVibrateOnHover = false;
+                mSelectSfxID = -1;
+                _10(eBtnState_Selected, true);
+                mVibrateOnHover = vibrateTemp;
+                mSelectSfxID = selectSfxTemp;
+                return eBtnState_Selected;
+            }
+            _10(eBtnState_Default, true);
+            break;
+    }
+    return eBtnState_Default;
+}
+
+void CExBtnPane::_10(EBtnState state, bool arg1) {
+    if (!mEnabled) {
+        return;
+    }
+
+    if (!arg1 && (mState == state)) {
+        return;
+    }
+
+    EBtnState prevState = mState;
+    mState = state;
+
+    switch (state) {
+        case eBtnState_Default:
+            if ((prevState == eBtnState_Selected) && (mFocusAnime != NULL)) {
+                if (!mFocusAnime->getIsPlaying()) {
+                    mFocusAnime->playFromBeginReverse();
+                } else {
+                    mFocusAnime->fn_801DA09C(TRUE);
+                    mFocusAnime->setIsPlaying(true);
+                }
+            }
+            break;
+        
+        case eBtnState_Selected:
+            if (
+                ((prevState == eBtnState_Default) || ((prevState == eBtnState_Unk03) && mUnk28)) && 
+                (mFocusAnime != NULL)) {
+                if (mDefaultAnime != NULL) {
+                    mDefaultAnime->setIsPlaying(false);
+                }
+                mFocusAnime->playFromBeginForward();
+                fn_801D9974();
+            }
+            if (mVibrateOnHover) {
+                gControllerManager->fn_801D5FF0(mControllerChan)->_40("****--------", false);
+            }
+            if (mSelectSfxID != -1) {
+                gSoundManager->play(mSelectSfxID);
+            }
+            break;
+        
+        case eBtnState_Active:
+            if (mActionAnime != NULL) {
+                mActionAnime->playFromBeginForward();
+            }
+            if (mActionSfxID != -1) {
+                gSoundManager->play(mActionSfxID);
+            }
+            break;
     }
 }
+
+CW_FORCE_STRINGS(GameUtil_Layout_cpp, "LYT_ANIM");
+
+void CExBtnPane::_14(void) {
+    _10(eBtnState_Default, true);
+    if (mFocusAnime != NULL) {
+        mFocusAnime->fn_801DA094(FALSE);
+        mFocusAnime->setIsPlaying(false);
+        mFocusAnime->fn_801DA20C();
+    }
+}
+
+void CExBtnPane::fn_801D9974(void) {
+    nw4r::lyt::Pane *pane = mPane;
+    s32 unk18 = mUnk18;
+    for (pane; (unk18 > 0) && (pane != NULL); pane = pane->GetParent()) {
+        nw4r::ut::LinkList<nw4r::lyt::Pane, offsetof(nw4r::lyt::detail::PaneBase, mLink)> &parentChildList = pane->GetParent()->GetChildList();
+        parentChildList.Erase(pane);
+        parentChildList.PushBack(pane);
+        unk18--;
+    }
+}
+
 
 CLayout::CLayout(void) {
     mAnimationCount = 0;

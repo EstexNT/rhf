@@ -14,13 +14,19 @@ enum EBtnState {
     eBtnState_Unk03
 };
 
+extern nw4r::math::VEC2 lbl_80320FA0;
+
 class CBtnPane {
 public:
     CBtnPane() {}
 
 protected:
     static bool fn_801D85BC(nw4r::lyt::Pane *pane, nw4r::lyt::DrawInfo *drawInfo);
+    static nw4r::math::VEC2 fn_801D86D0(nw4r::lyt::Pane *pane, nw4r::lyt::DrawInfo *drawInfo);
+    static nw4r::math::VEC3 fn_801D887C(nw4r::lyt::Pane *pane, nw4r::lyt::DrawInfo *drawInfo);
 };
+
+f32 fn_801D8A5C(nw4r::lyt::TextBox *textBox, f32 fontWidth, f32 fontHeight);
 
 class CExBtnPaneManager;
 
@@ -33,6 +39,10 @@ public:
     virtual nw4r::math::VEC2 _18(void);
 
     CExBtnPane(void) {}
+
+    void fn_801D8FFC(nw4r::lyt::Pane *pane);
+    EBtnState fn_801D9090(nw4r::math::VEC2 *, bool, nw4r::lyt::DrawInfo *);
+    void fn_801D9974(void);
 
     nw4r::lyt::Pane *getPane(void) const {
         return mPane;
@@ -55,6 +65,13 @@ public:
     }
     void setActionSfxID(u16 soundID) {
         mActionSfxID = soundID;
+    }
+
+    bool isFocusPlaying(void) {
+        return (mFocusAnime && mFocusAnime->getIsPlaying());
+    }
+    bool isActionPlaying(void) {
+        return (mActionAnime && mActionAnime->getIsPlaying());
     }
 
 private:
@@ -101,7 +118,7 @@ public:
 
 public:
     virtual ~CExBtnPaneManager(void);
-    virtual void _0C(Vec2 *, bool, nw4r::lyt::DrawInfo *drawInfo); // TODO typing
+    virtual void _0C(nw4r::math::VEC2 *, bool, nw4r::lyt::DrawInfo *drawInfo);
 
     CExBtnPaneManager(u8 buttonCount);
 

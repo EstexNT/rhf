@@ -65,6 +65,9 @@ public:
     virtual Material *GetMaterial() const;
     virtual Material *GetMaterial(u32 idx) const;
 
+    ut::Rect GetPaneRect() const;
+    ut::Rect GetPaneRect(const DrawInfo &) const;
+
     bool IsVisible() const {
         return detail::TestBit(mFlag, 0);
     }
@@ -100,12 +103,20 @@ public:
         mScale = value;
     }
 
+    const Size &GetSize() const {
+        return mSize;
+    }
+
     void SetSize(const Size &value) {
         mSize = value;
     }
 
     Pane *GetParent() const {
         return mpParent;
+    }
+
+    ut::LinkList<Pane, offsetof(detail::PaneBase, mLink)> &GetChildList() {
+        return mChildList;
     }
     
 protected:
