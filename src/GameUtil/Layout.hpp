@@ -118,7 +118,7 @@ public:
 
 public:
     virtual ~CExBtnPaneManager(void);
-    virtual void _0C(nw4r::math::VEC2 *, bool, nw4r::lyt::DrawInfo *drawInfo); // TODO typing
+    virtual void _0C(nw4r::math::VEC2 *, bool, nw4r::lyt::DrawInfo *drawInfo);
 
     CExBtnPaneManager(u8 buttonCount);
 
