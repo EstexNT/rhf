@@ -50,8 +50,6 @@ void CCursorLayout::_10(void) {
     }
 }
 
-extern Vec2 lbl_80320FA0;
-
 void CCursorLayout::_18(nw4r::lyt::DrawInfo *drawInfo) {
     for (s32 i = 0; i < CURSOR_COUNT; i++) {
         if (mPaneTrans[i]->IsVisible()) {
@@ -65,9 +63,7 @@ void CCursorLayout::_18(nw4r::lyt::DrawInfo *drawInfo) {
                     ));
                 }
                 else {
-                    mPaneTrans[i]->SetTranslate(nw4r::math::VEC2(
-                        lbl_80320FA0.x, lbl_80320FA0.y
-                    ));
+                    mPaneTrans[i]->SetTranslate(lbl_80320FA0);
                 }
             }
 

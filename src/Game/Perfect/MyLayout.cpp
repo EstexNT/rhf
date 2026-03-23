@@ -9,9 +9,6 @@
 #include "GameTable.hpp"
 #include "GiftTable.hpp"
 
-// TODO
-extern "C" void fn_801D8A5C(nw4r::lyt::TextBox *, f32, f32);
-
 
 const char layoutFile_perfect[] = "perfect.brlyt";
 

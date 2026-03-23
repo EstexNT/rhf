@@ -10,9 +10,6 @@
 
 #include <cstdio>
 
-// TODO
-extern "C" void fn_801D8A5C(nw4r::lyt::TextBox *, f32, f32);
-
 static const char layoutFile_epilogue[] = "epilogue.brlyt";
 
 DECL_SECTION(".sdata") static const char *layoutFileTable[] = { layoutFile_epilogue, NULL };

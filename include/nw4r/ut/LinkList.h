@@ -435,6 +435,7 @@ namespace nw4r { namespace ut
 
 		static LinkListNode *GetNodeFromPointer(T *p)
 		{
+			NW4R_ASSERT_PTR_NULL(p, 563);
 			return reinterpret_cast<LinkListNode *>(reinterpret_cast<u32>(p)
 			                                        + I);
 		}

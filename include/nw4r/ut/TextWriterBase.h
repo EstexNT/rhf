@@ -112,6 +112,12 @@ public:
     f32 CalcStringWidth(const T* pStr, int len) const;
     void CalcStringRect(Rect* pRect, const T* pStr, int len) const;
 
+    f32 CalcStringWidth(const T* str) const {
+        NW4R_ASSERT_PTR(this, 212);
+        NW4R_ASSERT_PTR(str, 213);
+        return CalcStringWidth(str, StrLen(str));
+    }
+
     void CalcStringRect(Rect* pRect, const T* str) const {
         NW4R_ASSERT_PTR(this, 233);
         NW4R_ASSERT_PTR(pRect, 234);

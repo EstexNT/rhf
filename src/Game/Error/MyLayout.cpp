@@ -208,17 +208,15 @@ void Error::CMyLayout::_10(void) {
     mUnkF8 = false;
 }
 
-extern Vec2 lbl_80320FA0;
-
 void Error::CMyLayout::_18(nw4r::lyt::DrawInfo *drawInfo) {
     CController *controller = gControllerManager->fn_801D5FF0(0);
 
-    Vec2 vec = (Vec2) {
+    nw4r::math::VEC2 vec (
         controller->fn_801D523C(this).x,
         controller->fn_801D523C(this).y
-    };
+    );
 
-    if (!mUnkF8 || !controller->fn_801D52D4()) {
+    if (mUnkF8 || !controller->fn_801D52D4()) {
         vec.x = lbl_80320FA0.x;
         vec.y = lbl_80320FA0.y;
     }
