@@ -92,6 +92,8 @@ public:
     bool getPlaybackReverse(void) const { return mReversePlayback; }
     void setPlaybackReverse(bool reversed) { mReversePlayback = reversed; }
 
+    void setDestroyAtEnd(bool destroy) { mDestroyAtEnd = destroy; }
+
     CCellAnim *getBaseAnim(void) const { return mBaseAnim; }
 
     CCellAnim *getBaseLinkedHead(void) const { return mBaseLinkedHead; }

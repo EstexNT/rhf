@@ -3,6 +3,9 @@
 
 #include <revolution/types.h>
 
+#include <nw4r/db.h>
+#include <nw4r/math.h>
+
 #include "List.hpp"
 
 class CTimeRatio : public CList {
@@ -128,6 +131,29 @@ public:
     f32 getCurrentY(void) const { return mCurrentY; }
     f32 getCurrentZ(void) const { return mCurrentZ; }
 
+    void calcParabola(f32 curvature, f32 yDelta) {
+        mCurvature = curvature;
+
+        if ((mCurvature > 0.0f) && (mCurvature < yDelta)) {
+            mCurvature = yDelta;
+        }
+        if ((mCurvature < 0.0f) && (mCurvature > yDelta)) {
+            mCurvature = yDelta;
+        }
+
+        if (mCurvature == 0.0f) {
+            mA = 0.0f;
+            mB = mY1 - mY0;
+        }
+        else {
+            f32 ratio = 1.0 - yDelta / mCurvature;
+            f32 sqrtTerm = 1.0 + nw4r::math::FSqrt(ratio);
+            f32 curve = mCurvature * 2.0f;
+        
+            mB = curve * sqrtTerm;
+            mA = -(mB * mB) / (mCurvature * 4.0f);
+        }
+    }
 private:
     f32 mCurrentX;
     f32 mY0; // Parabola C

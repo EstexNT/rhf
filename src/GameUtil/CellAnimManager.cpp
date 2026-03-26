@@ -75,6 +75,7 @@ void CCellAnimManager::_18(void) {
     }
 }
 
+// not matching (argument passing via stack/high registers, maybe a struct?)
 static void setupProj(Mtx44 mtx, f32 left, f32 top, f32 right, f32 bottom, f32 near, f32 far, f32 wWide, f32 wStd) {
     if (SCGetAspectRatio() == SC_ASPECT_STD) {
         C_MTXOrtho(mtx, top, bottom, left, right, near, far);
@@ -116,6 +117,61 @@ void CCellAnimManager::_1C(DrawSetupFn setupFn, DrawRestoreFn endFn) {
     }
 }
 
+void CCellAnimManager::_20(s32 lastLayer, DrawSetupFn setupFn, DrawRestoreFn endFn) {
+    if (setupFn) {
+        setupFn();
+    }
+    else {
+        fn_801DB28C();
+    }
+
+    Mtx44 projMtx;
+    setupProj(projMtx, -304.0f, -228.0f, 304.0f, 228.0f, 0.0f, 10000.0f, 832.0f, 608.0f);
+    GXSetProjection(projMtx, GX_ORTHOGRAPHIC);
+
+    for (CCellAnim *cellAnim = mCellAnimHead; cellAnim != NULL; cellAnim = cellAnim->getNext()) {
+        cellAnim->makeMtx(TRUE, NULL);
+    }
+    for (CCellAnim *cellAnim = mCellAnimHead; cellAnim != NULL; cellAnim = cellAnim->getNext()) {
+        if (cellAnim->getLayer() < lastLayer) {
+            break;
+        }
+        if (cellAnim->getEnabled()) {
+            cellAnim->draw(FALSE);
+        }
+    }
+
+    if (endFn) {
+        endFn();
+    }
+}
+
+void CCellAnimManager::_24(s32 lastLayer, DrawSetupFn setupFn, DrawRestoreFn endFn) {
+    if (setupFn) {
+        setupFn();
+    }
+    else {
+        fn_801DB28C();
+    }
+
+    Mtx44 projMtx;
+    setupProj(projMtx, -304.0f, -228.0f, 304.0f, 228.0f, 0.0f, 10000.0f, 832.0f, 608.0f);
+    GXSetProjection(projMtx, GX_ORTHOGRAPHIC);
+
+    for (CCellAnim *cellAnim = mCellAnimHead; cellAnim != NULL; cellAnim = cellAnim->getNext()) {
+        if (!(cellAnim->getLayer() < lastLayer)) {
+            continue;
+        }
+        if (cellAnim->getEnabled()) {
+            cellAnim->draw(FALSE);
+        }
+    }
+
+    if (endFn) {
+        endFn();
+    }
+}
+
 void CCellAnimManager::fn_801DB28C(void) {
     GXSetTevDirect(GX_TEVSTAGE0);
     GXClearVtxDesc();
@@ -141,6 +197,7 @@ bool CCellAnimManager::fn_801DB558(u8 bankID) {
     return mBank[bankID].loaded;
 }
 
+// not matching (messy function)
 void CCellAnimManager::fn_801DB568(void *brcadAddr, void *tplAddr, u8 bankID) {
     CellAnim_Bank *bank = &mBank[bankID];
 
@@ -307,17 +364,20 @@ void CCellAnimManager::fn_801DBA98(u8 bankID) {
 }
 
 u16 CCellAnimManager::fn_801DBB58(CCellAnim *cellAnim) {
-    return 0;
+    CellAnim_Anim *anim = fn_801DBC5C(cellAnim);
+    return anim->getTotalFrameCount();
 }
 
 CellAnim_Anim *CCellAnimManager::fn_801DBC5C(CCellAnim *cellAnim) {
     return &mBank[cellAnim->getBankID()].animArr[cellAnim->getAnimID()];
 }
 
+// not matching (regswap in lol)
 CellAnim_AnimKey *CCellAnimManager::fn_801DBC7C(CCellAnim *cellAnim) {
     return lol(cellAnim);
 }
 
+// not matching (regswap in lol)
 CellAnim_Cell *CCellAnimManager::fn_801DBD38(CCellAnim *cellAnim) {
     CellAnim_Bank *bank = &mBank[cellAnim->getBankID()];
 

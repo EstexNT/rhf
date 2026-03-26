@@ -97,11 +97,21 @@ public:
     void setUnkC4(u8 arg0) {
         unkC4 = arg0;
     }
+    void setUnkC5(u8 arg0) {
+        unkC5 = arg0;
+    }
     u8 getUnkC5(void) {
         return unkC5;
     }
 
-    void setUnkDD(u8 unk) { unkDD = unk; }
+    void setUnkCC(s32 arg0) {
+        unkCC = arg0;
+    }
+    void setUnkD0(u32 arg0) {
+        unkD0 = arg0;
+    }
+
+    void setUnkDD(bool unk) { unkDD = unk; }
     u8 getUnkDD(void) const { return unkDD; }
 
     bool doUnkCheck(u16 arg0, u16 arg1, f32 arg2) {

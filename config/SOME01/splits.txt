@@ -3073,6 +3073,7 @@ GameUtil/TickFlow.cpp:
 	.text       start:0x801DD6F4 end:0x801DEFE4
 	.rodata     start:0x802E4CA0 end:0x802E4D50
 	.data       start:0x8031E748 end:0x8031E8B0
+	.sdata2     start:0x80329670 end:0x80329698
 	.bss        start:0x803D5D38 end:0x803D5D78
 
 GameUtil/TickFlowManager.cpp:
@@ -3106,6 +3107,10 @@ GameUtil/InputCheckManager.cpp:
 
 GameUtil/TimeRatio.cpp:
 	.text       start:0x801E9D90 end:0x801EAA7C
+	.rodata     start:0x802E50A4 end:0x802E50C0
+	.data       start:0x8031E9B8 end:0x8031EA40
+	.sdata      start:0x803200A0 end:0x803200B8
+	.sdata2     start:0x80329770 end:0x803297A0
 
 GameUtil/List.cpp:
 	.text       start:0x801EAA7C end:0x801EAC38

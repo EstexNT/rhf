@@ -28,8 +28,7 @@ void CTimeRatio::fn_801E9DE8(BOOL unk) {
     fn_801E9EBC(); // Calculate mEasedT .. again?
 }
 
-// TODO: match
-// https://decomp.me/scratch/ov8q0
+// not matching (regswaps)
 void CTimeRatio::fn_801E9EBC(void) {    
     f32 easedT = 0.0f;
     if (mMaxT != 0.0f) {
@@ -70,8 +69,6 @@ void CTimeRatio::fn_801E9EBC(void) {
                 f32 invNormT = 1.0f - ((doubleT * mEasingScale) / mMaxT);
                 f32 invEasedT = invNormT * powerFactor;
                 easedT = 1.0f - invEasedT;
-
-                // easedT = 1.0f - (1.0f - power) * (1.0f - (mLinearT * mEasingScale * 2.0f) / mMaxT);
             }
             else {
                 f32 powered = 1.0f;
@@ -127,14 +124,18 @@ void CTimeRatio::fn_801E9EBC(void) {
                     power *= easedT;
                 }
 
-                f32 linearT = (mEasingScale * -((mLinearT * 2.0f) - mMaxT));
-
-                easedT = -(1.0f - (1.0f - power) * (1.0f - linearT / mMaxT));
+                f32 f5 = -((2.0 * mLinearT) - mMaxT);
+                
+                f32 f4 = (1.0f - power);
+                f32 f2 = mEasingScale * f5;
+                f4 *= (1.0f - (f2 / mMaxT));
+                f32 f1 = -(1.0f - f4); 
+                easedT = (1.0 + f1);
             }
             else {
                 f32 powered = 1.0f;
                 
-                easedT -= 2.0f;
+                easedT -= 1.0f;
                 if (easedT < 0.0f) {
                     easedT *= -1.0f;
                 }
@@ -149,14 +150,10 @@ void CTimeRatio::fn_801E9EBC(void) {
                 f32 invEasedT = invNormT * powerFactor;
                 easedT = 1.0f - invEasedT;
 
-                // JUN 30 01:04: I GIVE UP!
-
-                // f32 linearT = (mEasingScale * ((mLinearT * 2.0f) - mMaxT));
-
-                // easedT = 1.0f - (1.0f - power) * (1.0f - linearT / mMaxT);
+                easedT += 1.0f;
             }
 
-            easedT = (easedT + 1.0f) / 2.0f;
+            easedT = easedT / 2.0f;
         } break;
 
         default:
@@ -200,6 +197,7 @@ void CTimeRatio::fn_801EA550(f32 newTime, f32 newMaxTime, bool stopAtMaxTime) {
     mTicking = true;
 }
 
+
 CTRFloat::CTRFloat(void) :
     CTimeRatio()
 {
@@ -227,10 +225,18 @@ void CTRFloat::_14(void) {
     mOutputStart = a + delta * t;
 }
 
-// TODO: match
-void CTRParabola::fn_801EA8E0(f32 x0, f32 y0, f32 velY0, f32 x1, f32 y1, f32 velY1, f32 curvature) {
-    f32 yDelta = y1 - y0;
+CTRParabola::CTRParabola(void) {
+    fn_801EA8E0(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+    mMaxT = 48.0f;
+    mLinearT = 0.0f;
+    fn_801E9EBC(); // Calculate initial mEasedT.
+    mTicking = false;
+}
 
+CTRParabola::~CTRParabola(void) {}
+
+// not matching (float regswap in the else block)
+void CTRParabola::fn_801EA8E0(f32 x0, f32 y0, f32 velY0, f32 x1, f32 y1, f32 velY1, f32 curvature) {
     mOutputStart = x0;
     mY0 = y0;
     mZ0 = velY0;
@@ -238,30 +244,11 @@ void CTRParabola::fn_801EA8E0(f32 x0, f32 y0, f32 velY0, f32 x1, f32 y1, f32 vel
     mOutputEnd = x1;
     mY1 = y1;
     mZ1 = velY1;
-
-    mCurvature = curvature;
-
-    if ((curvature < 0.0f) && (curvature < yDelta)) {
-        mCurvature = yDelta;
-    }
-    if ((mCurvature < 0.0f) && (yDelta < mCurvature)) {
-        mCurvature = yDelta;
-    }
-
-    if (mCurvature != 0.0f) {
-        f32 ratio = 1.0 - yDelta / mCurvature;
-        f32 sqrtTerm = nw4r::math::FSqrt(ratio);
-
-        mB = mCurvature * 2.0f * (sqrtTerm + 1.0);
-        mA = -(mB * mB) / (mCurvature * 4.0f);
-    }
-    else {
-        mA = 0.0f;
-        mB = mY1 - mY0;
-    }
+    
+    calcParabola(curvature, mY1 - mY0);
 }
 
-// TODO: match
+// not matching (needs shuffling around)
 void CTRParabola::_14(void) {
     f32 t = mEasedT;
 

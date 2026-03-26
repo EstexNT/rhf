@@ -3,7 +3,7 @@
 
 static u8 lbl_803D5D78[16];
 
-// regswaps
+// not matching (regswaps)
 void CInputCheckManager::fn_801E8118(void) {
     static const u32 lbl_802E4FE0[] = {
         WPAD_BUTTON_UP, WPAD_BUTTON_DOWN, WPAD_BUTTON_LEFT, WPAD_BUTTON_RIGHT,
@@ -205,6 +205,7 @@ void CInputCheckManager::_14(void) {
     unk48D = false;
 }
 
+// not matching (see updateUnk0C)
 void CInputCheckManager::fn_801E8A08(void) {
     if (mGamePaused) {
         return;
@@ -215,12 +216,11 @@ void CInputCheckManager::fn_801E8A08(void) {
     }
     fn_801E8BD0();
     updateUnk10();
-    // not matching in updateUnk0C
     updateUnk0C();
 }
 
 
-// regswaps, missing code (may be nonequivalent)
+// not matching (regswap between i and next)
 void CInputCheckManager::fn_801E8BD0(void) {
     u32 temp_r23;
     CInputChecker *cur;

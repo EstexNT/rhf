@@ -1,3 +1,4 @@
+#include <nw4r/db.h>
 #include <nw4r/math.h>
 
 namespace nw4r {
