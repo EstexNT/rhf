@@ -104,9 +104,14 @@ public:
     EBGMType getCurrentBGMType(void) {
         return mCurrentBGMType;
     }
+    f32 getSpeed(void) {
+        return mSpeed;
+    }
     bool getPaused(void) {
         return mPaused;
     }
+
+    void setUnkF4(const TickFlowCode *code) { mSkipHandler = code; }
 
     void setUnkF8(const TickFlowCode *code) { mSceneTransHandler = code; }
 

@@ -116,6 +116,9 @@ public:
     void setUnk429(bool allow) {
         mAllowInput = allow;
     }
+    void setUnk42A(bool allow, s32 controller) {
+        mAllowInputController[controller] = allow;
+    }
     void setUnk42A(bool allow) {
         mAllowInputController[0] = allow;
     }
@@ -203,7 +206,7 @@ private:
     }
 
     void updateUnk0C(void) {
-        // not matching: regswap cur/next
+        // not matching (regswap cur/next)
         for (CInputChecker *cur = mCheckerHead, *next; cur != NULL; cur = next) {
             next = cur->getNext();
             if (!cur->_18()) {

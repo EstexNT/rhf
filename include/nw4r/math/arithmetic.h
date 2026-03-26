@@ -77,6 +77,10 @@ inline f32 FModf(f32 x, f32* pY) {
 }
 
 inline f32 FSqrt(f32 x) {
+    if (!(x >= 0.0f)) {
+        NW4R_WARNING(627, "FSqrt: Input is out of the domain.");
+    }
+    
     return x <= 0.0f ? 0.0f : x * FrSqrt(x);
 }
 

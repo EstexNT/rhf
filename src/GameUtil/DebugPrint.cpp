@@ -56,7 +56,7 @@ void CDebugPrint::fn_801EC674(s32 x, s32 y, s32 frames, const char *format, ...)
     va_end(args);
 }
 
-// non matching: data
+// not matching (data;
 // ptmfs are misplaced, may have something
 // to do with the pool data hack below
 // (needed to match fn_801EC850)

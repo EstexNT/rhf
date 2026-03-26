@@ -222,7 +222,7 @@ public:
     static bool fn_801E4D4C(void);
     static void fn_801E4D54(void);
 
-    u16 get_wave_tempo(u16 soundID) {
+    f32 get_wave_tempo(u16 soundID) {
         WaveInfo *waveInfo = fn_801E73D4(soundID);
         return fn_801E74EC(waveInfo); 
     }

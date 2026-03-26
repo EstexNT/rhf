@@ -60,6 +60,14 @@ struct CellAnim_Anim {
 
         return frame;
     }
+
+    u16 getTotalFrameCount(void) const {
+        u16 frameCount = 0;
+        for (s32 i = 0; i < keyCount; i++) {
+            frameCount += keyArr[i].frameCount;
+        }
+        return frameCount;
+    }
 };
 
 struct CellAnim_Bank {

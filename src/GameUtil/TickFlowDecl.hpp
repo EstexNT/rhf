@@ -89,6 +89,7 @@ enum {
     TF_SET_SKIP_INPUT,
     TF_ICI_CTRL,
     TF_CONTROLLER_DO_MOTOR_SEQ,
+    TF_04F,
     TF_RANDOM, ///< Set the condvar to a random value. Arg0: upper bound of random value
 
     /*   ExFlow opcodes (0x100 to 0x141) are found in Game/ExFlowDecl.hpp */
