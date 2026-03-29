@@ -83,8 +83,8 @@ bool CExFlow::_1C(u32 opcode, u32 arg0, const s32 *args) {
             }
         } break;
 
-        case TF_129: {
-            CExScene::fn_80009E24(args[0] != 0);
+        case TF_UPDATE_PERFECT_STATUS: {
+            CExScene::updatePerfectStatus(args[0] != 0);
         } break;
 
         case TF_LOAD_SND_GROUP: {

@@ -70,7 +70,7 @@ static f32 lbl_803201B4;
 
 static u32 lbl_803201BC; // Bitflag
 
-static bool lbl_803201B8;
+static bool perfectEligible;
 static bool lbl_803201B9;
 static bool lbl_803201BA;
 
@@ -374,7 +374,7 @@ void CExScene::_20(void) {
 
         gInputCheckManager->fn_801E9C30(false);
 
-        lbl_803201B8 = false;
+        perfectEligible = false;
 
         lbl_803201F8->setAnim(permanent_perfect_icon_hit);
         lbl_803201F8->goToAnimEnd();
@@ -801,14 +801,14 @@ void CExScene::fn_80009D84(f32 param_1) {
 }
 
 bool CExScene::fn_80009D94(void) {
-    if (lbl_803201B8 == false) {
+    if (perfectEligible == false) {
         return false;
     }
     return lbl_803201BA == FALSE; // ????
 }
 
 void CExScene::fn_80009DB8(bool param_1) {
-    lbl_803201B8 = param_1;
+    perfectEligible = param_1;
 
     lbl_803201F8->setAnim(permanent_perfect_icon_hit);
     lbl_803201F8->goToAnimEnd();
@@ -821,12 +821,12 @@ void CExScene::fn_80009DB8(bool param_1) {
     lbl_803201BA = false;
 }
 
-bool CExScene::fn_80009E1C(void) {
-    return lbl_803201B8;
+bool CExScene::isPerfectEligible(void) {
+    return perfectEligible;
 }
 
-void CExScene::fn_80009E24(bool enabled) {
-    if (!lbl_803201B8) {
+void CExScene::updatePerfectStatus(bool enabled) {
+    if (!perfectEligible) {
         return;
     }
 
@@ -835,7 +835,7 @@ void CExScene::fn_80009E24(bool enabled) {
 }
 
 void CExScene::fn_80009E44(bool param_1) {
-    if (!lbl_803201B8) {
+    if (!perfectEligible) {
         return;
     }
 
@@ -843,13 +843,13 @@ void CExScene::fn_80009E44(bool param_1) {
 }
 
 void CExScene::fn_80009E58(void) {
-    if (!lbl_803201B8) {
+    if (!perfectEligible) {
         return;
     }
     if (!lbl_803201B9) {
         return;
     }
-    if (lbl_803201B8 ? lbl_803201BA : false) { // NOTE: probably an inline
+    if (perfectEligible ? lbl_803201BA : false) { // NOTE: probably an inline
         return;
     }
 
@@ -857,8 +857,8 @@ void CExScene::fn_80009E58(void) {
 }
 
 void CExScene::fn_80009E98(u32 param_1) {
-    if ((lbl_803201BC & param_1) && lbl_803201B8) {
-        if (lbl_803201B9 && !(lbl_803201B8 ? lbl_803201BA : false)) {
+    if ((lbl_803201BC & param_1) && perfectEligible) {
+        if (lbl_803201B9 && !(perfectEligible ? lbl_803201BA : false)) {
             lbl_803201F8->setAnim(permanent_perfect_icon_fail);
             lbl_803201FC->setEnabled(false);
             lbl_803201BA = true;
