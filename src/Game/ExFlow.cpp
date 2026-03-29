@@ -83,6 +83,10 @@ bool CExFlow::_1C(u32 opcode, u32 arg0, const s32 *args) {
             }
         } break;
 
+        case TF_129: {
+            CExScene::fn_80009E24(args[0] != 0);
+        } break;
+
         case TF_LOAD_SND_GROUP: {
             fn_8008364C(args[0], static_cast<ESoundHeap>(arg0));
         } break;
