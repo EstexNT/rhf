@@ -79,8 +79,8 @@ void CSceneStrap::_14(void) {
 
     mStrapAnim = gCellAnimManager->createCellAnim(0, strap_fade_in);
 
-    mStrapAnim->fn_801DCEE8(strap_show_a, NULL);
-    mStrapAnim->fn_801DCF18();
+    mStrapAnim->prepareAnim(strap_show_a, NULL);
+    mStrapAnim->playFromBegin();
 
     gHBMManager->setUnk416(false);
 

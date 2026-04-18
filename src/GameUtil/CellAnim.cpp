@@ -320,36 +320,36 @@ void CCellAnim::draw(BOOL forceDraw) {
     }
 }
 
-void CCellAnim::fn_801DCE9C(u16 animID) {
+void CCellAnim::switchAnim(u16 animID) {
     mAnimID = animID;
     mPrepAnimCount = 0;
     mTotalFrames = gCellAnimManager->getCurAnimFrames(this);
 }
 
-void CCellAnim::fn_801DCEE0(u16 animID) {
+void CCellAnim::overrideAnim(u16 animID) {
     mAnimID = animID;
 }
 
-void CCellAnim::fn_801DCEE8(u16 animID, CellAnimPrepFn callback) {
+void CCellAnim::prepareAnim(u16 animID, CellAnimPrepFn callback) {
     mPrepAnimID[mPrepAnimCount] = animID;
     mPrepAnimCallback[mPrepAnimCount] = callback;
     mPrepAnimCount++;
 }
 
-void CCellAnim::fn_801DCF18(void) {
+void CCellAnim::playFromBegin(void) {
     mPlaying = true;
     mFrame = -1.0f;
 }
 
-u16 CCellAnim::fn_801DCF2C(void) {
+u16 CCellAnim::calcFrameCount(void) {
     return gCellAnimManager->getCurAnimFrames(this);
 }
 
-void CCellAnim::fn_801DCF38(void) {
+void CCellAnim::goToAnimEnd(void) {
     mFrame = gCellAnimManager->getCurAnimFrames(this) - 1;
 }
 
-void CCellAnim::fn_801DCF94(s32 layer) {
+void CCellAnim::setLayer(s32 layer) {
     mLayer = layer;
     gCellAnimManager->layerReorder(this);
 }
@@ -401,7 +401,7 @@ void CCellAnim::finalDestroy(void) {
     gCellAnimManager->destroyCellAnim(this);
 }
 
-void CCellAnim::fn_801DD0AC(u16 animID) {
+void CCellAnim::setAnim(u16 animID) {
     mAnimID = animID;
     mPrepAnimCount = 0;
     mTotalFrames = gCellAnimManager->getCurAnimFrames(this);
@@ -413,7 +413,7 @@ void CCellAnim::fn_801DD0AC(u16 animID) {
     mEnabled = true;
 }
 
-void CCellAnim::fn_801DD118(u16 animID) {
+void CCellAnim::setAnimDisable(u16 animID) {
     mAnimID = animID;
     mPrepAnimCount = 0;
     mTotalFrames = gCellAnimManager->getCurAnimFrames(this);
@@ -425,7 +425,7 @@ void CCellAnim::fn_801DD118(u16 animID) {
     mDisableAtEnd = true;
 }
 
-void CCellAnim::fn_801DD184(u16 animID) {
+void CCellAnim::setAnimDestroy(u16 animID) {
     mAnimID = animID;
     mPrepAnimCount = 0;
     mTotalFrames = gCellAnimManager->getCurAnimFrames(this);
@@ -437,7 +437,7 @@ void CCellAnim::fn_801DD184(u16 animID) {
     mDestroyAtEnd = true;
 }
 
-void CCellAnim::fn_801DD1F0(u16 animID) {
+void CCellAnim::setAnimLoop(u16 animID) {
     mAnimID = animID;
     mPrepAnimCount = 0;
     mTotalFrames = gCellAnimManager->getCurAnimFrames(this);
@@ -447,7 +447,7 @@ void CCellAnim::fn_801DD1F0(u16 animID) {
     mEnabled = true;
 }
 
-void CCellAnim::fn_801DD24C(u16 animID, f32 frame) {
+void CCellAnim::setAnimFreezeFrame(u16 animID, f32 frame) {
     mAnimID = animID;
     mPrepAnimCount = 0;
     mTotalFrames = gCellAnimManager->getCurAnimFrames(this);
@@ -456,22 +456,22 @@ void CCellAnim::fn_801DD24C(u16 animID, f32 frame) {
     mEnabled = true;
 }
 
-void CCellAnim::fn_801DD2B4(u16 keyIndex) {
+void CCellAnim::setFrameAtKey(u16 keyIndex) {
     CellAnim_Anim *anim = gCellAnimManager->getCurrentAnim(this);
     mFrame = anim->getFrameOfKey(keyIndex);
 }
 
-u16 CCellAnim::fn_801DD43C(void) {
+u16 CCellAnim::getKeyIndex(void) {
     CellAnim_Anim *anim = gCellAnimManager->getCurrentAnim(this);
     return anim->findKeyAtFrame(getFrame());
 }
 
-u16 CCellAnim::fn_801DD4DC(void) {
+u16 CCellAnim::getFinalKeyIndex(void) {
     CellAnim_Anim *anim = gCellAnimManager->getCurrentAnim(this);
     // Unnecessary logic .. returning (anim->keyCount - 1) does the trick
     return anim->findKeyAtFrame(gCellAnimManager->getCurAnimFrames(this));
 }
 
-bool CCellAnim::fn_801DD5A0(void) {
-    return fn_801DD43C() == fn_801DD4DC();
+bool CCellAnim::getAtFinalKey(void) {
+    return getKeyIndex() == getFinalKeyIndex();
 }

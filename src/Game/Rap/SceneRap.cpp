@@ -143,52 +143,52 @@ void CSceneRap::_14(void) {
     mGroundDryAnim = gCellAnimManager->createCellAnim(1, rap_bg_ground_normal);
     mGroundWetAnim = gCellAnimManager->createCellAnim(1, rap_bg_ground_wet);
 
-    mBGAnim->fn_801DCF94(4000);
-    mFenceAnim->fn_801DCF94(2500);
-    mGroundDryAnim->fn_801DCF94(3800);
-    mGroundWetAnim->fn_801DCF94(3799);
+    mBGAnim->setLayer(4000);
+    mFenceAnim->setLayer(2500);
+    mGroundDryAnim->setLayer(3800);
+    mGroundWetAnim->setLayer(3799);
 
     mCarAnim = gCellAnimManager->createCellAnim(0, rap_car_beat);
-    mCarAnim->fn_801DCF94(2200);
-    mCarAnim->fn_801DCF38();
+    mCarAnim->setLayer(2200);
+    mCarAnim->goToAnimEnd();
 
     mCarShadowAnim = gCellAnimManager->createCellAnim(0, rap_car_shadow);
-    mCarShadowAnim->fn_801DCF94(3500);
+    mCarShadowAnim->setLayer(3500);
 
     mAirplaneAnim = gCellAnimManager->createCellAnim(3, rap_airplane_airplane);
-    mAirplaneAnim->fn_801DCF94(3000);
-    mAirplaneAnim->fn_801DCF38();
+    mAirplaneAnim->setLayer(3000);
+    mAirplaneAnim->goToAnimEnd();
     mAirplaneAnim->setEnabled(false);
 
     mAirplaneShadowAnim = gCellAnimManager->createCellAnim(3, rap_airplane_shadow);
-    mAirplaneShadowAnim->fn_801DCF94(3500);
+    mAirplaneShadowAnim->setLayer(3500);
     mAirplaneShadowAnim->setEnabled(false);
     mAirplaneShadowAnim->setOpacity(0xC0);
     mAirplaneShadowAnim->setScale(64.0f, 16.0f);
 
     mAirplaneTireAnim = gCellAnimManager->createCellAnim(3, rap_airplane_tire);
-    mAirplaneTireAnim->fn_801DCF94(2999);
+    mAirplaneTireAnim->setLayer(2999);
     mAirplaneTireAnim->setEnabled(false);
 
     mRoomAnim = gCellAnimManager->createCellAnim(2, rap_bg_01_room);
-    mRoomAnim->fn_801DCF94(200);
+    mRoomAnim->setLayer(200);
     mRoomAnim->setScale(5.2f, 5.2f);
     mRoomAnim->setEnabled(false);
 
     mTVAnim = gCellAnimManager->createCellAnim(2, rap_bg_01_tv);
-    mTVAnim->fn_801DCF94(300);
+    mTVAnim->setLayer(300);
     mTVAnim->setBase(mRoomAnim, 0, false);
     mTVAnim->setEnabled(false);
 
     mSofaAnim = gCellAnimManager->createCellAnim(2, rap_bg_01_sofa);
-    mSofaAnim->fn_801DCF94(100);
+    mSofaAnim->setLayer(100);
     mSofaAnim->setBase(mRoomAnim, 0, false);
-    mSofaAnim->fn_801DD1F0(rap_bg_01_sofa);
+    mSofaAnim->setAnimLoop(rap_bg_01_sofa);
     mSofaAnim->setEnabled(false);
 
     if (Rap::sceneVer == 1) {
         mChandelierAnim = gCellAnimManager->createCellAnim(4, rap_chandelier_chandelier);
-        mChandelierAnim->fn_801DCF94(3900);
+        mChandelierAnim->setLayer(3900);
         mChandelierAnim->setPosY(-440.0f);
     }
 
@@ -260,14 +260,14 @@ void CSceneRap::_28(void) {
     if (mPlayerChara.throughStareTimer != 0) {
         mPlayerChara.throughStareTimer--;
         if (mPlayerChara.throughStareTimer == 0) {
-            mPlayerChara.headAnim->fn_801DCE9C(rap_C_head);
+            mPlayerChara.headAnim->switchAnim(rap_C_head);
         }
     }
 
     if (mOtherChara.throughStareTimer != 0) {
         mOtherChara.throughStareTimer--;
         if (mOtherChara.throughStareTimer == 0) {
-            mOtherChara.headAnim->fn_801DCE9C(rap_C_head);
+            mOtherChara.headAnim->switchAnim(rap_C_head);
         }
     }
 
@@ -895,8 +895,8 @@ void CSceneRap::fn_8005128C(u32 button, s32 type, f32 ticks) {
                 for (s32 i = 0; i < 4; i++) {
                     CCellAnim *lightAnim = gCellAnimManager->createCellAnim(0, rap_car_light);
                     lightAnim->setBase(mCarAnim, 1 + i, false);
-                    lightAnim->fn_801DCF94(2199);
-                    lightAnim->fn_801DD184(rap_car_light);
+                    lightAnim->setLayer(2199);
+                    lightAnim->setAnimDestroy(rap_car_light);
                 }
 
                 mCharaDarken.fn_801EA698(32.0f, 255.0f);
@@ -904,8 +904,8 @@ void CSceneRap::fn_8005128C(u32 button, s32 type, f32 ticks) {
             }
 
             if (mUnk1BF) {
-                mPlayerChara.eyeAnim->fn_801DD0AC(rap_eye_D_arrange);
-                mOtherChara.eyeAnim->fn_801DD0AC(rap_eye_D_arrange);
+                mPlayerChara.eyeAnim->setAnim(rap_eye_D_arrange);
+                mOtherChara.eyeAnim->setAnim(rap_eye_D_arrange);
             }
         }
         else if (type == 1) {
@@ -1003,8 +1003,8 @@ void CSceneRap::fn_8005128C(u32 button, s32 type, f32 ticks) {
         else if (type == 2) {
             fn_80009ABC();
 
-            mPlayerChara.footAnim->fn_801DCE9C(rap_P_cough);
-            mPlayerChara.footAnim->fn_801DCF18();
+            mPlayerChara.footAnim->switchAnim(rap_P_cough);
+            mPlayerChara.footAnim->playFromBegin();
 
             mOtherChara.fn_80051D00();
 
@@ -1041,17 +1041,17 @@ void CSceneRap::CharaRapper::fn_80051770(bool isPlayer, CSceneRap *_scene) {
     eyeAnim->setBase(headAnim, 0, false);
     mouthAnim->setBase(headAnim, 1, false);
 
-    footAnim->fn_801DCF94(1000);
-    bodyAnim->fn_801DCF94(999);
-    headAnim->fn_801DCF94(998);
-    eyeAnim->fn_801DCF94(997);
-    mouthAnim->fn_801DCF94(996);
+    footAnim->setLayer(1000);
+    bodyAnim->setLayer(999);
+    headAnim->setLayer(998);
+    eyeAnim->setLayer(997);
+    mouthAnim->setLayer(996);
 
-    footAnim->fn_801DCF38();
-    bodyAnim->fn_801DCF38();
-    headAnim->fn_801DCF38();
-    eyeAnim->fn_801DCF38();
-    mouthAnim->fn_801DCF38();
+    footAnim->goToAnimEnd();
+    bodyAnim->goToAnimEnd();
+    headAnim->goToAnimEnd();
+    eyeAnim->goToAnimEnd();
+    mouthAnim->goToAnimEnd();
 
     if (amIPlayer) {
         footAnim->setPosX(200.0f);
@@ -1091,8 +1091,8 @@ void CSceneRap::CharaRapper::fn_8005193C(void) {
 
 void CSceneRap::CharaRapper::fn_800519D4(void) {
     if ((footAnim->getAnimID() != rap_P_cough) || !footAnim->getPlaying()) {
-        footAnim->fn_801DCE9C(rap_foot_beat);
-        footAnim->fn_801DCF18();
+        footAnim->switchAnim(rap_foot_beat);
+        footAnim->playFromBegin();
     }
 }
 
@@ -1100,33 +1100,33 @@ void CSceneRap::CharaRapper::fn_80051A2C(s32 type, s32 unk) {
     if ((footAnim->getAnimID() != rap_P_cough) || !footAnim->getPlaying() || (unk != 2)) {
         switch (type) {
         case 0: {
-            footAnim->fn_801DD0AC(rap_foot_D);
-            bodyAnim->fn_801DD0AC(rap_body_D);
-            mouthAnim->fn_801DD0AC(rap_mouth_D);
+            footAnim->setAnim(rap_foot_D);
+            bodyAnim->setAnim(rap_body_D);
+            mouthAnim->setAnim(rap_mouth_D);
             if (eyeAnim->getAnimID() != rap_eye_D_arrange) {
-                eyeAnim->fn_801DD0AC(rap_eye_D);
+                eyeAnim->setAnim(rap_eye_D);
             }
         } break;
 
         case 1: {
-            footAnim->fn_801DD0AC(rap_foot_MD);
-            bodyAnim->fn_801DD0AC(rap_body_MD);
-            eyeAnim->fn_801DD0AC(rap_eye_MD);
-            mouthAnim->fn_801DD0AC(scene->mUnk1BC ? rap_mouth_MD_ura : rap_mouth_MD);
+            footAnim->setAnim(rap_foot_MD);
+            bodyAnim->setAnim(rap_body_MD);
+            eyeAnim->setAnim(rap_eye_MD);
+            mouthAnim->setAnim(scene->mUnk1BC ? rap_mouth_MD_ura : rap_mouth_MD);
         } break;
 
         case 2: {
-            footAnim->fn_801DD0AC(rap_foot_H);
-            bodyAnim->fn_801DD0AC(rap_body_H);
-            eyeAnim->fn_801DD0AC(rap_eye_H);
-            mouthAnim->fn_801DD0AC(scene->mUnk1BC ? rap_mouth_H_ura : rap_mouth_H);
+            footAnim->setAnim(rap_foot_H);
+            bodyAnim->setAnim(rap_body_H);
+            eyeAnim->setAnim(rap_eye_H);
+            mouthAnim->setAnim(scene->mUnk1BC ? rap_mouth_H_ura : rap_mouth_H);
         } break;
 
         case 3: {
-            footAnim->fn_801DD0AC(rap_foot_S);
-            bodyAnim->fn_801DD0AC(rap_body_S);
-            eyeAnim->fn_801DD0AC(rap_eye_S);
-            mouthAnim->fn_801DD0AC(rap_mouth_S);
+            footAnim->setAnim(rap_foot_S);
+            bodyAnim->setAnim(rap_body_S);
+            eyeAnim->setAnim(rap_eye_S);
+            mouthAnim->setAnim(rap_mouth_S);
         } break;
         
         default:
@@ -1143,31 +1143,31 @@ void CSceneRap::CharaRapper::fn_80051BB8(s32 type) {
     if ((footAnim->getAnimID() != rap_P_cough) || !footAnim->getPlaying()) {
         switch (type) {
         case 0: {
-            footAnim->fn_801DD0AC(rap_foot_D_B);
-            bodyAnim->fn_801DD0AC(rap_body_D_B);
-            eyeAnim->fn_801DD0AC(rap_eye_D_B);
-            mouthAnim->fn_801DD0AC(rap_mouth_D_B);
+            footAnim->setAnim(rap_foot_D_B);
+            bodyAnim->setAnim(rap_body_D_B);
+            eyeAnim->setAnim(rap_eye_D_B);
+            mouthAnim->setAnim(rap_mouth_D_B);
         } break;
 
         case 1: {
-            footAnim->fn_801DD0AC(rap_foot_MD_B);
-            bodyAnim->fn_801DD0AC(rap_body_MD_B);
-            eyeAnim->fn_801DD0AC(rap_eye_MD_B);
-            mouthAnim->fn_801DD0AC(rap_mouth_MD_B);
+            footAnim->setAnim(rap_foot_MD_B);
+            bodyAnim->setAnim(rap_body_MD_B);
+            eyeAnim->setAnim(rap_eye_MD_B);
+            mouthAnim->setAnim(rap_mouth_MD_B);
         } break;
 
         case 2: {
-            footAnim->fn_801DD0AC(rap_foot_H_B);
-            bodyAnim->fn_801DD0AC(rap_body_H_B);
-            eyeAnim->fn_801DD0AC(rap_eye_H_B);
-            mouthAnim->fn_801DD0AC(rap_mouth_H_B);
+            footAnim->setAnim(rap_foot_H_B);
+            bodyAnim->setAnim(rap_body_H_B);
+            eyeAnim->setAnim(rap_eye_H_B);
+            mouthAnim->setAnim(rap_mouth_H_B);
         } break;
 
         case 3: {
-            footAnim->fn_801DD0AC(rap_foot_S_B);
-            bodyAnim->fn_801DD0AC(rap_body_S_B);
-            eyeAnim->fn_801DD0AC(rap_eye_S_B);
-            mouthAnim->fn_801DD0AC(rap_mouth_S_B);
+            footAnim->setAnim(rap_foot_S_B);
+            bodyAnim->setAnim(rap_body_S_B);
+            eyeAnim->setAnim(rap_eye_S_B);
+            mouthAnim->setAnim(rap_mouth_S_B);
         } break;
         
         default:
@@ -1188,16 +1188,16 @@ void CSceneRap::CharaRapper::fn_80051D00(void) {
 void CSceneRap::CharaRapper::fn_80051D34(void) {
     u16 animID = bodyAnim->getAnimID();
     if ((animID == rap_body_D) || (animID == rap_body_D_B)) {
-        headAnim->fn_801DCE9C(rap_C_head_through_D);
+        headAnim->switchAnim(rap_C_head_through_D);
     }
     else if ((animID == rap_body_MD) || (animID == rap_body_MD_B)) {
-        headAnim->fn_801DCE9C(rap_C_head_through_MD);
+        headAnim->switchAnim(rap_C_head_through_MD);
     }
     else if ((animID == rap_body_H) || (animID == rap_body_H_B)) {
-        headAnim->fn_801DCE9C(rap_C_head_through_H);
+        headAnim->switchAnim(rap_C_head_through_H);
     }
     else if ((animID == rap_body_S) || (animID == rap_body_S_B)) {
-        headAnim->fn_801DCE9C(rap_C_head_through_S);
+        headAnim->switchAnim(rap_C_head_through_S);
     }
 }
 
@@ -1212,107 +1212,107 @@ void CSceneRap::CharaGirl::fn_80051DAC(CCellAnim *carAnim) {
     eyeAnim->setBase(bodyAnim, 0, false);
     mouthAnim->setBase(bodyAnim, 1, false);
 
-    footAnim->fn_801DCF94(2000);
-    bodyAnim->fn_801DCF94(1999);
-    eyeAnim->fn_801DCF94(1998);
-    mouthAnim->fn_801DCF94(1997);
+    footAnim->setLayer(2000);
+    bodyAnim->setLayer(1999);
+    eyeAnim->setLayer(1998);
+    mouthAnim->setLayer(1997);
 
-    footAnim->fn_801DCF38();
-    bodyAnim->fn_801DCF38();
-    eyeAnim->fn_801DCF38();
-    mouthAnim->fn_801DCF38();
+    footAnim->goToAnimEnd();
+    bodyAnim->goToAnimEnd();
+    eyeAnim->goToAnimEnd();
+    mouthAnim->goToAnimEnd();
 }
 
 void CSceneRap::CharaGirl::fn_80051ED0(void) {
-    footAnim->fn_801DCE9C(rap_girl_foot_beat);
-    footAnim->fn_801DCF18();
+    footAnim->switchAnim(rap_girl_foot_beat);
+    footAnim->playFromBegin();
 }
 
 void CSceneRap::CharaGirl::fn_80051F0C(s32 type, bool unk) {    
     switch (type) {
     case 0: {
-        footAnim->fn_801DCE9C(rap_girl_foot_D);
-        bodyAnim->fn_801DCE9C(rap_girl_body_D);
-        eyeAnim->fn_801DCE9C(rap_girl_eye_D);
-        mouthAnim->fn_801DCE9C(rap_girl_mouth_D);
+        footAnim->switchAnim(rap_girl_foot_D);
+        bodyAnim->switchAnim(rap_girl_body_D);
+        eyeAnim->switchAnim(rap_girl_eye_D);
+        mouthAnim->switchAnim(rap_girl_mouth_D);
     } break;
 
     case 1: {
-        footAnim->fn_801DCE9C(rap_girl_foot_MD);
-        bodyAnim->fn_801DCE9C(rap_girl_body_MD);
-        eyeAnim->fn_801DCE9C(rap_girl_eye_MD);
-        mouthAnim->fn_801DCE9C(unk ? rap_girl_mouth_MD_ura : rap_girl_mouth_MD);
+        footAnim->switchAnim(rap_girl_foot_MD);
+        bodyAnim->switchAnim(rap_girl_body_MD);
+        eyeAnim->switchAnim(rap_girl_eye_MD);
+        mouthAnim->switchAnim(unk ? rap_girl_mouth_MD_ura : rap_girl_mouth_MD);
     } break;
 
     case 2: {
-        footAnim->fn_801DCE9C(rap_girl_foot_H);
-        bodyAnim->fn_801DCE9C(rap_girl_body_H);
-        eyeAnim->fn_801DCE9C(rap_girl_eye_H);
-        mouthAnim->fn_801DCE9C(unk ? rap_girl_mouth_H_ura : rap_girl_mouth_H);
+        footAnim->switchAnim(rap_girl_foot_H);
+        bodyAnim->switchAnim(rap_girl_body_H);
+        eyeAnim->switchAnim(rap_girl_eye_H);
+        mouthAnim->switchAnim(unk ? rap_girl_mouth_H_ura : rap_girl_mouth_H);
     } break;
 
     case 3: {
-        footAnim->fn_801DCE9C(rap_girl_foot_S);
-        bodyAnim->fn_801DCE9C(rap_girl_body_S);
-        eyeAnim->fn_801DCE9C(rap_girl_eye_S);
-        mouthAnim->fn_801DCE9C(rap_girl_mouth_S);
+        footAnim->switchAnim(rap_girl_foot_S);
+        bodyAnim->switchAnim(rap_girl_body_S);
+        eyeAnim->switchAnim(rap_girl_eye_S);
+        mouthAnim->switchAnim(rap_girl_mouth_S);
     } break;
     
     default:
         break;
     }
 
-    footAnim->fn_801DCF18();
-    bodyAnim->fn_801DCF18();
-    eyeAnim->fn_801DCF18();
-    mouthAnim->fn_801DCF18();
+    footAnim->playFromBegin();
+    bodyAnim->playFromBegin();
+    eyeAnim->playFromBegin();
+    mouthAnim->playFromBegin();
 }
 
 void CSceneRap::CharaGirl::fn_80052070(s32 type) {
     switch (type) {
     case 0: {
-        footAnim->fn_801DCE9C(rap_girl_foot_D_B);
-        bodyAnim->fn_801DCE9C(rap_girl_body_D_B);
-        eyeAnim->fn_801DCE9C(rap_girl_eye_D_B);
-        mouthAnim->fn_801DCE9C(rap_girl_mouth_D_B);
+        footAnim->switchAnim(rap_girl_foot_D_B);
+        bodyAnim->switchAnim(rap_girl_body_D_B);
+        eyeAnim->switchAnim(rap_girl_eye_D_B);
+        mouthAnim->switchAnim(rap_girl_mouth_D_B);
     } break;
 
     case 1: {
-        footAnim->fn_801DCE9C(rap_girl_foot_MD_B);
-        bodyAnim->fn_801DCE9C(rap_girl_body_MD_B);
-        eyeAnim->fn_801DCE9C(rap_girl_eye_MD_B);
-        mouthAnim->fn_801DCE9C(rap_girl_mouth_MD_B);
+        footAnim->switchAnim(rap_girl_foot_MD_B);
+        bodyAnim->switchAnim(rap_girl_body_MD_B);
+        eyeAnim->switchAnim(rap_girl_eye_MD_B);
+        mouthAnim->switchAnim(rap_girl_mouth_MD_B);
     } break;
 
     case 2: {
-        footAnim->fn_801DCE9C(rap_girl_foot_H_B);
-        bodyAnim->fn_801DCE9C(rap_girl_body_H_B);
-        eyeAnim->fn_801DCE9C(rap_girl_eye_H_B);
-        mouthAnim->fn_801DCE9C(rap_girl_mouth_H_B);
+        footAnim->switchAnim(rap_girl_foot_H_B);
+        bodyAnim->switchAnim(rap_girl_body_H_B);
+        eyeAnim->switchAnim(rap_girl_eye_H_B);
+        mouthAnim->switchAnim(rap_girl_mouth_H_B);
     } break;
 
     case 3: {
-        footAnim->fn_801DCE9C(rap_girl_foot_S_B);
-        bodyAnim->fn_801DCE9C(rap_girl_body_S_B);
-        eyeAnim->fn_801DCE9C(rap_girl_eye_S_B);
-        mouthAnim->fn_801DCE9C(rap_girl_mouth_S_B);
+        footAnim->switchAnim(rap_girl_foot_S_B);
+        bodyAnim->switchAnim(rap_girl_body_S_B);
+        eyeAnim->switchAnim(rap_girl_eye_S_B);
+        mouthAnim->switchAnim(rap_girl_mouth_S_B);
     } break;
     
     default:
         break;
     }
 
-    footAnim->fn_801DCF18();
-    bodyAnim->fn_801DCF18();
-    eyeAnim->fn_801DCF18();
-    mouthAnim->fn_801DCF18();
+    footAnim->playFromBegin();
+    bodyAnim->playFromBegin();
+    eyeAnim->playFromBegin();
+    mouthAnim->playFromBegin();
 }
 
 void CSceneRap::CharaGirl::fn_800521A8(void) {
-    bodyAnim->fn_801DD0AC(rap_girl_body_blow_loop);
-    bodyAnim->fn_801DCEE8(rap_girl_body_blow_loop, NULL);
-    bodyAnim->fn_801DCEE8(rap_girl_body_blow_loop, NULL);
-    bodyAnim->fn_801DCEE8(rap_girl_body_blow_end, NULL);
+    bodyAnim->setAnim(rap_girl_body_blow_loop);
+    bodyAnim->prepareAnim(rap_girl_body_blow_loop, NULL);
+    bodyAnim->prepareAnim(rap_girl_body_blow_loop, NULL);
+    bodyAnim->prepareAnim(rap_girl_body_blow_end, NULL);
 }
 
 void CSceneRap::_18(void) {

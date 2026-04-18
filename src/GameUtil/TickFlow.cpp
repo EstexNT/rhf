@@ -368,10 +368,10 @@ bool CTickFlow::_1C(u32 opcode, u32 arg0, const s32 *args) {
             cellAnim->setDestroyAtEnd(true);
         }
         cellAnim->setPos(posX, posY);
-        cellAnim->fn_801DCF94(layer);
+        cellAnim->setLayer(layer);
         cellAnim->setScale(scaleX, scaleY);
 
-        cellAnim->fn_801DCF18();
+        cellAnim->playFromBegin();
     } break;
 
     case TF_PLAY_SFX_VOL: {

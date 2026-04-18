@@ -44,11 +44,11 @@ bool Metroman::CMyFlow::_1C(u32 opcode, u32 arg0, const s32 *args) {
 
     case TF_METROMAN_203: {
         if (arg0 == 0) {
-            mScene->mManAnim->fn_801DD0AC(metroman_00_man_up_R);
-            mScene->mManAnim->fn_801DCF38();
+            mScene->mManAnim->setAnim(metroman_00_man_up_R);
+            mScene->mManAnim->goToAnimEnd();
 
-            mScene->mManShadowAnim->fn_801DD24C(metroman_00_man_shadow, 0.0f);
-            mScene->mManShadowAnim->fn_801DD2B4(1);
+            mScene->mManShadowAnim->setAnimFreezeFrame(metroman_00_man_shadow, 0.0f);
+            mScene->mManShadowAnim->setFrameAtKey(1);
             mScene->mManShadowAnim->setPos(1.0f, 1.0f);
 
             mScene->mManNextDirection = 2;
@@ -113,7 +113,7 @@ bool Metroman::CMyFlow::_1C(u32 opcode, u32 arg0, const s32 *args) {
             }
         }
 
-        anim->fn_801DD0AC(animID);
+        anim->setAnim(animID);
     } break;
 
     case TF_METROMAN_206: {

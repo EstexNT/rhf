@@ -106,22 +106,22 @@ public:
     void makeMtx(BOOL defMtx, Mtx baseMtx);
     void draw(BOOL forceDraw);
     void setBase(CCellAnim *baseAnim, u16 objIndex, bool drawBase);
-    void fn_801DCE9C(u16 animID);
-    void fn_801DCEE0(u16 animID);
-    void fn_801DCEE8(u16 animID, CellAnimPrepFn callback);
-    void fn_801DCF18(void);
-    u16 fn_801DCF2C(void);
-    void fn_801DCF38(void);
-    void fn_801DCF94(s32 layer);
-    void fn_801DD0AC(u16 animID);
-    void fn_801DD118(u16 animID);
-    void fn_801DD184(u16 animID);
-    void fn_801DD1F0(u16 animID);
-    void fn_801DD24C(u16 animID, f32 frame);
-    void fn_801DD2B4(u16 keyIndex);
-    u16 fn_801DD43C(void);
-    u16 fn_801DD4DC(void);
-    bool fn_801DD5A0(void);
+    void switchAnim(u16 animID); // switchAnim
+    void overrideAnim(u16 animID); // overrideAnim
+    void prepareAnim(u16 animID, CellAnimPrepFn callback); // prepareAnim
+    void playFromBegin(void); // playFromBegin
+    u16 calcFrameCount(void); // calcFrameCount
+    void goToAnimEnd(void); // goToAnimEnd
+    void setLayer(s32 layer); // setLayer
+    void setAnim(u16 animID); // setAnim
+    void setAnimDisable(u16 animID); // setAnimDisable
+    void setAnimDestroy(u16 animID); // setAnimDestroy
+    void setAnimLoop(u16 animID); // setAnimLoop
+    void setAnimFreezeFrame(u16 animID, f32 frame); // setAnimFreezeFrame
+    void setFrameAtKey(u16 keyIndex); // setFrameAtKey
+    u16 getKeyIndex(void); // getKeyIndex
+    u16 getFinalKeyIndex(void); // getFinalKeyIndex
+    bool getAtFinalKey(void); // getAtFinalKey
 
 private:
     u16 handlePrepAnim(void) {

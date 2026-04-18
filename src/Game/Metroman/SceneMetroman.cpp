@@ -99,20 +99,20 @@ void CSceneMetroman::_14(void) {
     fn_80009A90(9999);
 
     mManAnim = gCellAnimManager->createCellAnim(0, metroman_00_man_up_R);
-    mManAnim->fn_801DCF38();
-    mManAnim->fn_801DCF94(2000);
+    mManAnim->goToAnimEnd();
+    mManAnim->setLayer(2000);
     mManAnim->setPos(0.0f, -40.0f);
 
     mManShadowAnim = gCellAnimManager->createCellAnim(0, metroman_00_man_shadow);
-    mManShadowAnim->fn_801DD2B4(1);
-    mManShadowAnim->fn_801DCF94(3000);
+    mManShadowAnim->setFrameAtKey(1);
+    mManShadowAnim->setLayer(3000);
     mManShadowAnim->setPos(mManAnim->getPos());
 
     mManNextDirection = 2;
     mManIsLeft = true;
 
     mHandAnim = gCellAnimManager->createCellAnim(0, metroman_00_hand);
-    mHandAnim->fn_801DCF94(2500);
+    mHandAnim->setLayer(2500);
     mHandAnim->setPos(0.0f, 120.0f);
 
     mHandRotation.setEasing(2, 2);
@@ -125,18 +125,18 @@ void CSceneMetroman::_14(void) {
 
     mLampAnim = gCellAnimManager->createCellAnim(0, metroman_00_lamp_0);
     mLampAnim->setBase(mManAnim, 3, false);
-    mLampAnim->fn_801DCF94(mManAnim->getLayer() - 1);
-    mLampAnim->fn_801DCF38();
+    mLampAnim->setLayer(mManAnim->getLayer() - 1);
+    mLampAnim->goToAnimEnd();
 
     mSecretCodeAnim = gCellAnimManager->createCellAnim(0, metroman_00_secret_code);
     mSecretCodeAnim->setBase(mManAnim, 3, false);
-    mSecretCodeAnim->fn_801DCF94(1500);
+    mSecretCodeAnim->setLayer(1500);
     mSecretCodeAnim->setEnabled(false);
 
     mUnk9E = false;
     mLampSize = 0;
 
-    mLampAnim->fn_801DCE9C(metroman_00_lamp_0); // Unnessecary?
+    mLampAnim->switchAnim(metroman_00_lamp_0); // Unnessecary?
     mSecretCodeAnim->setEnabled(false);
 
     mUnkA0 = 0;
@@ -174,7 +174,7 @@ void CSceneMetroman::_14(void) {
     mHiScoreCounter->fn_80083CAC(mUnk9C);
 
     mHiScoreRecordAnim = gCellAnimManager->createCellAnim(254, score_hiscore_record);
-    mHiScoreRecordAnim->fn_801DCF94(1000);
+    mHiScoreRecordAnim->setLayer(1000);
     mHiScoreRecordAnim->setPos(110.0f, -180.0f);
     mHiScoreRecordAnim->setEnabled(mUnk9C);
 
@@ -212,7 +212,7 @@ void CSceneMetroman::_28(void) {
     if (mUnkA0 > 0) {
         mUnkA0--;
         if (mUnkA0 == 0) {
-            mLampAnim->fn_801DCE9C(metroman_00_lamp_0);
+            mLampAnim->switchAnim(metroman_00_lamp_0);
             mSecretCodeAnim->setEnabled(false);
             mUnkA0 = 0;
         }
@@ -253,14 +253,14 @@ void CSceneMetroman::fn_800D8890(u32 button) {
     if (button == eInputType_TriggerA) {
         switch (mManNextDirection) {
         case 1:
-            mManAnim->fn_801DD0AC(metroman_00_man_up_R);
-            mManShadowAnim->fn_801DD2B4(1);
+            mManAnim->setAnim(metroman_00_man_up_R);
+            mManShadowAnim->setFrameAtKey(1);
             mManIsLeft = true;
             mManNextDirection = 2;
             break;
         case 2:
-            mManAnim->fn_801DD0AC(metroman_00_man_up_L);
-            mManShadowAnim->fn_801DD2B4(2);
+            mManAnim->setAnim(metroman_00_man_up_L);
+            mManShadowAnim->setFrameAtKey(2);
             mManIsLeft = false;
             mManNextDirection = 1;
             break;
@@ -274,26 +274,26 @@ void CSceneMetroman::fn_800D8890(u32 button) {
 void CSceneMetroman::fn_800D8940(s32 handDirection) {
     if (mManIsLeft == FALSE) {
         if (handDirection == 0) {
-            mManAnim->fn_801DD0AC(metroman_00_man_hit_R_from_L);
+            mManAnim->setAnim(metroman_00_man_hit_R_from_L);
         }
         else {
-            mManAnim->fn_801DD0AC(metroman_00_man_hit_R_from_R);
+            mManAnim->setAnim(metroman_00_man_hit_R_from_R);
         }
     }
     else if (handDirection == 1) {
-        mManAnim->fn_801DD0AC(metroman_00_man_hit_L_from_R);
+        mManAnim->setAnim(metroman_00_man_hit_L_from_R);
     }
     else {
-        mManAnim->fn_801DD0AC(metroman_00_man_hit_L_from_L);
+        mManAnim->setAnim(metroman_00_man_hit_L_from_L);
     }
 
     bool shadowFront = mHandDirection == 1;
-    mManShadowAnim->fn_801DD2B4(3);
+    mManShadowAnim->setFrameAtKey(3);
     mManShadowAnim->setScale(shadowFront ? 1.0f : -1.0f, 1.0f);
 
     mUnk84 = true;
 
-    mLampAnim->fn_801DCE9C(metroman_00_lamp_0);
+    mLampAnim->switchAnim(metroman_00_lamp_0);
     mSecretCodeAnim->setEnabled(false);
 
     mUnkA0 = 0;
@@ -312,33 +312,33 @@ void CSceneMetroman::fn_800D8940(s32 handDirection) {
 
 void CSceneMetroman::fn_800D8A78(s32 a, s32 b) {
     if (a != 0) {
-        mLampAnim->fn_801DD0AC(metroman_00_lamp_0);
+        mLampAnim->setAnim(metroman_00_lamp_0);
     }
     else if (mUnk9E) {
         if (b) {
             switch (mLampSize) {
             case 0:
-                mLampAnim->fn_801DD0AC(metroman_00_lamp_0);
+                mLampAnim->setAnim(metroman_00_lamp_0);
                 break;
             case 1:
-                mLampAnim->fn_801DD0AC(metroman_00_lamp_1);
+                mLampAnim->setAnim(metroman_00_lamp_1);
                 break;
             case 2:
-                mLampAnim->fn_801DD0AC(metroman_00_lamp_2);
+                mLampAnim->setAnim(metroman_00_lamp_2);
                 break;
             case 3:
-                mLampAnim->fn_801DD0AC(metroman_00_lamp_3);
+                mLampAnim->setAnim(metroman_00_lamp_3);
                 break;
             case 4:
             default:
-                mLampAnim->fn_801DD0AC(metroman_00_lamp_4);
+                mLampAnim->setAnim(metroman_00_lamp_4);
                 break;
             }
         }
     }
     else if (!mUnk9D) {
-        mLampAnim->fn_801DD0AC(metroman_00_lamp_0);
-        mLampAnim->fn_801DCE9C(metroman_00_lamp_0);
+        mLampAnim->setAnim(metroman_00_lamp_0);
+        mLampAnim->switchAnim(metroman_00_lamp_0);
         mSecretCodeAnim->setEnabled(false);
         mUnkA0 = 0;
     }
@@ -371,18 +371,18 @@ void CSceneMetroman::fn_800D8C18(s32 add) {
 }
 
 u16 CSceneMetroman::fn_800D8CA4(u16 lampSize) {
-    mSecretCodeAnim->fn_801DD24C(metroman_00_secret_code, 0.0f);
-    mSecretCodeAnim->fn_801DD2B4(lampSize);
+    mSecretCodeAnim->setAnimFreezeFrame(metroman_00_secret_code, 0.0f);
+    mSecretCodeAnim->setFrameAtKey(lampSize);
 
     mSecretCodeAnim->setPos(0.0f, 0.0f);
 
     mUnkA0 = 60;
 
-    return mSecretCodeAnim->fn_801DD4DC();
+    return mSecretCodeAnim->getFinalKeyIndex();
 }
 
 void CSceneMetroman::fn_800D8D1C(void) {
-    mLampAnim->fn_801DCE9C(metroman_00_lamp_0);
+    mLampAnim->switchAnim(metroman_00_lamp_0);
     mSecretCodeAnim->setEnabled(false);
 
     mUnkA0 = 0;

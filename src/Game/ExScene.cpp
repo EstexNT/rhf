@@ -146,11 +146,11 @@ void CExScene::_18(void) {
 
         if (gTickFlowManager->fn_801E4078()) {
             if (!lbl_803201CC->getEnabled() && temp) {
-                lbl_803201CC->fn_801DD1F0(permanent_next_loop);
+                lbl_803201CC->setAnimLoop(permanent_next_loop);
             }
         }
         else if (gTickFlowManager->fn_801E40A8()) {
-            lbl_803201CC->fn_801DD24C(permanent_next, 0.0f);
+            lbl_803201CC->setAnimFreezeFrame(permanent_next, 0.0f);
         }
     }
 
@@ -172,7 +172,7 @@ void CExScene::_18(void) {
                 gCellAnimManager->getBankActive(254) &&
                 lbl_80320214 != NULL && lbl_80320214->getEnabled()
             ) {
-                lbl_80320214->fn_801DCF94(-100);
+                lbl_80320214->setLayer(-100);
             }
         }
     }
@@ -319,7 +319,7 @@ void CExScene::_20(void) {
     lbl_80320208->setScale(1.0f, 1.0f);
 
     lbl_8032020C->setEnabled(false);
-    lbl_8032020C->fn_801DCF94(0);
+    lbl_8032020C->setLayer(0);
 
     lbl_803201A1 = false;
 
@@ -376,11 +376,11 @@ void CExScene::_20(void) {
 
         lbl_803201B8 = false;
 
-        lbl_803201F8->fn_801DD0AC(permanent_perfect_icon_hit);
-        lbl_803201F8->fn_801DCF38();
+        lbl_803201F8->setAnim(permanent_perfect_icon_hit);
+        lbl_803201F8->goToAnimEnd();
         lbl_803201F8->setEnabled(false);
 
-        lbl_803201FC->fn_801DD1F0(permanent_perfect_msg_loop);
+        lbl_803201FC->setAnimLoop(permanent_perfect_msg_loop);
         lbl_803201FC->setEnabled(false);
 
         lbl_803201B9 = false;
@@ -425,7 +425,7 @@ void CExScene::fn_80008E68(u8 opacity, f32 time) {
 }
 
 void CExScene::fn_80008EF0(void) {
-    lbl_80320218->fn_801DD118(permanent_save);
+    lbl_80320218->setAnimDisable(permanent_save);
 }
 
 void CExScene::fn_80008EFC(void) {
@@ -506,25 +506,25 @@ void CExScene::fn_80009028(void) {
     u8 aspectRatio = SCGetAspectRatio();
     lbl_803201E4->setBase(lbl_803201E8, (aspectRatio == SC_ASPECT_WIDE) ? 1 : 0, false);
 
-    lbl_803201CC->fn_801DCF94(-100);
-    lbl_803201D0->fn_801DCF94(-100);
-    lbl_803201D4->fn_801DCF94(-100);
-    lbl_803201D8->fn_801DCF94(-311);
-    lbl_803201DC->fn_801DCF94(-50);
-    lbl_803201E0->fn_801DCF94(-100);
-    lbl_803201E4->fn_801DCF94(-300);
-    lbl_803201E8->fn_801DCF94(-300);
-    lbl_803201EC->fn_801DCF94(-300);
-    lbl_803201F0->fn_801DCF94(-100);
-    lbl_803201F4->fn_801DCF94(-100);
-    lbl_803201F8->fn_801DCF94(-400);
-    lbl_803201FC->fn_801DCF94(-400);
-    lbl_80320200->fn_801DCF94(-100);
-    lbl_80320204->fn_801DCF94(-100);
-    lbl_80320208->fn_801DCF94(-100);
-    lbl_8032020C->fn_801DCF94(0);
-    lbl_80320210->fn_801DCF94(-310);
-    lbl_80320218->fn_801DCF94(-400);
+    lbl_803201CC->setLayer(-100);
+    lbl_803201D0->setLayer(-100);
+    lbl_803201D4->setLayer(-100);
+    lbl_803201D8->setLayer(-311);
+    lbl_803201DC->setLayer(-50);
+    lbl_803201E0->setLayer(-100);
+    lbl_803201E4->setLayer(-300);
+    lbl_803201E8->setLayer(-300);
+    lbl_803201EC->setLayer(-300);
+    lbl_803201F0->setLayer(-100);
+    lbl_803201F4->setLayer(-100);
+    lbl_803201F8->setLayer(-400);
+    lbl_803201FC->setLayer(-400);
+    lbl_80320200->setLayer(-100);
+    lbl_80320204->setLayer(-100);
+    lbl_80320208->setLayer(-100);
+    lbl_8032020C->setLayer(0);
+    lbl_80320210->setLayer(-310);
+    lbl_80320218->setLayer(-400);
 
     lbl_803201CC->setEnabled(false);
     lbl_803201D0->setEnabled(false);
@@ -544,7 +544,7 @@ void CExScene::fn_80009028(void) {
     lbl_80320210->setEnabled(false);
     lbl_80320218->setEnabled(false);
 
-    lbl_803201CC->fn_801DCF18();
+    lbl_803201CC->playFromBegin();
 
     gMyCanvasManager->fn_8007BF30(lbl_80320218, 0);
 
@@ -613,7 +613,7 @@ void CExScene::fn_800096EC(s32 x, s32 y) {
 }
 
 void CExScene::fn_8000973C(void) {
-    lbl_803201CC->fn_801DD118(permanent_next);
+    lbl_803201CC->setAnimDisable(permanent_next);
 }
 
 bool CExScene::fn_80009748(void) {
@@ -630,13 +630,13 @@ void CExScene::fn_8000975C(s32 pos) {
 }
 
 void CExScene::fn_800097C4(bool practice) {
-    lbl_803201D0->fn_801DCE9C(practice ? permanent_skip_practice : permanent_skip);
+    lbl_803201D0->switchAnim(practice ? permanent_skip_practice : permanent_skip);
     lbl_803201D0->setFrame(0.0f);
-    lbl_803201D0->fn_801DCF18();
+    lbl_803201D0->playFromBegin();
 }
 
 void CExScene::fn_80009814(void) {
-    lbl_803201D4->fn_801DD0AC(permanent_inst_example);
+    lbl_803201D4->setAnim(permanent_inst_example);
 }
 
 void CExScene::fn_80009820(void) {
@@ -652,21 +652,21 @@ bool CExScene::fn_80009840(void) {
 }
 
 void CExScene::fn_8000984C(void) {
-    lbl_803201E4->fn_801DCE9C(permanent_pause_in);
+    lbl_803201E4->switchAnim(permanent_pause_in);
     lbl_803201E4->setFrame(0.0f);
-    lbl_803201E4->fn_801DCF18();
+    lbl_803201E4->playFromBegin();
     lbl_803201E4->setEnabled(true);
 }
 
 void CExScene::fn_80009894(void) {
-    lbl_803201E4->fn_801DCE9C(permanent_pause_out);
+    lbl_803201E4->switchAnim(permanent_pause_out);
     lbl_803201E4->setFrame(0.0f);
-    lbl_803201E4->fn_801DCF18();
+    lbl_803201E4->playFromBegin();
 }
 
 void CExScene::fn_800098D0(void) {
-    lbl_803201E4->fn_801DCE9C(permanent_pause_out);
-    lbl_803201E4->fn_801DCF38();
+    lbl_803201E4->switchAnim(permanent_pause_out);
+    lbl_803201E4->goToAnimEnd();
 }
 
 void CExScene::fn_80009900(s32 x, s32 y) {
@@ -710,7 +710,7 @@ void CExScene::fn_80009A7C(u8 r, u8 g, u8 b) {
 }
 
 void CExScene::fn_80009A90(s32 layer) {
-    lbl_8032020C->fn_801DCF94(layer);
+    lbl_8032020C->setLayer(layer);
 }
 
 void CExScene::fn_80009A9C(void) {}
@@ -756,12 +756,12 @@ void CExScene::fn_80009C28(s32 param_1) {
             lbl_803201F4->setEnabled(true);
             lbl_803201F4->setFrame(frame);
 
-            u16 remainKey = lbl_803201F0->fn_801DD43C();
+            u16 remainKey = lbl_803201F0->getKeyIndex();
             if ((frame <= 1) && (remainKey <= 1)) {
-                lbl_803201F0->fn_801DD2B4(remainKey + 2);
+                lbl_803201F0->setFrameAtKey(remainKey + 2);
             }
             if ((2 <= frame) && (remainKey == 2 || remainKey == 3)) {
-                lbl_803201F0->fn_801DD2B4(remainKey - 2);
+                lbl_803201F0->setFrameAtKey(remainKey - 2);
             }
         }
         else {
@@ -810,11 +810,11 @@ bool CExScene::fn_80009D94(void) {
 void CExScene::fn_80009DB8(bool param_1) {
     lbl_803201B8 = param_1;
 
-    lbl_803201F8->fn_801DD0AC(permanent_perfect_icon_hit);
-    lbl_803201F8->fn_801DCF38();
+    lbl_803201F8->setAnim(permanent_perfect_icon_hit);
+    lbl_803201F8->goToAnimEnd();
     lbl_803201F8->setEnabled(false);
 
-    lbl_803201FC->fn_801DD1F0(permanent_perfect_msg_loop);
+    lbl_803201FC->setAnimLoop(permanent_perfect_msg_loop);
     lbl_803201FC->setEnabled(false);
 
     lbl_803201B9 = false;
@@ -853,13 +853,13 @@ void CExScene::fn_80009E58(void) {
         return;
     }
 
-    lbl_803201F8->fn_801DD0AC(permanent_perfect_icon_hit);
+    lbl_803201F8->setAnim(permanent_perfect_icon_hit);
 }
 
 void CExScene::fn_80009E98(u32 param_1) {
     if ((lbl_803201BC & param_1) && lbl_803201B8) {
         if (lbl_803201B9 && !(lbl_803201B8 ? lbl_803201BA : false)) {
-            lbl_803201F8->fn_801DD0AC(permanent_perfect_icon_fail);
+            lbl_803201F8->setAnim(permanent_perfect_icon_fail);
             lbl_803201FC->setEnabled(false);
             lbl_803201BA = true;
             gSoundManager->play(SE_PERFECT_FAIL);
@@ -906,7 +906,7 @@ bool CExScene::fn_80009FB4(void) {
 
 void CExScene::fn_80009FBC(void) {
     if (lbl_803201C1) {
-        lbl_80320210->fn_801DD0AC(permanent_frame_video_fade_in);
+        lbl_80320210->setAnim(permanent_frame_video_fade_in);
         lbl_80320210->setScale(1.0f/0.7f, 1.0f/0.7f);
 
         gMyCanvasManager->fn_8007BF6C(1, 0.7f, 0.7f);
@@ -918,7 +918,7 @@ void CExScene::fn_80009FBC(void) {
 
 void CExScene::fn_8000A038(void) {
     if (lbl_803201C1) {
-        lbl_80320210->fn_801DD0AC(permanent_frame_video_fade_out);
+        lbl_80320210->setAnim(permanent_frame_video_fade_out);
         lbl_80320210->setScale(1.0f/0.7f, 1.0f/0.7f);
     }
 }
@@ -965,7 +965,7 @@ void CExScene::fn_8000A1D4(bool enabled) {
 }
 
 void CExScene::fn_8000A1E0(s32 layer) {
-    lbl_80320214->fn_801DCF94(layer);
+    lbl_80320214->setLayer(layer);
 }
 
 void CExScene::fn_8000A1EC(void) {
@@ -1050,7 +1050,7 @@ void CExScene::fn_8000A378(void) {
     else {
         if (gControllerManager->fn_801D5FF0(0)->checkTrig(WPAD_BUTTON_1)) {
             if (fn_8000A6E0() && lbl_803201D4->getEnabled()) {
-                lbl_80320210->fn_801DD0AC(permanent_frame_inst);
+                lbl_80320210->setAnim(permanent_frame_inst);
                 lbl_80320210->setScale(1.0f, 1.0f);
 
                 fn_8000A564(true, false);
@@ -1159,8 +1159,8 @@ void CExScene::fn_8000A7AC(
     mEndlessHiScoreAnim = gCellAnimManager->createCellAnim(animDataID, mEndlessHiScoreAnimID);
     mEndlessHiScoreAnim->setEnabled(false);
 
-    mEndlessGameOverAnim->fn_801DCF94(layer + 1);
-    mEndlessHiScoreAnim->fn_801DCF94(layer);
+    mEndlessGameOverAnim->setLayer(layer + 1);
+    mEndlessHiScoreAnim->setLayer(layer);
 
     gMyCanvasManager->fn_8007BEF8(prevCanvas);
 }
@@ -1183,9 +1183,9 @@ void CExScene::fn_8000A8C4(bool gameOver) {
 }
 
 void CExScene::fn_8000A8CC(void) {
-    mEndlessGameOverAnim->fn_801DD1F0(mEndlessGameOverAnimID);
+    mEndlessGameOverAnim->setAnimLoop(mEndlessGameOverAnimID);
     if (mEndlessGotHighScore) {
-        mEndlessHiScoreAnim->fn_801DD1F0(mEndlessHiScoreAnimID);
+        mEndlessHiScoreAnim->setAnimLoop(mEndlessHiScoreAnimID);
         gSoundManager->play(SE_ENDLESS_GAME_OVER_HI_SCORE);
     }
     else {

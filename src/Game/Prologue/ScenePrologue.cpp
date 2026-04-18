@@ -82,7 +82,7 @@ void CScenePrologue::_14(void) {
 
     CCellAnim *maskAnim = gCellAnimManager->createCellAnim(0, prologue_mask);
 
-    maskAnim->fn_801DCF94(-1);
+    maskAnim->setLayer(-1);
 
     gLayoutManager->_20(1);
     gLayoutManager->_24(91, "");

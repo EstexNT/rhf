@@ -97,8 +97,8 @@ void CSceneCredit::_14(void) {
     for (u8 i = CELL_INDEX_CHARA_START; i < CELL_INDEX_CHARA_END; i++) {
         mCharaAnim[i] = gCellAnimManager->createCellAnim(i, chara_00_beat);
         
-        mCharaAnim[i]->fn_801DCF94(2000);
-        mCharaAnim[i]->fn_801DCF38();
+        mCharaAnim[i]->setLayer(2000);
+        mCharaAnim[i]->goToAnimEnd();
 
         if (i > CELL_INDEX_CHARA_START) {
             mCharaAnim[i]->setBase(mCharaAnim[i - 1], 0, false);
@@ -108,15 +108,15 @@ void CSceneCredit::_14(void) {
 
     mMasterAnim = gCellAnimManager->createCellAnim(0, chara_00_master_beat_00);
 
-    mMasterAnim->fn_801DCF94(2000);
+    mMasterAnim->setLayer(2000);
     mMasterAnim->setBase(mCharaAnim[CHARA_COUNT - 1], 0, false);
     mMasterAnim->setPosX(-832.0f);
 
     CCellAnim *bgAnim = gCellAnimManager->createCellAnim(0, chara_00_bg);
     CCellAnim *counterAnim = gCellAnimManager->createCellAnim(0, chara_00_counter);
 
-    bgAnim->fn_801DCF94(3000);
-    counterAnim->fn_801DCF94(1000);
+    bgAnim->setLayer(3000);
+    counterAnim->setLayer(1000);
 
     bgAnim->setBase(mMasterAnim, 0, false);
     counterAnim->setBase(mMasterAnim, 0, false);
@@ -137,14 +137,14 @@ void CSceneCredit::_14(void) {
 
     for (s32 i = 0; i < MASCOT_COUNT; i++) {
         mMascotBodyAnim[i] = gCellAnimManager->createCellAnim(CELL_INDEX_NAVI, mascotBodyAnimID[i]);
-        mMascotBodyAnim[i]->fn_801DCF94(2000);
+        mMascotBodyAnim[i]->setLayer(2000);
         mMascotBodyAnim[i]->setBase(bgAnim, 0, false);
-        mMascotBodyAnim[i]->fn_801DCF38();
+        mMascotBodyAnim[i]->goToAnimEnd();
 
         mMascotFaceAnim[i] = gCellAnimManager->createCellAnim(CELL_INDEX_NAVI, mascotFaceAnimID[i]);
-        mMascotFaceAnim[i]->fn_801DCF94(1999);
+        mMascotFaceAnim[i]->setLayer(1999);
         mMascotFaceAnim[i]->setBase(mMascotBodyAnim[i], 0, false);
-        mMascotFaceAnim[i]->fn_801DCF38();
+        mMascotFaceAnim[i]->goToAnimEnd();
 
         mMascotPosition[i].setEasing(0, 1);
     }
@@ -154,11 +154,11 @@ void CSceneCredit::_14(void) {
     mMascotBodyAnim[2]->setPos(125.0f, 1000.0f);
 
     mWipeAnim = gCellAnimManager->createCellAnim(CELL_INDEX_WIPE, wipe_wipe_show_00);
-    mWipeAnim->fn_801DCF94(500);
+    mWipeAnim->setLayer(500);
     mWipeAnim->setEnabled(false);
 
     mTitleAnim = gCellAnimManager->createCellAnim(CELL_INDEX_TITLE, title_title_wait);
-    mTitleAnim->fn_801DCF94(300);
+    mTitleAnim->setLayer(300);
 
     gLayoutManager->_20(2);
     gLayoutManager->_24(94, ""); // layout_common
@@ -252,10 +252,10 @@ void CSceneCredit::fn_800C4DB4(s32 mascotIdx, s32 times) {
 
     for (s32 i = 0; i < times; i++) {
         if (i == 0) {
-            mMascotFaceAnim[mascotIdx]->fn_801DD0AC(animID[mascotIdx]);
+            mMascotFaceAnim[mascotIdx]->setAnim(animID[mascotIdx]);
         }
         else {
-            mMascotFaceAnim[mascotIdx]->fn_801DCEE8(animID[mascotIdx], NULL);
+            mMascotFaceAnim[mascotIdx]->prepareAnim(animID[mascotIdx], NULL);
         }
     }
 }
@@ -267,7 +267,7 @@ void CSceneCredit::fn_800C4E38(s32 mascotIdx) {
         navigator_b_face_beat
     };
 
-    mMascotFaceAnim[mascotIdx]->fn_801DD0AC(animID[mascotIdx]);
+    mMascotFaceAnim[mascotIdx]->setAnim(animID[mascotIdx]);
 }
 
 void CSceneCredit::_18(void) {

@@ -165,15 +165,15 @@ void CSceneInterview::_14(void) {
     }
 
     mPanelAnim = gCellAnimManager->createCellAnim(bg_00, interview_bg_00_panel_00);
-    mPanelAnim->fn_801DCF94(5000);
+    mPanelAnim->setLayer(5000);
     mPanelAnim->setPosY(-80.0f);
 
     for (s32 i = 0; i < mWrestlerCount; i++) {
         u8 ID = (i == 0) ? wrestler_1P : wrestler_2P;
 
         mWrestler[i].bodyAnim = gCellAnimManager->createCellAnim(ID, interview_wrestler_1P_beat);
-        mWrestler[i].bodyAnim->fn_801DCF94(i + 3000);
-        mWrestler[i].bodyAnim->fn_801DCF38();
+        mWrestler[i].bodyAnim->setLayer(i + 3000);
+        mWrestler[i].bodyAnim->goToAnimEnd();
 
         if (!mIsTwoPlay) {
             mWrestler[i].bodyAnim->setPos(0.0f, 80.0f);
@@ -194,13 +194,13 @@ void CSceneInterview::_14(void) {
         mWrestler[i].faceMark->setBase(mWrestler[i].faceAnim, 6, true);
 
         mWrestler[i].shadowAnim = gCellAnimManager->createCellAnim(ID, interview_wrestler_1P_shadow);
-        mWrestler[i].shadowAnim->fn_801DCF94(4000);
+        mWrestler[i].shadowAnim->setLayer(4000);
 
         mWrestler[i].shadowAnim->setPos(mWrestler[i].bodyAnim->getPos());
         mWrestler[i].shadowAnim->setPosY(mWrestler[i].shadowAnim->getPosY() + 220.0f);
 
         mWrestler[i].sweatBase = gCellAnimManager->createCellAnim(ID, interview_wrestler_1P_sweat_base);
-        mWrestler[i].sweatBase->fn_801DCF94(2500);
+        mWrestler[i].sweatBase->setLayer(2500);
         mWrestler[i].sweatBase->setEnabled(false);
 
         mWrestler[i].bodyAnimPaper = gCellAnimManager->createCellAnim(ID, interview_wrestler_1P_beat);
@@ -216,37 +216,37 @@ void CSceneInterview::_14(void) {
     }
 
     mGirlBodyAnim = gCellAnimManager->createCellAnim(girl, interview_girl_girl_mike_on);
-    mGirlBodyAnim->fn_801DCF94(2000);
-    mGirlBodyAnim->fn_801DCF38();
+    mGirlBodyAnim->setLayer(2000);
+    mGirlBodyAnim->goToAnimEnd();
     mGirlBodyAnim->setPos(-260.0f, 300.0f);
 
     mGirlFaceAnim = gCellAnimManager->createCellAnim(girl, interview_girl_girl_face_blink);
-    mGirlFaceAnim->fn_801DCF38();
+    mGirlFaceAnim->goToAnimEnd();
     mGirlFaceAnim->setBase(mGirlBodyAnim, 11, true);
 
     mGirlShadowAnim = gCellAnimManager->createCellAnim(girl, interview_girl_shadow);
-    mGirlShadowAnim->fn_801DCF94(4000);
+    mGirlShadowAnim->setLayer(4000);
     mGirlShadowAnim->setPos(mGirlBodyAnim->getPos());
 
     mCameramenAnim = gCellAnimManager->createCellAnim(girl, interview_girl_cameramen);
-    mCameramenAnim->fn_801DCF94(1000);
+    mCameramenAnim->setLayer(1000);
     mCameramenAnim->setPosY(120.0f);
 
     gMyCanvasManager->fn_8007BEF8(1);
 
     CCellAnim *bgAnim = gCellAnimManager->createCellAnim(bg_00, interview_bg_00_bg);
-    bgAnim->fn_801DCF94(6000);
+    bgAnim->setLayer(6000);
 
     mBGFlashAnim = gCellAnimManager->createCellAnim(bg_01, interview_bg_01_bg_flash);
-    mBGFlashAnim->fn_801DCF94(4500);
+    mBGFlashAnim->setLayer(4500);
     mBGFlashAnim->setEnabled(false);
 
     mPaperAnim = gCellAnimManager->createCellAnim(bg_00, interview_bg_00_paper);
-    mPaperAnim->fn_801DCF94(400);
+    mPaperAnim->setLayer(400);
     mPaperAnim->setEnabled(false);
 
     mPaperBackAnim = gCellAnimManager->createCellAnim(bg_00, interview_bg_00_paper_back);
-    mPaperBackAnim->fn_801DCF94(500);
+    mPaperBackAnim->setLayer(500);
     mPaperBackAnim->setEnabled(false);
 
     mPaperPanelAnim = gCellAnimManager->createCellAnim(bg_00, interview_bg_00_panel_00);
@@ -283,22 +283,22 @@ void CSceneInterview::_14(void) {
     mPaperPanelAnim->setPos(mPanelAnim->getPos());
 
     mFarViewAnim = gCellAnimManager->createCellAnim(far_00, interview_far_00_far_view);
-    mFarViewAnim->fn_801DCF94(200);
+    mFarViewAnim->setLayer(200);
     mFarViewAnim->setEnabled(false);
 
     mStadiumAnim = gCellAnimManager->createCellAnim(bg_02, interview_bg_02_stadium_beat);
-    mStadiumAnim->fn_801DCF94(100);
-    mStadiumAnim->fn_801DCF38();
+    mStadiumAnim->setLayer(100);
+    mStadiumAnim->goToAnimEnd();
     mStadiumAnim->setEnabled(false);
 
     mTelopAnimBegin = gCellAnimManager->createCellAnim(bg_02, interview_bg_02_telop);
     mTelopAnimEnd = gCellAnimManager->createCellAnim(bg_02, interview_bg_02_telop);
 
-    mTelopAnimBegin->fn_801DCF94(99);
-    mTelopAnimEnd->fn_801DCF94(99);
+    mTelopAnimBegin->setLayer(99);
+    mTelopAnimEnd->setLayer(99);
 
-    mTelopAnimBegin->fn_801DD2B4(0);
-    mTelopAnimEnd->fn_801DD2B4(1);
+    mTelopAnimBegin->setFrameAtKey(0);
+    mTelopAnimEnd->setFrameAtKey(1);
 
     mTelopAnimBegin->setEnabled(false);
     mTelopAnimEnd->setEnabled(false);
@@ -404,7 +404,7 @@ void CSceneInterview::_28(void) {
             for (s32 j = 0; j < sweatCount; j++) {
                 CCellAnim *sweatAnim = gCellAnimManager->createCellAnim(wrestler_1P, interview_wrestler_1P_sweat);
                 sweatAnim->setBase(mWrestler[i].sweatBase, 0, true);
-                sweatAnim->fn_801DD184(interview_wrestler_1P_sweat);
+                sweatAnim->setAnimDestroy(interview_wrestler_1P_sweat);
                 sweatAnim->setPos(mWrestler[i].bodyAnim->getPos());
 
                 f32 ofsX, ofsY;
@@ -435,7 +435,7 @@ void CSceneInterview::_28(void) {
         ) && !mGirlFaceAnim->getPlaying()
     ) {
         if (sRandom.nextU32(180) == 0) {
-            mGirlFaceAnim->fn_801DD0AC(interview_girl_girl_face_blink);
+            mGirlFaceAnim->setAnim(interview_girl_girl_face_blink);
         }
     }
 
@@ -526,10 +526,10 @@ void CSceneInterview::fn_800B6860(u32 button, s32 type, s32 param_3, f32 ticks) 
                         (wrestlerBody->getAnimID() != interview_wrestler_1P_beat_chest) &&
                         (wrestlerBody->getAnimID() != interview_wrestler_1P_ready)
                     ) {
-                        wrestlerBody->fn_801DD0AC(interview_wrestler_1P_beat);
+                        wrestlerBody->setAnim(interview_wrestler_1P_beat);
                     }
 
-                    mWrestler[wrestlerID].faceAnim->fn_801DD0AC(interview_wrestler_1P_face_nod);
+                    mWrestler[wrestlerID].faceAnim->setAnim(interview_wrestler_1P_face_nod);
 
                     fn_800D2920(
                         SE_WRESTLER_UNAZUKI,
@@ -547,10 +547,10 @@ void CSceneInterview::fn_800B6860(u32 button, s32 type, s32 param_3, f32 ticks) 
                         (wrestlerBody->getAnimID() != interview_wrestler_1P_beat_chest) &&
                         (wrestlerBody->getAnimID() != interview_wrestler_1P_ready)
                     ) {
-                        wrestlerBody->fn_801DD0AC(interview_wrestler_1P_beat);
+                        wrestlerBody->setAnim(interview_wrestler_1P_beat);
                     }
 
-                    mWrestler[wrestlerID].faceAnim->fn_801DD0AC(interview_wrestler_1P_face_nod_miss);
+                    mWrestler[wrestlerID].faceAnim->setAnim(interview_wrestler_1P_face_nod_miss);
 
                     fn_800D2920(
                         SE_WRESTLER_UNAZUKI_MISS_VOICE_OSII,
@@ -568,7 +568,7 @@ void CSceneInterview::fn_800B6860(u32 button, s32 type, s32 param_3, f32 ticks) 
                         (wrestlerBody->getAnimID() == interview_wrestler_1P_beat_chest) ||
                         (wrestlerBody->getAnimID() == interview_wrestler_1P_ready)
                     ) {
-                        mWrestler[wrestlerID].faceAnim->fn_801DD0AC(interview_wrestler_1P_face_nod_out);
+                        mWrestler[wrestlerID].faceAnim->setAnim(interview_wrestler_1P_face_nod_out);
 
                         if (
                             ((mGirlFaceAnim->getAnimID() != interview_girl_girl_face_talk_00) &&
@@ -577,7 +577,7 @@ void CSceneInterview::fn_800B6860(u32 button, s32 type, s32 param_3, f32 ticks) 
                              (mGirlFaceAnim->getAnimID() != interview_girl_girl_face_talk_03)) ||
                             !mGirlFaceAnim->getPlaying()
                         ) {
-                            mGirlFaceAnim->fn_801DD0AC(interview_girl_girl_face_nod_out);
+                            mGirlFaceAnim->setAnim(interview_girl_girl_face_nod_out);
                         }
 
                         fn_800D2920(
@@ -599,8 +599,8 @@ void CSceneInterview::fn_800B6860(u32 button, s32 type, s32 param_3, f32 ticks) 
             else if (param_3 == 1) {
                 mWrestler[wrestlerID].unk2C = type;
 
-                mWrestler[wrestlerID].bodyAnim->fn_801DD0AC(interview_wrestler_1P_pose2_a);
-                mWrestler[wrestlerID].faceAnim->fn_801DD24C(interview_wrestler_1P_face, 2.0f);
+                mWrestler[wrestlerID].bodyAnim->setAnim(interview_wrestler_1P_pose2_a);
+                mWrestler[wrestlerID].faceAnim->setAnimFreezeFrame(interview_wrestler_1P_face, 2.0f);
 
                 fn_800D2920(
                     SE_WRESTLER_TERE1,
@@ -618,8 +618,8 @@ void CSceneInterview::fn_800B6860(u32 button, s32 type, s32 param_3, f32 ticks) 
             else if (param_3 == 2) {
                 mWrestler[wrestlerID].unk30 = type;
                 
-                mWrestler[wrestlerID].bodyAnim->fn_801DD0AC(interview_wrestler_1P_pose2_b);
-                mWrestler[wrestlerID].faceAnim->fn_801DD0AC(interview_wrestler_1P_face_pose2);
+                mWrestler[wrestlerID].bodyAnim->setAnim(interview_wrestler_1P_pose2_b);
+                mWrestler[wrestlerID].faceAnim->setAnim(interview_wrestler_1P_face_pose2);
 
                 fn_800D2920(
                     SE_WRESTLER_TERE2,

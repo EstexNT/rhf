@@ -46,7 +46,7 @@ bool Credit::CMyFlow::_1C(u32 opcode, u32 arg0, const s32 *args) {
                 charaIndex <= (CSceneCredit::CELL_INDEX_CHARA_END - 1) &&
                 !mScene->mScreenScroll.getIsTicking()
             ) {
-                mScene->mCharaAnim[charaIndex]->fn_801DD0AC(chara_00_beat);
+                mScene->mCharaAnim[charaIndex]->setAnim(chara_00_beat);
             }
         }
     } break;
@@ -55,17 +55,17 @@ bool Credit::CMyFlow::_1C(u32 opcode, u32 arg0, const s32 *args) {
         if (arg0 == 0) {
             s32 type = args[0];
             if (type == 0) {
-                mScene->mCharaAnim[0]->fn_801DD0AC(chara_00_beat);
+                mScene->mCharaAnim[0]->setAnim(chara_00_beat);
             }
             else if (type == 1) {
-                mScene->mMasterAnim->fn_801DD0AC(chara_00_master_beat_00);
+                mScene->mMasterAnim->setAnim(chara_00_master_beat_00);
             }
             else if (type == 2) {
-                mScene->mMasterAnim->fn_801DD0AC(chara_00_master_beat_01);
+                mScene->mMasterAnim->setAnim(chara_00_master_beat_01);
             }
         }
         else if (arg0 == 1) {
-            mScene->mMasterAnim->fn_801DD0AC(chara_00_master_look);
+            mScene->mMasterAnim->setAnim(chara_00_master_look);
         }
     } break;
 
@@ -86,28 +86,28 @@ bool Credit::CMyFlow::_1C(u32 opcode, u32 arg0, const s32 *args) {
     case TF_CREDIT_WIPE_ANIM: {
         if (arg0 == 0) {
             if (args[0] == 0) {
-                mScene->mWipeAnim->fn_801DD0AC(wipe_wipe_show_00);
+                mScene->mWipeAnim->setAnim(wipe_wipe_show_00);
             }
             else if (args[0] == 1) {
-                mScene->mWipeAnim->fn_801DD0AC(wipe_wipe_show_01);
+                mScene->mWipeAnim->setAnim(wipe_wipe_show_01);
             }
         }
         else if (arg0 == 1) {
             if (args[0] == 0) {
-                mScene->mWipeAnim->fn_801DD0AC(wipe_wipe_hide_00);
+                mScene->mWipeAnim->setAnim(wipe_wipe_hide_00);
             }
             else if (args[0] == 1) {
-                mScene->mWipeAnim->fn_801DD0AC(wipe_wipe_hide_01);
+                mScene->mWipeAnim->setAnim(wipe_wipe_hide_01);
             }
         }
         else if (arg0 == 2) {
             s32 repeatCount = args[0];
             for (s32 i = 0; i < repeatCount; i++) {
                 if (i == 0) {
-                    mScene->mWipeAnim->fn_801DD0AC(wipe_talk_00);
+                    mScene->mWipeAnim->setAnim(wipe_talk_00);
                 }
                 else {
-                    mScene->mWipeAnim->fn_801DCEE8(wipe_talk_00, NULL);
+                    mScene->mWipeAnim->prepareAnim(wipe_talk_00, NULL);
                 }
             }
         }
@@ -119,7 +119,7 @@ bool Credit::CMyFlow::_1C(u32 opcode, u32 arg0, const s32 *args) {
 
     case TF_CREDIT_TITLE_CLOSE: {
         if (arg0 == 0) {
-            mScene->mTitleAnim->fn_801DD0AC(title_title_close);
+            mScene->mTitleAnim->setAnim(title_title_close);
         }
     } break;
     

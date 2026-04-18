@@ -63,8 +63,8 @@ void CWindParticle::fn_800C3168(void) {
             mAnim->setEnabled(false);
         }
         else if (mNewAnimID != -1) {
-            mAnim->fn_801DCE9C(mNewAnimID);
-            mAnim->fn_801DCF18();
+            mAnim->switchAnim(mNewAnimID);
+            mAnim->playFromBegin();
             mNewAnimID = -1;
         }
     }
@@ -117,8 +117,8 @@ void CWindParticle::fn_800C372C(s32 timer) {
 
 void CWindParticle::fn_800C3734(u16 animID, BOOL queue) {
     if (queue || !mAnim->getEnabled()) {
-        mAnim->fn_801DCE9C(animID);
-        mAnim->fn_801DCF18();
+        mAnim->switchAnim(animID);
+        mAnim->playFromBegin();
     }
     else {
         mNewAnimID = animID;

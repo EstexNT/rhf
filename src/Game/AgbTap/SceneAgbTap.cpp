@@ -122,15 +122,15 @@ void CSceneAgbTap::_14(void) {
     gCellAnimManager->registBank(agb_tap_bg_brcadAddr, tplAddr, 1);
 
     CCellAnim *bgAnim = gCellAnimManager->createCellAnim(1, agb_tap_bg_bg);
-    bgAnim->fn_801DCF94(3000);
+    bgAnim->setLayer(3000);
 
     mGirlAnim = gCellAnimManager->createCellAnim(0, agb_tap_girl_beat);
     mGirlAnim->setPos(130.0f, 130.0f);
-    mGirlAnim->fn_801DCF94(2000);
+    mGirlAnim->setLayer(2000);
 
     CCellAnim *girlShadow = gCellAnimManager->createCellAnim(0, agb_tap_shadow);
     girlShadow->setPos(128.0f, 125.0f);
-    girlShadow->fn_801DCF94(2010);
+    girlShadow->setLayer(2010);
 
     mMonkeyAnim[0] = gCellAnimManager->createCellAnim(0, agb_tap_monkey_beat);
     mMonkeyAnim[1] = gCellAnimManager->createCellAnim(0, agb_tap_monkey_beat);
@@ -138,8 +138,8 @@ void CSceneAgbTap::_14(void) {
     mMonkeyAnim[0]->setPos(-20.0f, 130.0f);
     mMonkeyAnim[1]->setPos(-120.0f, 130.0f);
 
-    mMonkeyAnim[0]->fn_801DCF94(1990);
-    mMonkeyAnim[1]->fn_801DCF94(1990);
+    mMonkeyAnim[0]->setLayer(1990);
+    mMonkeyAnim[1]->setLayer(1990);
 
     CCellAnim *monkeyShadow0 = gCellAnimManager->createCellAnim(0, agb_tap_shadow);
     CCellAnim *monkeyShadow1 = gCellAnimManager->createCellAnim(0, agb_tap_shadow);
@@ -150,11 +150,11 @@ void CSceneAgbTap::_14(void) {
     monkeyShadow0->setScale(0.7f, 0.7f);
     monkeyShadow1->setScale(0.7f, 0.7f);
 
-    monkeyShadow0->fn_801DCF94(2000);
-    monkeyShadow1->fn_801DCF94(2000);
+    monkeyShadow0->setLayer(2000);
+    monkeyShadow1->setLayer(2000);
 
     mGiraffeAnim = gCellAnimManager->createCellAnim(0, agb_tap_giraffe_normal);
-    mGiraffeAnim->fn_801DCF94(2100);
+    mGiraffeAnim->setLayer(2100);
     mGiraffeAnim->setEnabled(false);
 
     gLayoutManager->_20(1);
@@ -227,7 +227,7 @@ void CSceneAgbTap::_28(void) {
         bool animeTimeUp = mGiraffeAnimeTimer == 0;
         if (animeTimeUp && animeTimeUp) {
             if (mGiraffeAnimeTimer == 0) {
-                mGiraffeAnim->fn_801DD0AC(agb_tap_giraffe_normal);
+                mGiraffeAnim->setAnim(agb_tap_giraffe_normal);
                 gTickFlowManager->fn_801E1CC0(lbl_802672B0);
             }
         }
@@ -283,11 +283,11 @@ void CSceneAgbTap::fn_800A9758(void) {
 
 void CSceneAgbTap::fn_800A9768(void) {
     if (mGirlAnimeTimer == 0) {
-        mGirlAnim->fn_801DD0AC(agb_tap_girl_beat);
+        mGirlAnim->setAnim(agb_tap_girl_beat);
     }
     if (mMonkeyAnimeTimer == 0) {
         for (s32 i = 0; i < (s32)ARRAY_LENGTH(mMonkeyAnim); i++) {
-            mMonkeyAnim[i]->fn_801DD0AC(agb_tap_monkey_beat);
+            mMonkeyAnim[i]->setAnim(agb_tap_monkey_beat);
         }
     }
 }
@@ -318,8 +318,8 @@ void CSceneAgbTap::fn_800A97DC(EAgbTapMove type) {
     GirlAnimeData *animeData = &sGirlAnimeData[static_cast<s32>(type)];
     
     if (animeData->animID >= 0) {
-        mGirlAnim->fn_801DCE9C(animeData->animID);
-        mGirlAnim->fn_801DD2B4(animeData->keyIndex);
+        mGirlAnim->switchAnim(animeData->animID);
+        mGirlAnim->setFrameAtKey(animeData->keyIndex);
         mGirlAnim->setLooping(animeData->looping);
         mGirlAnim->setPlaybackReverse(animeData->reverse);
         mGirlAnim->setPlaying(true);
@@ -412,8 +412,8 @@ void CSceneAgbTap::fn_800A9988(EAgbTapMove type) {
     
     if (animeData->animID >= 0) {
         for (s32 i = 0; i < (s32)ARRAY_LENGTH(mMonkeyAnim); i++) {
-            mMonkeyAnim[i]->fn_801DCE9C(animeData->animID);
-            mMonkeyAnim[i]->fn_801DD2B4(animeData->keyIndex);
+            mMonkeyAnim[i]->switchAnim(animeData->animID);
+            mMonkeyAnim[i]->setFrameAtKey(animeData->keyIndex);
             mMonkeyAnim[i]->setLooping(animeData->looping);
             mMonkeyAnim[i]->setPlaybackReverse(animeData->reverse);
             mMonkeyAnim[i]->setPlaying(true);
@@ -500,7 +500,7 @@ void CSceneAgbTap::fn_800A9B20(bool param_1) {
 
 void CSceneAgbTap::fn_800A9C3C(void) {
     if (mGiraffeAnimeTimer == 0) {
-        mGiraffeAnim->fn_801DD0AC(agb_tap_giraffe_normal);
+        mGiraffeAnim->setAnim(agb_tap_giraffe_normal);
         gTickFlowManager->fn_801E1CC0(lbl_802672B0);
     }
 }
@@ -519,7 +519,7 @@ void CSceneAgbTap::fn_800A9C84(u32 maxMissTapCount) {
             return;
         }
 
-        mGiraffeAnim->fn_801DD0AC(agb_tap_giraffe_nice);
+        mGiraffeAnim->setAnim(agb_tap_giraffe_nice);
 
         s32 i = sRandom.nextU32(ARRAY_LENGTH(lbl_802EF840));
         if (i < 0) { // ???
@@ -533,7 +533,7 @@ void CSceneAgbTap::fn_800A9C84(u32 maxMissTapCount) {
 
 void CSceneAgbTap::fn_800A9D20(void) {
     if (mGiraffeAnimeTimer == 0) {
-        mGiraffeAnim->fn_801DD0AC(agb_tap_giraffe_bad);
+        mGiraffeAnim->setAnim(agb_tap_giraffe_bad);
         mGiraffeAnimeTimer = gTickFlowManager->fn_801E26B4(96.0f);
 
         gTickFlowManager->fn_801E1CC0(lbl_802672B0);

@@ -121,21 +121,21 @@ void CSceneFork::_14(void) {
     }
 
     CCellAnim *bgAnim = gCellAnimManager->createCellAnim(0, fork_bg_00);
-    bgAnim->fn_801DCF94(5000);
+    bgAnim->setLayer(5000);
 
     mBalloonAnim = gCellAnimManager->createCellAnim(0, fork_balloon);
     mBalloonAnim->setPos(-140.0f, -20.0f);
-    mBalloonAnim->fn_801DCF94(3000);
+    mBalloonAnim->setLayer(3000);
 
     mHandAnim = gCellAnimManager->createCellAnim(0, fork_hand_set_00);
     mHandAnim->setPos(-140.0f, -20.0f);
-    mHandAnim->fn_801DCF94(4000);
-    mHandAnim->fn_801DCF38();
+    mHandAnim->setLayer(4000);
+    mHandAnim->goToAnimEnd();
 
     mHandFarAnim = gCellAnimManager->createCellAnim(0, fork_hand_flick_far);
     mHandFarAnim->setPos(-140.0f, -20.0f);
-    mHandFarAnim->fn_801DCF94(4000);
-    mHandFarAnim->fn_801DCF38();
+    mHandFarAnim->setLayer(4000);
+    mHandFarAnim->goToAnimEnd();
 
     if (mIsTwoPlay) {
         for (s32 i = 0; i < 2; i++) {
@@ -150,12 +150,12 @@ void CSceneFork::_14(void) {
 
         mFork[i].mForkAnim = gCellAnimManager->createCellAnim(i, fork_fork_sting);
         mFork[i].mForkAnim->setPos(100.0f, 180.0f);
-        mFork[i].mForkAnim->fn_801DCF94(2000);
-        mFork[i].mForkAnim->fn_801DCF38();
+        mFork[i].mForkAnim->setLayer(2000);
+        mFork[i].mForkAnim->goToAnimEnd();
 
         for (u8 j = 0; j < (u8)ARRAY_LENGTH(mFork[i].mObjStingAnim); j++) {
             mFork[i].mObjStingAnim[j] = gCellAnimManager->createCellAnim(i, fork_obj_00_sting_just);
-            mFork[i].mObjStingAnim[j]->fn_801DCF94(1000);
+            mFork[i].mObjStingAnim[j]->setLayer(1000);
             mFork[i].mObjStingAnim[j]->setEnabled(false);
         }
 
@@ -232,7 +232,7 @@ void CSceneFork::_28(void) {
     for (s32 i = 0; i < mForkCount; i++, fork++) {
         if (fork->mForkIsOut && !fork->mForkAnim->getPlaying()) {
             if ((i == 0 && mActiveFork != 2) || (i == 1 && mActiveFork != 1)) {
-                fork->mForkAnim->fn_801DD0AC(fork_fork_in);
+                fork->mForkAnim->setAnim(fork_fork_in);
             }
 
             s32 eatObjCount = 0;
@@ -332,7 +332,7 @@ void CSceneFork::fn_8004C91C(u32 arg1, s32 arg2) {
     */
 
     if (!mFork[forkIndex].mForkIsOut) {
-        mFork[forkIndex].mForkAnim->fn_801DD0AC(fork_fork_sting);
+        mFork[forkIndex].mForkAnim->setAnim(fork_fork_sting);
 
         if (arg2 == 0) {
             fn_800D2920(

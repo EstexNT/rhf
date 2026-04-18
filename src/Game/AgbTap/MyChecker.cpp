@@ -30,7 +30,7 @@ u32 AgbTap::CMyChecker::_2C(void) {
 
     switch (mScene->mLastAnimeType) {
     case eAgbTapMove_Round: {
-        mScene->mGirlAnim->fn_801DD0AC(agb_tap_girl_land_miss);
+        mScene->mGirlAnim->setAnim(agb_tap_girl_land_miss);
         mScene->mLastAnimeType = eAgbTapMove_Land;
         mScene->mGirlAnimeTimer = gTickFlowManager->fn_801E26B4(72.0f);
         
@@ -38,7 +38,7 @@ u32 AgbTap::CMyChecker::_2C(void) {
     } break;
 
     case eAgbTapMove_Jump_Last: {
-        mScene->mGirlAnim->fn_801DD0AC(agb_tap_girl_pause_miss);
+        mScene->mGirlAnim->setAnim(agb_tap_girl_pause_miss);
         mScene->mLastAnimeType = eAgbTapMove_Jump_Last;
         mScene->mGirlAnimeTimer = gTickFlowManager->fn_801E26B4(72.0f);
         
