@@ -128,7 +128,7 @@ public:
         ARCHandle arcHandle;
         u8 *data;
         EHeapMEM heapType;
-        u16 heapGroup;
+        u16 memGroup;
         bool compressed; // The source file was compressed.
         EArchiveInfoState state;
     };

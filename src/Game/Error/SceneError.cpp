@@ -67,11 +67,11 @@ s32 sceneVer;
 SCENE_IMPL_CREATE_FN(CSceneError)
 
 void CSceneError::fn_8007963C(void) {
-    fn_801D369C(eHeapGroup_SceneAsset);
+    memPushGroup(eMemGroup_SceneAsset);
     if (gFileManager->getArcFree(55)) {
         gFileManager->startArchive(55, "content2/layout/layout_error.szs");
     }
-    fn_801D3644();
+    memPopGroup();
 }
 
 void CSceneError::_10(void) {
@@ -141,7 +141,7 @@ void CSceneError::_28(void) {
         OSSetPowerCallback(NULL);
         OSSetResetCallback(NULL);
 
-        gGameManager->_20(CDummyScene::create, eHeapGroup_SceneEx);
+        gGameManager->_20(CDummyScene::create, eMemGroup_SceneEx);
     }
     if (sIsReset) {
         sIsReset = false;
@@ -153,7 +153,7 @@ void CSceneError::_28(void) {
         OSSetPowerCallback(NULL);
         OSSetResetCallback(NULL);
 
-        gGameManager->_20(CDummyScene::create, eHeapGroup_SceneEx);
+        gGameManager->_20(CDummyScene::create, eMemGroup_SceneEx);
     }
 }
 
@@ -202,7 +202,7 @@ void CSceneError::fn_80079B40(void) {
     OSSetPowerCallback(NULL);
     OSSetResetCallback(NULL);
 
-    gGameManager->_20(CDummyScene::create, eHeapGroup_SceneEx);
+    gGameManager->_20(CDummyScene::create, eMemGroup_SceneEx);
 }
 
 void CSceneError::fn_80079B98(void) {
@@ -212,7 +212,7 @@ void CSceneError::fn_80079B98(void) {
     OSSetPowerCallback(NULL);
     OSSetResetCallback(NULL);
 
-    gGameManager->_20(CDummyScene::create, eHeapGroup_SceneEx);
+    gGameManager->_20(CDummyScene::create, eMemGroup_SceneEx);
 }
 
 void CSceneError::fn_80079BF0(void) {
@@ -222,7 +222,7 @@ void CSceneError::fn_80079BF0(void) {
     OSSetPowerCallback(NULL);
     OSSetResetCallback(NULL);
 
-    gGameManager->_20(CDummyScene::create, eHeapGroup_SceneEx);
+    gGameManager->_20(CDummyScene::create, eMemGroup_SceneEx);
 }
 
 SCENE_IMPL_CREATE_FN(CDummyScene)

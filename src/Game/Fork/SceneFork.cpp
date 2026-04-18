@@ -46,7 +46,7 @@ void CSceneFork::fn_8004BE3C(u32 arg1) {
 SCENE_IMPL_CREATE_FN(CSceneFork)
 
 void CSceneFork::fn_8004BEB4(void) {
-    fn_801D369C(eHeapGroup_SceneAsset);
+    memPushGroup(eMemGroup_SceneAsset);
 
     if (gFileManager->getArcFree(19)) {
         if (Fork::sceneVer == 0) {
@@ -66,7 +66,7 @@ void CSceneFork::fn_8004BEB4(void) {
         }
     }
 
-    fn_801D3644();
+    memPopGroup();
 }
 
 void CSceneFork::_10(void) {

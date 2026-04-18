@@ -45,7 +45,7 @@ void CSceneRap::fn_80050284(u32 button) {
 SCENE_IMPL_CREATE_FN(CSceneRap)
 
 void CSceneRap::fn_80050340(void) {
-    fn_801D369C(eHeapGroup_SceneAsset);
+    memPushGroup(eMemGroup_SceneAsset);
     if (gFileManager->getArcFree(25)) {
         if (Rap::sceneVer == 0) {
             gFileManager->startArchive(25, "content2/cellanim/rap/ver0/cellanim.szs");
@@ -68,7 +68,7 @@ void CSceneRap::fn_80050340(void) {
             gFileManager->startArchive(78, "content2/layout/layout_rap.szs");
         }
     }
-    fn_801D3644();
+    memPopGroup();
 }
 
 void CSceneRap::_10(void) {

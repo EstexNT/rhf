@@ -37,11 +37,11 @@ void CRFLManager::_08(void) {
 }
 
 void CRFLManager::fn_800C2C40(void) {
-    fn_801D369C(eHeapGroup_SceneAsset);
+    memPushGroup(eMemGroup_SceneAsset);
     if (gFileManager->getArcFree(1)) {
         gFileManager->startArchive(1, "content2/RFLRes01.arc");
     }
-    fn_801D3644();
+    memPopGroup();
 }
 
 void CRFLManager::fn_800C2C98(void) {

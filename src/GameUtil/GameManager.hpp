@@ -19,8 +19,8 @@ public:
     virtual void _10(void);
     virtual void _14(void);
     virtual void _18(void);
-    virtual void _1C(CScene::CreateFn initSceneCreateFn, CFaderFlash *fader, u16 initSceneHeapGroup);
-    virtual void _20(CScene::CreateFn sceneCreateFn, u16 heapGroup);
+    virtual void _1C(CScene::CreateFn initSceneCreateFn, CFaderFlash *fader, u16 initSceneMemGroup);
+    virtual void _20(CScene::CreateFn sceneCreateFn, u16 memGroup);
     virtual void _24(CFaderFlash *fader);
     virtual void _28(void);
     virtual bool _2C(void);
@@ -36,7 +36,7 @@ public:
     template <typename T>
     void startMainLoop(void) {
         CFaderFlash *fader = CFaderFlash::fn_80007C28();
-        _1C(T::create, fader, eHeapGroup_Scene);
+        _1C(T::create, fader, eMemGroup_Scene);
     }
 
     CScene *getCurrentScene(void) const { return mCurrentScene; }
@@ -53,7 +53,7 @@ public:
 private:
     CScene *mCurrentScene;
     CScene::CreateFn mNextSceneCreateFunc;
-    u16 mNextSceneHeapGroup;
+    u16 mNextSceneMemGroup;
     CFaderFlash *mFader;
     const TickFlowCode *mNextTickFlowCode;
 };

@@ -8,7 +8,7 @@ void CScene::fn_801D83BC(void) {
 }
 
 void CScene::fn_801D83DC(void) {
-    fn_801D369C(mHeapGroup);
+    memPushGroup(mMemGroup);
 
     switch (mState) {
     case eState_Initial:
@@ -45,11 +45,11 @@ void CScene::fn_801D83DC(void) {
         break;
     }
 
-    fn_801D3644();
+    memPopGroup();
 }
 
 void CScene::fn_801D8554(void) {
-    if (((mState == eState_Ready) || (mState == eState_Active) || (mState == eState_ScheduleDown))) {
+    if ((mState == eState_Ready) || (mState == eState_Active) || (mState == eState_ScheduleDown)) {
         _1C();
     }
 }

@@ -37,7 +37,7 @@ void CSceneCredit::fn_800C421C(u32) {}
 SCENE_IMPL_CREATE_FN(CSceneCredit)
 
 void CSceneCredit::fn_800C42AC(void) {
-    fn_801D369C(eHeapGroup_SceneAsset);
+    memPushGroup(eMemGroup_SceneAsset);
     if (
         gFileManager->getArcFree(2) && gFileManager->getArcFree(3) &&
         gFileManager->getArcFree(55) &&
@@ -47,7 +47,7 @@ void CSceneCredit::fn_800C42AC(void) {
         gFileManager->startArchive(3, "content2/cellanim/navi/ver0/cellanim.szs");
         gFileManager->startArchive(55, "content2/layout/layout_credit.szs");
     }
-    fn_801D3644();
+    memPopGroup();
 }
 
 void CSceneCredit::_10(void) {

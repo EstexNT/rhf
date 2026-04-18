@@ -50,7 +50,7 @@ void CSceneInterview::fn_800B5444(u32 button) {
 SCENE_IMPL_CREATE_FN(CSceneInterview)
 
 void CSceneInterview::fn_800B5508(void) {
-    fn_801D369C(eHeapGroup_SceneAsset);
+    memPushGroup(eMemGroup_SceneAsset);
 
     if (gFileManager->getArcFree(21)) {
         if (Interview::sceneVer == 0) {
@@ -70,7 +70,7 @@ void CSceneInterview::fn_800B5508(void) {
         }
     }
 
-    fn_801D3644();
+    memPopGroup();
 }
 
 void CSceneInterview::_10(void) {

@@ -41,11 +41,11 @@ void CSceneMetroman::fn_800D7EBC(u32 button) {
 SCENE_IMPL_CREATE_FN(CSceneMetroman)
 
 void CSceneMetroman::fn_800D7FDC(void) {
-    fn_801D369C(eHeapGroup_SceneAsset);
+    memPushGroup(eMemGroup_SceneAsset);
     if (Metroman::sceneVer >= 0 && Metroman::sceneVer <= 2 && gFileManager->getArcFree(40)) {
         gFileManager->startArchive(40, "content2/cellanim/metroman/ver0/cellanim.szs");
     }
-    fn_801D3644();
+    memPopGroup();
 }
 
 void CSceneMetroman::_10(void) {

@@ -128,7 +128,7 @@ void CFileManager::startArchive(s32 arcIndex, const char *path, EHeapMEM heap, s
 
     mArchiveInfo[arcIndex].dvdFileInfo = &mDVDFileInfo[fileInfoIndex];
     mArchiveInfo[arcIndex].heapType = heap;
-    mArchiveInfo[arcIndex].heapGroup = fn_801D363C();
+    mArchiveInfo[arcIndex].memGroup = memGetCurGroup();
 
     const char *compressedExt = ".szs";
     mArchiveInfo[arcIndex].compressed = strstr(sDVDPathBuffer, compressedExt) != NULL;
@@ -305,11 +305,11 @@ void *CFileManager::tryExpandTask(void *data, BOOL deleteSrc, s32 arcInfoIdx, EH
         u32 dstSize = ROUND_UP(expandSize, 32);
 
         if (arcInfoIdx >= 0) {
-            fn_801D369C(gFileManager->mArchiveInfo[arcInfoIdx].heapGroup);
+            memPushGroup(gFileManager->mArchiveInfo[arcInfoIdx].memGroup);
         }
         void *dst = new (heap, alignment) u8[dstSize];
         if (arcInfoIdx >= 0) {
-            fn_801D3644();
+            memPopGroup();
         }
 
         sDecompThreadData.src = data;

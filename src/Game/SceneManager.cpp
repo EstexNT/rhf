@@ -381,7 +381,7 @@ void CSceneManager::fn_80089FE0(ESceneID sceneID, const TickFlowCode *tickFlowCo
         break;
     }
 
-    gGameManager->_20(fn, eHeapGroup_Scene);
+    gGameManager->_20(fn, eMemGroup_Scene);
     gGameManager->_34(tickFlowCode);
 
     for (int i = ARRAY_LENGTH(mSceneHist) - 1; i > 0; i--) {

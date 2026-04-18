@@ -26,11 +26,11 @@ void CSceneLogo::fn_800A0B5C(u32) {}
 SCENE_IMPL_CREATE_FN(CSceneLogo)
 
 void CSceneLogo::fn_800A0BC4(void) {
-    fn_801D369C(eHeapGroup_SceneAsset);
+    memPushGroup(eMemGroup_SceneAsset);
 
     // Nothing to load ..
 
-    fn_801D3644();
+    memPopGroup();
 }
 
 void CSceneLogo::_10(void) {

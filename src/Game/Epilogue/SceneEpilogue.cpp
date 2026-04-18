@@ -26,12 +26,12 @@ SCENE_IMPL_CREATE_FN(CSceneEpilogue)
 void CSceneEpilogue::fn_8000B518(void) {
     fn_80008EFC();
 
-    fn_801D369C(eHeapGroup_SceneAsset);
+    memPushGroup(eMemGroup_SceneAsset);
     if (gFileManager->getArcFree(52)) {
         gFileManager->startArchive(52, lbl_8032A378);
         gFileManager->startArchive(92, "content2/layout/layout_epilogue.szs");
     }
-    fn_801D3644();
+    memPopGroup();
 }
 
 void CSceneEpilogue::_10(void) {

@@ -84,11 +84,11 @@ void CSceneAgbTap::fn_800A8FA4(u32 button) {
 SCENE_IMPL_CREATE_FN(CSceneAgbTap)
 
 void CSceneAgbTap::fn_800A9034(void) {
-    fn_801D369C(eHeapGroup_SceneAsset);
+    memPushGroup(eMemGroup_SceneAsset);
     if (gFileManager->getArcFree(2)) {
         gFileManager->startArchive(2, "content2/cellanim/agbTap/ver0/cellanim.szs");
     }
-    fn_801D3644();
+    memPopGroup();
 }
 
 void CSceneAgbTap::_10(void) {

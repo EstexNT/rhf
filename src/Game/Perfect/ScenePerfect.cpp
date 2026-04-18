@@ -25,11 +25,11 @@ void CScenePerfect::fn_80082FAC(u32) {}
 SCENE_IMPL_CREATE_FN(CScenePerfect)
 
 void CScenePerfect::fn_80083014(void) {
-    fn_801D369C(eHeapGroup_SceneAsset);
+    memPushGroup(eMemGroup_SceneAsset);
     if (gFileManager->getArcFree(55)) {
         gFileManager->startArchive(55, "content2/layout/layout_perfect.szs");
     }
-    fn_801D3644();
+    memPopGroup();
 }
 
 void CScenePerfect::_10(void) {

@@ -5,19 +5,19 @@
 
 #include "Mem.hpp"
 
-#define SCENE_DECL_CREATE_FN() static CScene *create(u16 heapGroup);
+#define SCENE_DECL_CREATE_FN() static CScene *create(u16 memGroup);
 #define SCENE_IMPL_CREATE_FN(_className)        \
-    CScene *_className::create(u16 heapGroup) { \
-        fn_801D369C(heapGroup);                 \
+    CScene *_className::create(u16 memGroup) {  \
+        memPushGroup(memGroup);                 \
         _className *scene = new _className;     \
-        fn_801D3644();                          \
-        scene->setHeapGroup(heapGroup);         \
+        memPopGroup();                          \
+        scene->setMemGroup(memGroup);           \
         return scene;                           \
     }
 
 class CScene {
 public:
-    typedef CScene *(*CreateFn)(u16 heapGroup);
+    typedef CScene *(*CreateFn)(u16 memGroup);
     enum EState {
         eState_Initial = 0, // Scene object was just created
         eState_Loading = 1, // Scene object is busy loading assets
@@ -42,15 +42,15 @@ public:
         mUnk04 = true;
     }
 
-    void fn_801D83BC(void);
-    void fn_801D83DC(void);
-    void fn_801D8554(void);
-    void fn_801D8578(void);
+    void fn_801D83BC(void); // destroy
+    void fn_801D83DC(void); // doUpdate
+    void fn_801D8554(void); // doDraw
+    void fn_801D8578(void); // startDown
 
     EState getState(void) const { return mState; }
 
-    u16 getHeapGroup(void) const { return mHeapGroup; }
-    void setHeapGroup(u16 heapGroup) { mHeapGroup = heapGroup; }
+    u16 getMemGroup(void) const { return mMemGroup; }
+    void setMemGroup(u16 memGroup) { mMemGroup = memGroup; }
 
     bool getUnk0E(void) const { return mUnk0E; }
     void setUnk0E(bool flag) { mUnk0E = flag; }
@@ -58,7 +58,7 @@ public:
 private:
     bool mUnk04;
     EState mState;
-    u16 mHeapGroup;
+    u16 mMemGroup;
     bool mUnk0E;
 };
 

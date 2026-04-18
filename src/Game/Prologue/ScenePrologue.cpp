@@ -32,12 +32,12 @@ s32 sceneVer;
 SCENE_IMPL_CREATE_FN(CScenePrologue)
 
 void CScenePrologue::fn_8000AD98(void) {
-    fn_801D369C(eHeapGroup_SceneAsset);
+    memPushGroup(eMemGroup_SceneAsset);
     if (gFileManager->getArcFree(51)) {
         gFileManager->startArchive(51, "content2/cellanim/prologue/cellanim.szs");
         gFileManager->startArchive(91, lbl_8032A278);
     }
-    fn_801D3644();
+    memPopGroup();
 }
 
 void CScenePrologue::_10(void) {

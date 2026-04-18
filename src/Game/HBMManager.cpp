@@ -259,14 +259,14 @@ void CHBMManager::fn_80086CCC(void) {
 
     switch (mHBMSelectedButton) {
     case HBM_SELECT_BTN1: {
-        gGameManager->_20(CDummyScene::create, eHeapGroup_Scene);
+        gGameManager->_20(CDummyScene::create, eMemGroup_Scene);
         if (gBackupManager != NULL) {
             gBackupManager->fn_80084FC8(0);
         }
     } break;
 
     case HBM_SELECT_BTN2: {
-        gGameManager->_20(CDummyScene::create, eHeapGroup_Scene);
+        gGameManager->_20(CDummyScene::create, eMemGroup_Scene);
         if (gBackupManager != NULL) {
             gBackupManager->fn_80084FC8(0);
         }

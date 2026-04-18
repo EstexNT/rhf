@@ -37,22 +37,22 @@ SCENE_IMPL_CREATE_FN(CSceneMenu)
 void CSceneMenu::fn_80006FA4(void) {
     fn_80008EFC();
 
-    fn_801D369C(eHeapGroup_SceneAsset);
+    memPushGroup(eMemGroup_SceneAsset);
     if (gFileManager->getArcFree(55)) {
         gFileManager->startArchive(55, "content2/layout/layout_msg.szs");
     }
-    fn_801D3644();
+    memPopGroup();
 
     if (!gFileManager->getArcReady(0)) {
         return;
     }
 
-    fn_801D369C(eHeapGroup_CommonAsset);
+    memPushGroup(eMemGroup_CommonAsset);
     gMessageManager->fn_800883F4();
     gMessageManager->fn_8008807C();
     gMessageManager->fn_80088034();
     gMessageManager->fn_80088088();
-    fn_801D3644();
+    memPopGroup();
 }
 
 void CSceneMenu::_10(void) {
@@ -163,7 +163,7 @@ void CSceneMenu::_28(void) {
             mUnkB4 = true;
             return;
         }
-        gGameManager->_20(lbl_801F8460[lbl_80320143].sceneCreateFn, eHeapGroup_Scene);
+        gGameManager->_20(lbl_801F8460[lbl_80320143].sceneCreateFn, eMemGroup_Scene);
         return;
     }
 

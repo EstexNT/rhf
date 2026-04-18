@@ -265,7 +265,7 @@ TFD_EXTERN(lbl_802BAD10);
 static void fn_80038AE4(void) {
     fn_801D3564();
     
-    fn_801D3568();
+    memInitHeap();
 
     if (gGameManager == NULL) {
         gGameManager = new CGameManager;
@@ -595,7 +595,7 @@ static void fn_800393DC(void) {
 }
 
 static void fn_80039900(void) {
-    fn_801D369C(eHeapGroup_CommonAsset);
+    memPushGroup(eMemGroup_CommonAsset);
 
     gLayoutManager->fn_801D6DAC(1);
 
@@ -618,5 +618,5 @@ static void fn_80039900(void) {
 
     CExScene::fn_80009028();
 
-    fn_801D3644();
+    memPopGroup();
 }
