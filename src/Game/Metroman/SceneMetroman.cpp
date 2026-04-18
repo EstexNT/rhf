@@ -90,20 +90,20 @@ void CSceneMetroman::_14(void) {
     UserTPLBind(metroman_tplAddr);
     DCStoreRange(metroman_tplAddr, metroman_tplLen);
 
-    gCellAnimManager->fn_801DB568(metroman_00_brcadAddr, metroman_tplAddr, 0);
-    gCellAnimManager->fn_801DB568(metroman_bg_brcadAddr, metroman_tplAddr, 1);
+    gCellAnimManager->registBank(metroman_00_brcadAddr, metroman_tplAddr, 0);
+    gCellAnimManager->registBank(metroman_bg_brcadAddr, metroman_tplAddr, 1);
 
     fn_80009A64(true);
     fn_80009A70(0xFF);
     fn_80009A7C(0xE0, 0xE0, 0xE0);
     fn_80009A90(9999);
 
-    mManAnim = gCellAnimManager->fn_801DBE7C(0, metroman_00_man_up_R);
+    mManAnim = gCellAnimManager->createCellAnim(0, metroman_00_man_up_R);
     mManAnim->fn_801DCF38();
     mManAnim->fn_801DCF94(2000);
     mManAnim->setPos(0.0f, -40.0f);
 
-    mManShadowAnim = gCellAnimManager->fn_801DBE7C(0, metroman_00_man_shadow);
+    mManShadowAnim = gCellAnimManager->createCellAnim(0, metroman_00_man_shadow);
     mManShadowAnim->fn_801DD2B4(1);
     mManShadowAnim->fn_801DCF94(3000);
     mManShadowAnim->setPos(mManAnim->getPos());
@@ -111,7 +111,7 @@ void CSceneMetroman::_14(void) {
     mManNextDirection = 2;
     mManIsLeft = true;
 
-    mHandAnim = gCellAnimManager->fn_801DBE7C(0, metroman_00_hand);
+    mHandAnim = gCellAnimManager->createCellAnim(0, metroman_00_hand);
     mHandAnim->fn_801DCF94(2500);
     mHandAnim->setPos(0.0f, 120.0f);
 
@@ -123,12 +123,12 @@ void CSceneMetroman::_14(void) {
     mHandDirection = 0;
     mUnk84 = false;
 
-    mLampAnim = gCellAnimManager->fn_801DBE7C(0, metroman_00_lamp_0);
+    mLampAnim = gCellAnimManager->createCellAnim(0, metroman_00_lamp_0);
     mLampAnim->setBase(mManAnim, 3, false);
     mLampAnim->fn_801DCF94(mManAnim->getLayer() - 1);
     mLampAnim->fn_801DCF38();
 
-    mSecretCodeAnim = gCellAnimManager->fn_801DBE7C(0, metroman_00_secret_code);
+    mSecretCodeAnim = gCellAnimManager->createCellAnim(0, metroman_00_secret_code);
     mSecretCodeAnim->setBase(mManAnim, 3, false);
     mSecretCodeAnim->fn_801DCF94(1500);
     mSecretCodeAnim->setEnabled(false);
@@ -173,7 +173,7 @@ void CSceneMetroman::_14(void) {
     mHiScoreCounter->fn_8008397C(gSaveData->fn_80078F4C()->fn_80077E40(3));
     mHiScoreCounter->fn_80083CAC(mUnk9C);
 
-    mHiScoreRecordAnim = gCellAnimManager->fn_801DBE7C(254, score_hiscore_record);
+    mHiScoreRecordAnim = gCellAnimManager->createCellAnim(254, score_hiscore_record);
     mHiScoreRecordAnim->fn_801DCF94(1000);
     mHiScoreRecordAnim->setPos(110.0f, -180.0f);
     mHiScoreRecordAnim->setEnabled(mUnk9C);
@@ -234,13 +234,13 @@ void CSceneMetroman::_20(void) {
     delete mScoreCounter;
     delete mHiScoreCounter;
 
-    gCellAnimManager->fn_801DBFA0(mHiScoreRecordAnim);
+    gCellAnimManager->endCellAnim(mHiScoreRecordAnim);
 
-    gCellAnimManager->fn_801DBA98(0);
-    gCellAnimManager->fn_801DBA98(1);
+    gCellAnimManager->endBank(0);
+    gCellAnimManager->endBank(1);
 
-    gCellAnimManager->fn_801DC068(0);
-    gCellAnimManager->fn_801DC068(1);
+    gCellAnimManager->endCellAnimByBank(0);
+    gCellAnimManager->endCellAnimByBank(1);
     
     if (Metroman::sceneVer != 2 && (Metroman::sceneVer >= 0 && Metroman::sceneVer <= 2)) {
         gFileManager->fn_801D41CC(40);

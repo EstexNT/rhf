@@ -128,66 +128,66 @@ void CSceneRap::_14(void) {
     UserTPLBind(tplAddr);
     DCStoreRange(tplAddr, tplLen);
 
-    gCellAnimManager->fn_801DB568(rap_brcadAddr, tplAddr, 0);
-    gCellAnimManager->fn_801DB568(rap_bg_brcadAddr, tplAddr, 1);
-    gCellAnimManager->fn_801DB568(rap_bg_01_brcadAddr, tplAddr, 2);
-    gCellAnimManager->fn_801DB568(rap_airplane_brcadAddr, tplAddr, 3);
+    gCellAnimManager->registBank(rap_brcadAddr, tplAddr, 0);
+    gCellAnimManager->registBank(rap_bg_brcadAddr, tplAddr, 1);
+    gCellAnimManager->registBank(rap_bg_01_brcadAddr, tplAddr, 2);
+    gCellAnimManager->registBank(rap_airplane_brcadAddr, tplAddr, 3);
 
     if (Rap::sceneVer == 1) {
         void *rap_chandelier_brcadAddr = gFileManager->fn_801D4270(25, "./rap_chandelier.brcad");
-        gCellAnimManager->fn_801DB568(rap_chandelier_brcadAddr, tplAddr, 4);
+        gCellAnimManager->registBank(rap_chandelier_brcadAddr, tplAddr, 4);
     }
 
-    mBGAnim = gCellAnimManager->fn_801DBE7C(1, rap_bg_bg_evening);
-    mFenceAnim = gCellAnimManager->fn_801DBE7C(1, rap_bg_fence);
-    mGroundDryAnim = gCellAnimManager->fn_801DBE7C(1, rap_bg_ground_normal);
-    mGroundWetAnim = gCellAnimManager->fn_801DBE7C(1, rap_bg_ground_wet);
+    mBGAnim = gCellAnimManager->createCellAnim(1, rap_bg_bg_evening);
+    mFenceAnim = gCellAnimManager->createCellAnim(1, rap_bg_fence);
+    mGroundDryAnim = gCellAnimManager->createCellAnim(1, rap_bg_ground_normal);
+    mGroundWetAnim = gCellAnimManager->createCellAnim(1, rap_bg_ground_wet);
 
     mBGAnim->fn_801DCF94(4000);
     mFenceAnim->fn_801DCF94(2500);
     mGroundDryAnim->fn_801DCF94(3800);
     mGroundWetAnim->fn_801DCF94(3799);
 
-    mCarAnim = gCellAnimManager->fn_801DBE7C(0, rap_car_beat);
+    mCarAnim = gCellAnimManager->createCellAnim(0, rap_car_beat);
     mCarAnim->fn_801DCF94(2200);
     mCarAnim->fn_801DCF38();
 
-    mCarShadowAnim = gCellAnimManager->fn_801DBE7C(0, rap_car_shadow);
+    mCarShadowAnim = gCellAnimManager->createCellAnim(0, rap_car_shadow);
     mCarShadowAnim->fn_801DCF94(3500);
 
-    mAirplaneAnim = gCellAnimManager->fn_801DBE7C(3, rap_airplane_airplane);
+    mAirplaneAnim = gCellAnimManager->createCellAnim(3, rap_airplane_airplane);
     mAirplaneAnim->fn_801DCF94(3000);
     mAirplaneAnim->fn_801DCF38();
     mAirplaneAnim->setEnabled(false);
 
-    mAirplaneShadowAnim = gCellAnimManager->fn_801DBE7C(3, rap_airplane_shadow);
+    mAirplaneShadowAnim = gCellAnimManager->createCellAnim(3, rap_airplane_shadow);
     mAirplaneShadowAnim->fn_801DCF94(3500);
     mAirplaneShadowAnim->setEnabled(false);
     mAirplaneShadowAnim->setOpacity(0xC0);
     mAirplaneShadowAnim->setScale(64.0f, 16.0f);
 
-    mAirplaneTireAnim = gCellAnimManager->fn_801DBE7C(3, rap_airplane_tire);
+    mAirplaneTireAnim = gCellAnimManager->createCellAnim(3, rap_airplane_tire);
     mAirplaneTireAnim->fn_801DCF94(2999);
     mAirplaneTireAnim->setEnabled(false);
 
-    mRoomAnim = gCellAnimManager->fn_801DBE7C(2, rap_bg_01_room);
+    mRoomAnim = gCellAnimManager->createCellAnim(2, rap_bg_01_room);
     mRoomAnim->fn_801DCF94(200);
     mRoomAnim->setScale(5.2f, 5.2f);
     mRoomAnim->setEnabled(false);
 
-    mTVAnim = gCellAnimManager->fn_801DBE7C(2, rap_bg_01_tv);
+    mTVAnim = gCellAnimManager->createCellAnim(2, rap_bg_01_tv);
     mTVAnim->fn_801DCF94(300);
     mTVAnim->setBase(mRoomAnim, 0, false);
     mTVAnim->setEnabled(false);
 
-    mSofaAnim = gCellAnimManager->fn_801DBE7C(2, rap_bg_01_sofa);
+    mSofaAnim = gCellAnimManager->createCellAnim(2, rap_bg_01_sofa);
     mSofaAnim->fn_801DCF94(100);
     mSofaAnim->setBase(mRoomAnim, 0, false);
     mSofaAnim->fn_801DD1F0(rap_bg_01_sofa);
     mSofaAnim->setEnabled(false);
 
     if (Rap::sceneVer == 1) {
-        mChandelierAnim = gCellAnimManager->fn_801DBE7C(4, rap_chandelier_chandelier);
+        mChandelierAnim = gCellAnimManager->createCellAnim(4, rap_chandelier_chandelier);
         mChandelierAnim->fn_801DCF94(3900);
         mChandelierAnim->setPosY(-440.0f);
     }
@@ -373,19 +373,19 @@ void CSceneRap::_1C(void) {
 void CSceneRap::_20(void) {
     delete mPlane3D;
 
-    gCellAnimManager->fn_801DBA98(0);
-    gCellAnimManager->fn_801DBA98(1);
-    gCellAnimManager->fn_801DBA98(2);
-    gCellAnimManager->fn_801DBA98(3);
+    gCellAnimManager->endBank(0);
+    gCellAnimManager->endBank(1);
+    gCellAnimManager->endBank(2);
+    gCellAnimManager->endBank(3);
 
-    gCellAnimManager->fn_801DC068(0);
-    gCellAnimManager->fn_801DC068(1);
-    gCellAnimManager->fn_801DC068(2);
-    gCellAnimManager->fn_801DC068(3);
+    gCellAnimManager->endCellAnimByBank(0);
+    gCellAnimManager->endCellAnimByBank(1);
+    gCellAnimManager->endCellAnimByBank(2);
+    gCellAnimManager->endCellAnimByBank(3);
 
     if (Rap::sceneVer == 1) {
-        gCellAnimManager->fn_801DBA98(4);
-        gCellAnimManager->fn_801DC068(4);
+        gCellAnimManager->endBank(4);
+        gCellAnimManager->endCellAnimByBank(4);
     }
 
     this->CExScene::_20();
@@ -893,7 +893,7 @@ void CSceneRap::fn_8005128C(u32 button, s32 type, f32 ticks) {
 
             if (mUnk1BD) {
                 for (s32 i = 0; i < 4; i++) {
-                    CCellAnim *lightAnim = gCellAnimManager->fn_801DBE7C(0, rap_car_light);
+                    CCellAnim *lightAnim = gCellAnimManager->createCellAnim(0, rap_car_light);
                     lightAnim->setBase(mCarAnim, 1 + i, false);
                     lightAnim->fn_801DCF94(2199);
                     lightAnim->fn_801DD184(rap_car_light);
@@ -1028,13 +1028,13 @@ void CSceneRap::CharaRapper::fn_80051770(bool isPlayer, CSceneRap *_scene) {
     scene = _scene;
     amIPlayer = isPlayer;
 
-    footAnim = gCellAnimManager->fn_801DBE7C(0, rap_foot_MD);
-    bodyAnim = gCellAnimManager->fn_801DBE7C(0, rap_body_MD);
-    eyeAnim = gCellAnimManager->fn_801DBE7C(0, rap_eye_MD);
-    mouthAnim = gCellAnimManager->fn_801DBE7C(0, rap_mouth_MD);
+    footAnim = gCellAnimManager->createCellAnim(0, rap_foot_MD);
+    bodyAnim = gCellAnimManager->createCellAnim(0, rap_body_MD);
+    eyeAnim = gCellAnimManager->createCellAnim(0, rap_eye_MD);
+    mouthAnim = gCellAnimManager->createCellAnim(0, rap_mouth_MD);
 
     u16 headAnimID = amIPlayer ? rap_P_head : rap_C_head;
-    headAnim = gCellAnimManager->fn_801DBE7C(0, headAnimID);
+    headAnim = gCellAnimManager->createCellAnim(0, headAnimID);
 
     bodyAnim->setBase(footAnim, 0, false);
     headAnim->setBase(bodyAnim, 4, true);
@@ -1202,10 +1202,10 @@ void CSceneRap::CharaRapper::fn_80051D34(void) {
 }
 
 void CSceneRap::CharaGirl::fn_80051DAC(CCellAnim *carAnim) {
-    footAnim = gCellAnimManager->fn_801DBE7C(0, rap_girl_foot_MD);
-    bodyAnim = gCellAnimManager->fn_801DBE7C(0, rap_girl_body_MD);
-    eyeAnim = gCellAnimManager->fn_801DBE7C(0, rap_girl_eye_MD);
-    mouthAnim = gCellAnimManager->fn_801DBE7C(0, rap_girl_mouth_MD);
+    footAnim = gCellAnimManager->createCellAnim(0, rap_girl_foot_MD);
+    bodyAnim = gCellAnimManager->createCellAnim(0, rap_girl_body_MD);
+    eyeAnim = gCellAnimManager->createCellAnim(0, rap_girl_eye_MD);
+    mouthAnim = gCellAnimManager->createCellAnim(0, rap_girl_mouth_MD);
 
     footAnim->setBase(carAnim, 0, false);
     bodyAnim->setBase(footAnim, 4, true);

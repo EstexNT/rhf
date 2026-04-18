@@ -26,13 +26,13 @@ void CCellAnimManager::_08(void) {
     CCellAnim *current = mCellAnimHead;
     while (current != NULL) {
         CCellAnim *next = current->getNext();
-        fn_801DBFA0(current);
+        endCellAnim(current);
         current = next;
     }
 
     for (u8 i = 0; i < BANK_COUNT; i++) {
         if (mBank[i].loaded) {
-            fn_801DBA98(i);
+            endBank(i);
         }
     }
 
@@ -68,7 +68,7 @@ void CCellAnimManager::_18(void) {
 
         bool end = current->update();
         if (end) {
-            fn_801DBFA0(current);
+            endCellAnim(current);
         }
 
         current = next;
@@ -96,7 +96,7 @@ void CCellAnimManager::_1C(DrawSetupFn setupFn, DrawRestoreFn endFn) {
         setupFn();
     }
     else {
-        fn_801DB28C();
+        drawSetupDefault();
     }
 
     Mtx44 projMtx;
@@ -117,12 +117,12 @@ void CCellAnimManager::_1C(DrawSetupFn setupFn, DrawRestoreFn endFn) {
     }
 }
 
-void CCellAnimManager::_20(s32 lastLayer, DrawSetupFn setupFn, DrawRestoreFn endFn) {
+void CCellAnimManager::_20(s32 startLayer, DrawSetupFn setupFn, DrawRestoreFn endFn) {
     if (setupFn) {
         setupFn();
     }
     else {
-        fn_801DB28C();
+        drawSetupDefault();
     }
 
     Mtx44 projMtx;
@@ -133,7 +133,7 @@ void CCellAnimManager::_20(s32 lastLayer, DrawSetupFn setupFn, DrawRestoreFn end
         cellAnim->makeMtx(TRUE, NULL);
     }
     for (CCellAnim *cellAnim = mCellAnimHead; cellAnim != NULL; cellAnim = cellAnim->getNext()) {
-        if (cellAnim->getLayer() < lastLayer) {
+        if (cellAnim->getLayer() < startLayer) {
             break;
         }
         if (cellAnim->getEnabled()) {
@@ -151,7 +151,7 @@ void CCellAnimManager::_24(s32 lastLayer, DrawSetupFn setupFn, DrawRestoreFn end
         setupFn();
     }
     else {
-        fn_801DB28C();
+        drawSetupDefault();
     }
 
     Mtx44 projMtx;
@@ -159,7 +159,7 @@ void CCellAnimManager::_24(s32 lastLayer, DrawSetupFn setupFn, DrawRestoreFn end
     GXSetProjection(projMtx, GX_ORTHOGRAPHIC);
 
     for (CCellAnim *cellAnim = mCellAnimHead; cellAnim != NULL; cellAnim = cellAnim->getNext()) {
-        if (!(cellAnim->getLayer() < lastLayer)) {
+        if (cellAnim->getLayer() >= lastLayer) {
             continue;
         }
         if (cellAnim->getEnabled()) {
@@ -172,7 +172,7 @@ void CCellAnimManager::_24(s32 lastLayer, DrawSetupFn setupFn, DrawRestoreFn end
     }
 }
 
-void CCellAnimManager::fn_801DB28C(void) {
+void CCellAnimManager::drawSetupDefault(void) {
     GXSetTevDirect(GX_TEVSTAGE0);
     GXClearVtxDesc();
     GXSetVtxDesc(GX_VA_POS,  GX_DIRECT);
@@ -193,12 +193,12 @@ void CCellAnimManager::fn_801DB28C(void) {
     GXSetCurrentMtx(0);
 }
 
-bool CCellAnimManager::fn_801DB558(u8 bankID) {
+bool CCellAnimManager::getBankActive(u8 bankID) {
     return mBank[bankID].loaded;
 }
 
 // not matching (messy function)
-void CCellAnimManager::fn_801DB568(void *brcadAddr, void *tplAddr, u8 bankID) {
+void CCellAnimManager::registBank(void *brcadAddr, void *tplAddr, u8 bankID) {
     CellAnim_Bank *bank = &mBank[bankID];
 
     // TODO: these need to be shuffled
@@ -279,7 +279,7 @@ void CCellAnimManager::fn_801DB568(void *brcadAddr, void *tplAddr, u8 bankID) {
     }
 }
 
-void CCellAnimManager::fn_801DB86C(GXTexObj *texObj, s32 width, s32 height, f32 scaleX, f32 scaleY, u8 bankID) {
+void CCellAnimManager::createBankTex(GXTexObj *texObj, s32 width, s32 height, f32 scaleX, f32 scaleY, u8 bankID) {
     CellAnim_Bank *bank = &mBank[bankID];
 
     bank->texObj = texObj;
@@ -330,7 +330,7 @@ void CCellAnimManager::fn_801DB86C(GXTexObj *texObj, s32 width, s32 height, f32 
     keyArr[0].opacity = 0xFF;
 }
 
-void CCellAnimManager::fn_801DB9C0(GXTexObj *texObj, u8 bankID) {
+void CCellAnimManager::createBankScreen(GXTexObj *texObj, u8 bankID) {
     u16 width, height;
     f32 scaleY, scaleX;
 
@@ -344,10 +344,10 @@ void CCellAnimManager::fn_801DB9C0(GXTexObj *texObj, u8 bankID) {
         scaleX *= (832.0f / 608.0f);
     }
 
-    fn_801DB86C(texObj, width, height, scaleX, scaleY, bankID);
+    createBankTex(texObj, width, height, scaleX, scaleY, bankID);
 }
 
-void CCellAnimManager::fn_801DBA98(u8 bankID) {
+void CCellAnimManager::endBank(u8 bankID) {
     for (s32 i = 0; i < mBank[bankID].cellCount; i++) {
         delete[] mBank[bankID].cellArr[i].objArr;
     }
@@ -363,41 +363,41 @@ void CCellAnimManager::fn_801DBA98(u8 bankID) {
     mBank[bankID].usingTexObj = false;
 }
 
-u16 CCellAnimManager::fn_801DBB58(CCellAnim *cellAnim) {
-    CellAnim_Anim *anim = fn_801DBC5C(cellAnim);
+u16 CCellAnimManager::getCurAnimFrames(CCellAnim *cellAnim) {
+    CellAnim_Anim *anim = getCurrentAnim(cellAnim);
     return anim->getTotalFrameCount();
 }
 
-CellAnim_Anim *CCellAnimManager::fn_801DBC5C(CCellAnim *cellAnim) {
+CellAnim_Anim *CCellAnimManager::getCurrentAnim(CCellAnim *cellAnim) {
     return &mBank[cellAnim->getBankID()].animArr[cellAnim->getAnimID()];
 }
 
 // not matching (regswap in lol)
-CellAnim_AnimKey *CCellAnimManager::fn_801DBC7C(CCellAnim *cellAnim) {
+CellAnim_AnimKey *CCellAnimManager::getCurrentAnimKey(CCellAnim *cellAnim) {
     return lol(cellAnim);
 }
 
 // not matching (regswap in lol)
-CellAnim_Cell *CCellAnimManager::fn_801DBD38(CCellAnim *cellAnim) {
+CellAnim_Cell *CCellAnimManager::getCurrentCell(CCellAnim *cellAnim) {
     CellAnim_Bank *bank = &mBank[cellAnim->getBankID()];
 
     u16 spr = lol(cellAnim)->cellIndex;
     return &bank->cellArr[spr];
 }
 
-u16 CCellAnimManager::fn_801DBE04(u8 bankID) {
+u16 CCellAnimManager::getBankChrWidth(u8 bankID) {
     return mBank[bankID].chrWidth;
 }
-u16 CCellAnimManager::fn_801DBE14(u8 bankID) {
+u16 CCellAnimManager::getBankChrHeight(u8 bankID) {
     return mBank[bankID].chrHeight;
 }
 
-void CCellAnimManager::fn_801DBE24(CCellAnim *cellAnim) {
+void CCellAnimManager::destroyCellAnim(CCellAnim *cellAnim) {
     cellAnim->~CCellAnim();
     MEMFreeToExpHeap(mHeap, static_cast<void *>(cellAnim));
 }
 
-void CCellAnimManager::fn_801DB3D8(u8 bankID, CellAnim_CellOBJ *obj, BOOL linearFilter, s32 chrIndex) {   
+void CCellAnimManager::loadChrForDraw(u8 bankID, CellAnim_CellOBJ *obj, BOOL linearFilter, s32 chrIndex) {   
     if (mBank[bankID].chrIsCI) {
         GXTexObj texObj;
         GXTlutObj tlutObj;
@@ -445,7 +445,7 @@ void CCellAnimManager::fn_801DB3D8(u8 bankID, CellAnim_CellOBJ *obj, BOOL linear
     }
 }
 
-CCellAnim *CCellAnimManager::fn_801DBE7C(u8 bankID, u16 animID) {
+CCellAnim *CCellAnimManager::createCellAnim(u8 bankID, u16 animID) {
     void *alloc = MEMAllocFromExpHeap(mHeap, sizeof(CCellAnim));
     CCellAnim *cellAnim;
     if (alloc == NULL) {
@@ -473,7 +473,7 @@ CCellAnim *CCellAnimManager::fn_801DBE7C(u8 bankID, u16 animID) {
     return cellAnim;
 }
 
-void CCellAnimManager::fn_801DBFA0(CCellAnim *cellAnim) {
+void CCellAnimManager::endCellAnim(CCellAnim *cellAnim) {
     if (containsCellAnim(cellAnim)) {
         if (cellAnim->getBaseAnim() != NULL) {
             cellAnim->setBase(NULL, 0, false);
@@ -482,7 +482,7 @@ void CCellAnimManager::fn_801DBFA0(CCellAnim *cellAnim) {
         CCellAnim *current = cellAnim->getBaseLinkedHead();
         while (current != NULL) {
             CCellAnim *next = current->getBaseLinkedNext();
-            current->clearBase();
+            current->clearBaseData();
             current = next;
         }
 
@@ -494,18 +494,18 @@ void CCellAnimManager::fn_801DBFA0(CCellAnim *cellAnim) {
     }
 }
 
-void CCellAnimManager::fn_801DC068(u8 bankID) {
+void CCellAnimManager::endCellAnimByBank(u8 bankID) {
     CCellAnim *current = mCellAnimHead;
     while (current != NULL) {
         CCellAnim *next = current->getNext();
         if (bankID == current->getBankID()) {
-            fn_801DBFA0(current);
+            endCellAnim(current);
         }
         current = next;
     }
 }
 
-void CCellAnimManager::fn_801DC0D4(CCellAnim *cellAnim) {
+void CCellAnimManager::layerReorder(CCellAnim *cellAnim) {
     CCellAnim *prev = cellAnim->getPrev();
     if (prev != NULL) {
         prev->setNext(cellAnim->getNext());
@@ -522,19 +522,19 @@ void CCellAnimManager::fn_801DC0D4(CCellAnim *cellAnim) {
     insertCellAnim(cellAnim);
 }
 
-void CCellAnimManager::fn_801DC164(CCellAnim *baseCell) {
+void CCellAnimManager::setBaseDefault(CCellAnim *baseCell) {
     mCellAnimBase = baseCell;
 }
 
-CCellAnim *CCellAnimManager::fn_801DC16C(void) {
+CCellAnim *CCellAnimManager::getBaseDefault(void) {
     return mCellAnimBase;
 }
 
-void CCellAnimManager::fn_801DC174(BaseUpdateCallbackFn callback) {
+void CCellAnimManager::setBaseCallback(BaseUpdateCallbackFn callback) {
     mCellAnimBaseCallback = callback;
 }
 
-void CCellAnimManager::fn_801DC17C(bool update, u16 tempo) {
+void CCellAnimManager::setTempoUpdate(bool update, u16 tempo) {
     mCellAnimTempoUpdate = update;
     mCellAnimTempo = tempo;
 }

@@ -113,48 +113,48 @@ void CSceneFork::_14(void) {
     UserTPLBind(tplAddr);
     DCStoreRange(tplAddr, tplLen);
 
-    gCellAnimManager->fn_801DB568(fork_brcadAddr, tplAddr, 0);
+    gCellAnimManager->registBank(fork_brcadAddr, tplAddr, 0);
 
     if (Fork::sceneVer == 1 || Fork::sceneVer == 2 || Fork::sceneVer == 3) {
         void *fork2_brcadAddr = gFileManager->fn_801D4270(19, "./fork2.brcad");
-        gCellAnimManager->fn_801DB568(fork2_brcadAddr, tplAddr, 0);
+        gCellAnimManager->registBank(fork2_brcadAddr, tplAddr, 0);
     }
 
-    CCellAnim *bgAnim = gCellAnimManager->fn_801DBE7C(0, fork_bg_00);
+    CCellAnim *bgAnim = gCellAnimManager->createCellAnim(0, fork_bg_00);
     bgAnim->fn_801DCF94(5000);
 
-    mBalloonAnim = gCellAnimManager->fn_801DBE7C(0, fork_balloon);
+    mBalloonAnim = gCellAnimManager->createCellAnim(0, fork_balloon);
     mBalloonAnim->setPos(-140.0f, -20.0f);
     mBalloonAnim->fn_801DCF94(3000);
 
-    mHandAnim = gCellAnimManager->fn_801DBE7C(0, fork_hand_set_00);
+    mHandAnim = gCellAnimManager->createCellAnim(0, fork_hand_set_00);
     mHandAnim->setPos(-140.0f, -20.0f);
     mHandAnim->fn_801DCF94(4000);
     mHandAnim->fn_801DCF38();
 
-    mHandFarAnim = gCellAnimManager->fn_801DBE7C(0, fork_hand_flick_far);
+    mHandFarAnim = gCellAnimManager->createCellAnim(0, fork_hand_flick_far);
     mHandFarAnim->setPos(-140.0f, -20.0f);
     mHandFarAnim->fn_801DCF94(4000);
     mHandFarAnim->fn_801DCF38();
 
     if (mIsTwoPlay) {
         for (s32 i = 0; i < 2; i++) {
-            mObjAnim[i] = gCellAnimManager->fn_801DBE7C(0, fork_obj_00_far);
+            mObjAnim[i] = gCellAnimManager->createCellAnim(0, fork_obj_00_far);
             mObjAnim[i]->setEnabled(false);
         }
     }
 
     for (s32 i = 0; i < mForkCount; i++) {
-        mFork[i].mAnimBase = gCellAnimManager->fn_801DBE7C(255, permanent_canvas);
-        gCellAnimManager->fn_801DC164(mFork[i].mAnimBase);
+        mFork[i].mAnimBase = gCellAnimManager->createCellAnim(255, permanent_canvas);
+        gCellAnimManager->setBaseDefault(mFork[i].mAnimBase);
 
-        mFork[i].mForkAnim = gCellAnimManager->fn_801DBE7C(i, fork_fork_sting);
+        mFork[i].mForkAnim = gCellAnimManager->createCellAnim(i, fork_fork_sting);
         mFork[i].mForkAnim->setPos(100.0f, 180.0f);
         mFork[i].mForkAnim->fn_801DCF94(2000);
         mFork[i].mForkAnim->fn_801DCF38();
 
         for (u8 j = 0; j < (u8)ARRAY_LENGTH(mFork[i].mObjStingAnim); j++) {
-            mFork[i].mObjStingAnim[j] = gCellAnimManager->fn_801DBE7C(i, fork_obj_00_sting_just);
+            mFork[i].mObjStingAnim[j] = gCellAnimManager->createCellAnim(i, fork_obj_00_sting_just);
             mFork[i].mObjStingAnim[j]->fn_801DCF94(1000);
             mFork[i].mObjStingAnim[j]->setEnabled(false);
         }
@@ -291,15 +291,15 @@ void CSceneFork::_20(void) {
     delete mObj3D;
 
     for (s32 i = 0; i < mForkCount; i++) {
-        gCellAnimManager->fn_801DBFA0(mFork[i].mAnimBase);
+        gCellAnimManager->endCellAnim(mFork[i].mAnimBase);
     }
 
-    gCellAnimManager->fn_801DBA98(0);
-    gCellAnimManager->fn_801DC068(0);
+    gCellAnimManager->endBank(0);
+    gCellAnimManager->endCellAnimByBank(0);
 
     if (Fork::sceneVer == 1 || Fork::sceneVer == 2 || Fork::sceneVer == 3) {
-        gCellAnimManager->fn_801DBA98(1);
-        gCellAnimManager->fn_801DC068(1);
+        gCellAnimManager->endBank(1);
+        gCellAnimManager->endCellAnimByBank(1);
     }
 
     this->CExScene::_20();

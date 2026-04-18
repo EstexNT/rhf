@@ -118,22 +118,22 @@ void CSceneAgbTap::_14(void) {
     UserTPLBind(tplAddr);
     DCStoreRange(tplAddr, tplLen);
 
-    gCellAnimManager->fn_801DB568(agb_tap_brcadAddr, tplAddr, 0);
-    gCellAnimManager->fn_801DB568(agb_tap_bg_brcadAddr, tplAddr, 1);
+    gCellAnimManager->registBank(agb_tap_brcadAddr, tplAddr, 0);
+    gCellAnimManager->registBank(agb_tap_bg_brcadAddr, tplAddr, 1);
 
-    CCellAnim *bgAnim = gCellAnimManager->fn_801DBE7C(1, agb_tap_bg_bg);
+    CCellAnim *bgAnim = gCellAnimManager->createCellAnim(1, agb_tap_bg_bg);
     bgAnim->fn_801DCF94(3000);
 
-    mGirlAnim = gCellAnimManager->fn_801DBE7C(0, agb_tap_girl_beat);
+    mGirlAnim = gCellAnimManager->createCellAnim(0, agb_tap_girl_beat);
     mGirlAnim->setPos(130.0f, 130.0f);
     mGirlAnim->fn_801DCF94(2000);
 
-    CCellAnim *girlShadow = gCellAnimManager->fn_801DBE7C(0, agb_tap_shadow);
+    CCellAnim *girlShadow = gCellAnimManager->createCellAnim(0, agb_tap_shadow);
     girlShadow->setPos(128.0f, 125.0f);
     girlShadow->fn_801DCF94(2010);
 
-    mMonkeyAnim[0] = gCellAnimManager->fn_801DBE7C(0, agb_tap_monkey_beat);
-    mMonkeyAnim[1] = gCellAnimManager->fn_801DBE7C(0, agb_tap_monkey_beat);
+    mMonkeyAnim[0] = gCellAnimManager->createCellAnim(0, agb_tap_monkey_beat);
+    mMonkeyAnim[1] = gCellAnimManager->createCellAnim(0, agb_tap_monkey_beat);
 
     mMonkeyAnim[0]->setPos(-20.0f, 130.0f);
     mMonkeyAnim[1]->setPos(-120.0f, 130.0f);
@@ -141,8 +141,8 @@ void CSceneAgbTap::_14(void) {
     mMonkeyAnim[0]->fn_801DCF94(1990);
     mMonkeyAnim[1]->fn_801DCF94(1990);
 
-    CCellAnim *monkeyShadow0 = gCellAnimManager->fn_801DBE7C(0, agb_tap_shadow);
-    CCellAnim *monkeyShadow1 = gCellAnimManager->fn_801DBE7C(0, agb_tap_shadow);
+    CCellAnim *monkeyShadow0 = gCellAnimManager->createCellAnim(0, agb_tap_shadow);
+    CCellAnim *monkeyShadow1 = gCellAnimManager->createCellAnim(0, agb_tap_shadow);
 
     monkeyShadow0->setPos(-20.0f, 130.0f);
     monkeyShadow1->setPos(-120.0f, 130.0f);
@@ -153,7 +153,7 @@ void CSceneAgbTap::_14(void) {
     monkeyShadow0->fn_801DCF94(2000);
     monkeyShadow1->fn_801DCF94(2000);
 
-    mGiraffeAnim = gCellAnimManager->fn_801DBE7C(0, agb_tap_giraffe_normal);
+    mGiraffeAnim = gCellAnimManager->createCellAnim(0, agb_tap_giraffe_normal);
     mGiraffeAnim->fn_801DCF94(2100);
     mGiraffeAnim->setEnabled(false);
 
@@ -239,11 +239,11 @@ void CSceneAgbTap::_1C(void) {
 }
 
 void CSceneAgbTap::_20(void) {
-    gCellAnimManager->fn_801DBA98(0);
-    gCellAnimManager->fn_801DBA98(1);
+    gCellAnimManager->endBank(0);
+    gCellAnimManager->endBank(1);
 
-    gCellAnimManager->fn_801DC068(0);
-    gCellAnimManager->fn_801DC068(1);
+    gCellAnimManager->endCellAnimByBank(0);
+    gCellAnimManager->endCellAnimByBank(1);
 
     gFileManager->fn_801D41CC(2);
 

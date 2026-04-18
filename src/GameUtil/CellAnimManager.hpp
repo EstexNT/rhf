@@ -25,36 +25,36 @@ public:
     virtual void _10(s32 cellAnimCount);
     virtual void _14(void);
     virtual void _18(void);
-    virtual void _1C(DrawSetupFn, DrawRestoreFn);
-    virtual void _20(s32, DrawSetupFn, DrawRestoreFn);
-    virtual void _24(s32, DrawSetupFn, DrawRestoreFn);
+    virtual void _1C(DrawSetupFn setupFn, DrawRestoreFn restoreFn);
+    virtual void _20(s32, DrawSetupFn setupFn, DrawRestoreFn restoreFn);
+    virtual void _24(s32, DrawSetupFn setupFn, DrawRestoreFn restoreFn);
 
     CCellAnimManager(void);
 
-    bool fn_801DB558(u8 bankID); // bankIsActive
-    void fn_801DB568(void *brcadAddr, void *tplAddr, u8 bankID); // registBank
-    void fn_801DB86C(GXTexObj *texObj, s32 width, s32 height, f32 scaleX, f32 scaleY, u8 bankID); // createBankTex
-    void fn_801DB9C0(GXTexObj *texObj, u8 bankID); // createBankScreen
-    void fn_801DBA98(u8 bankID); // endBank
-    u16 fn_801DBB58(CCellAnim *cellAnim); // getCurrAnimFrames
-    CellAnim_Anim *fn_801DBC5C(CCellAnim *cellAnim); // getCurrentAnim
-    CellAnim_AnimKey *fn_801DBC7C(CCellAnim *cellAnim); // getCurrentKey
-    CellAnim_Cell *fn_801DBD38(CCellAnim *cellAnim); // getCurrentCell
-    u16 fn_801DBE04(u8 bankID); // getBankChrWidth
-    u16 fn_801DBE14(u8 bankID); // getBankChrHeight
-    void fn_801DBE24(CCellAnim *cellAnim); // destroyCellAnim
-    void fn_801DB3D8(u8 bankID, CellAnim_CellOBJ *obj, BOOL linearFilter, s32 chrIndex); // loadChrForDraw
-    CCellAnim *fn_801DBE7C(u8 bankID, u16 animID); // createCellAnim
-    void DONT_INLINE fn_801DBFA0(CCellAnim *cellAnim); // endCellAnim
-    void fn_801DC068(u8 bankID); // endCellAnimByBank
-    void fn_801DC0D4(CCellAnim *cellAnim); // layerReorder
-    void fn_801DC164(CCellAnim *baseCell); // setBaseDefault
-    CCellAnim *fn_801DC16C(void); // getBaseDefault
-    void fn_801DC174(BaseUpdateCallbackFn callback); // setBaseCallback
-    void fn_801DC17C(bool update, u16 tempo); // setTempoUpdate
+    bool getBankActive(u8 bankID);
+    void registBank(void *brcadAddr, void *tplAddr, u8 bankID);
+    void createBankTex(GXTexObj *texObj, s32 width, s32 height, f32 scaleX, f32 scaleY, u8 bankID);
+    void createBankScreen(GXTexObj *texObj, u8 bankID);
+    void endBank(u8 bankID);
+    u16 getCurAnimFrames(CCellAnim *cellAnim);
+    CellAnim_Anim *getCurrentAnim(CCellAnim *cellAnim);
+    CellAnim_AnimKey *getCurrentAnimKey(CCellAnim *cellAnim);
+    CellAnim_Cell *getCurrentCell(CCellAnim *cellAnim);
+    u16 getBankChrWidth(u8 bankID);
+    u16 getBankChrHeight(u8 bankID);
+    void destroyCellAnim(CCellAnim *cellAnim);
+    void loadChrForDraw(u8 bankID, CellAnim_CellOBJ *obj, BOOL linearFilter, s32 chrIndex);
+    CCellAnim *createCellAnim(u8 bankID, u16 animID);
+    void DONT_INLINE endCellAnim(CCellAnim *cellAnim);
+    void endCellAnimByBank(u8 bankID);
+    void layerReorder(CCellAnim *cellAnim);
+    void setBaseDefault(CCellAnim *baseCell);
+    CCellAnim *getBaseDefault(void);
+    void setBaseCallback(BaseUpdateCallbackFn callback);
+    void setTempoUpdate(bool update, u16 tempo);
 
 private:
-    void fn_801DB28C(void); // drawSetupDefault
+    void drawSetupDefault(void);
 
     void insertCellAnim(CCellAnim *cellAnim) {
         CCellAnim *current = mCellAnimHead;

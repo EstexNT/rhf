@@ -95,6 +95,7 @@ public:
     void setDestroyAtEnd(bool destroy) { mDestroyAtEnd = destroy; }
 
     CCellAnim *getBaseAnim(void) const { return mBaseAnim; }
+    u16 getBaseOBJIndex(void) const { return mBaseOBJIndex; }
 
     CCellAnim *getBaseLinkedHead(void) const { return mBaseLinkedHead; }
     CCellAnim *getBaseLinkedNext(void) const { return mBaseLinkedNext; }
@@ -141,7 +142,7 @@ private:
         return nextAnimID;
     }
 
-    void clearBase(void) {
+    void clearBaseData(void) {
         mBaseAnim = NULL;
         mBaseLinkedNext = NULL;
         mBaseLinkedPrev = NULL;

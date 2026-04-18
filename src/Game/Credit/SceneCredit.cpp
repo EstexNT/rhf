@@ -83,19 +83,19 @@ void CSceneCredit::_14(void) {
     for (u8 i = 0; i < CHARA_COUNT; i++) {
         sprintf(lbl_8034C860, "./chara_%02d.brcad", i);
         void *brcadAddr = gFileManager->fn_801D4270(2, lbl_8034C860);
-        gCellAnimManager->fn_801DB568(brcadAddr, credit_tplAddr, CELL_INDEX_CHARA_START + i);
+        gCellAnimManager->registBank(brcadAddr, credit_tplAddr, CELL_INDEX_CHARA_START + i);
     }
 
     void *wipe_brcadAddr = gFileManager->fn_801D4270(2, "./wipe.brcad");
     void *title_brcadAddr = gFileManager->fn_801D4270(2, "./title.brcad");
     void *navigator_brcadAddr = gFileManager->fn_801D4270(3, "./navigator.brcad");
 
-    gCellAnimManager->fn_801DB568(wipe_brcadAddr, credit_tplAddr, CELL_INDEX_WIPE);
-    gCellAnimManager->fn_801DB568(title_brcadAddr, credit_tplAddr, CELL_INDEX_TITLE);
-    gCellAnimManager->fn_801DB568(navigator_brcadAddr, navi_tplAddr, CELL_INDEX_NAVI);
+    gCellAnimManager->registBank(wipe_brcadAddr, credit_tplAddr, CELL_INDEX_WIPE);
+    gCellAnimManager->registBank(title_brcadAddr, credit_tplAddr, CELL_INDEX_TITLE);
+    gCellAnimManager->registBank(navigator_brcadAddr, navi_tplAddr, CELL_INDEX_NAVI);
 
     for (u8 i = CELL_INDEX_CHARA_START; i < CELL_INDEX_CHARA_END; i++) {
-        mCharaAnim[i] = gCellAnimManager->fn_801DBE7C(i, chara_00_beat);
+        mCharaAnim[i] = gCellAnimManager->createCellAnim(i, chara_00_beat);
         
         mCharaAnim[i]->fn_801DCF94(2000);
         mCharaAnim[i]->fn_801DCF38();
@@ -106,14 +106,14 @@ void CSceneCredit::_14(void) {
         }
     }
 
-    mMasterAnim = gCellAnimManager->fn_801DBE7C(0, chara_00_master_beat_00);
+    mMasterAnim = gCellAnimManager->createCellAnim(0, chara_00_master_beat_00);
 
     mMasterAnim->fn_801DCF94(2000);
     mMasterAnim->setBase(mCharaAnim[CHARA_COUNT - 1], 0, false);
     mMasterAnim->setPosX(-832.0f);
 
-    CCellAnim *bgAnim = gCellAnimManager->fn_801DBE7C(0, chara_00_bg);
-    CCellAnim *counterAnim = gCellAnimManager->fn_801DBE7C(0, chara_00_counter);
+    CCellAnim *bgAnim = gCellAnimManager->createCellAnim(0, chara_00_bg);
+    CCellAnim *counterAnim = gCellAnimManager->createCellAnim(0, chara_00_counter);
 
     bgAnim->fn_801DCF94(3000);
     counterAnim->fn_801DCF94(1000);
@@ -136,12 +136,12 @@ void CSceneCredit::_14(void) {
     };
 
     for (s32 i = 0; i < MASCOT_COUNT; i++) {
-        mMascotBodyAnim[i] = gCellAnimManager->fn_801DBE7C(CELL_INDEX_NAVI, mascotBodyAnimID[i]);
+        mMascotBodyAnim[i] = gCellAnimManager->createCellAnim(CELL_INDEX_NAVI, mascotBodyAnimID[i]);
         mMascotBodyAnim[i]->fn_801DCF94(2000);
         mMascotBodyAnim[i]->setBase(bgAnim, 0, false);
         mMascotBodyAnim[i]->fn_801DCF38();
 
-        mMascotFaceAnim[i] = gCellAnimManager->fn_801DBE7C(CELL_INDEX_NAVI, mascotFaceAnimID[i]);
+        mMascotFaceAnim[i] = gCellAnimManager->createCellAnim(CELL_INDEX_NAVI, mascotFaceAnimID[i]);
         mMascotFaceAnim[i]->fn_801DCF94(1999);
         mMascotFaceAnim[i]->setBase(mMascotBodyAnim[i], 0, false);
         mMascotFaceAnim[i]->fn_801DCF38();
@@ -153,11 +153,11 @@ void CSceneCredit::_14(void) {
     mMascotBodyAnim[1]->setPos(0.0f, 1000.0f);
     mMascotBodyAnim[2]->setPos(125.0f, 1000.0f);
 
-    mWipeAnim = gCellAnimManager->fn_801DBE7C(CELL_INDEX_WIPE, wipe_wipe_show_00);
+    mWipeAnim = gCellAnimManager->createCellAnim(CELL_INDEX_WIPE, wipe_wipe_show_00);
     mWipeAnim->fn_801DCF94(500);
     mWipeAnim->setEnabled(false);
 
-    mTitleAnim = gCellAnimManager->fn_801DBE7C(CELL_INDEX_TITLE, title_title_wait);
+    mTitleAnim = gCellAnimManager->createCellAnim(CELL_INDEX_TITLE, title_title_wait);
     mTitleAnim->fn_801DCF94(300);
 
     gLayoutManager->_20(2);
@@ -216,8 +216,8 @@ void CSceneCredit::_1C(void) {
 
 void CSceneCredit::_20(void) {
     for (u8 i = 0; i < CELL_INDICES_END; i++) {
-        gCellAnimManager->fn_801DBA98(i);
-        gCellAnimManager->fn_801DC068(i);
+        gCellAnimManager->endBank(i);
+        gCellAnimManager->endCellAnimByBank(i);
     }
 
     gFileManager->fn_801D41CC(2);

@@ -169,7 +169,7 @@ void CExScene::_18(void) {
 
             if (
                 gFileManager->fn_801D42FC(50) &&
-                gCellAnimManager->fn_801DB558(254) &&
+                gCellAnimManager->getBankActive(254) &&
                 lbl_80320214 != NULL && lbl_80320214->getEnabled()
             ) {
                 lbl_80320214->fn_801DCF94(-100);
@@ -334,9 +334,9 @@ void CExScene::_20(void) {
         gMyCanvasManager->fn_8007BDAC(i);
     }
 
-    lbl_80320200->setBase(gCellAnimManager->fn_801DC16C(), 0, false);
-    lbl_80320204->setBase(gCellAnimManager->fn_801DC16C(), 0, false);
-    lbl_80320208->setBase(gCellAnimManager->fn_801DC16C(), 0, false);
+    lbl_80320200->setBase(gCellAnimManager->getBaseDefault(), 0, false);
+    lbl_80320204->setBase(gCellAnimManager->getBaseDefault(), 0, false);
+    lbl_80320208->setBase(gCellAnimManager->getBaseDefault(), 0, false);
 
     gInputCheckManager->setUnk418(NULL);
     gInputCheckManager->fn_801E9204();
@@ -388,9 +388,9 @@ void CExScene::_20(void) {
 
         fn_8009E1C4();
 
-        if (gFileManager->fn_801D42FC(50) && gCellAnimManager->fn_801DB558(254)) {
-            gCellAnimManager->fn_801DC068(254);
-            gCellAnimManager->fn_801DBA98(254);
+        if (gFileManager->fn_801D42FC(50) && gCellAnimManager->getBankActive(254)) {
+            gCellAnimManager->endCellAnimByBank(254);
+            gCellAnimManager->endBank(254);
 
             gFileManager->fn_801D41CC(50);
 
@@ -398,9 +398,9 @@ void CExScene::_20(void) {
         }
 
         // NOTE: duplicated code for no reason
-        if (gFileManager->fn_801D42FC(50) && gCellAnimManager->fn_801DB558(254)) {
-            gCellAnimManager->fn_801DC068(254);
-            gCellAnimManager->fn_801DBA98(254);
+        if (gFileManager->fn_801D42FC(50) && gCellAnimManager->getBankActive(254)) {
+            gCellAnimManager->endCellAnimByBank(254);
+            gCellAnimManager->endBank(254);
 
             gFileManager->fn_801D41CC(50);
 
@@ -439,7 +439,7 @@ void CExScene::fn_80008EFC(void) {
 }
 
 void CExScene::fn_80008F68(bool update, u16 tempo) {
-    gCellAnimManager->fn_801DC17C(update, tempo);
+    gCellAnimManager->setTempoUpdate(update, tempo);
 }
 
 void CExScene::fn_80008F70(bool update, u16 soundID) {
@@ -467,7 +467,7 @@ void CExScene::fn_80009028(void) {
     UserTPLBind(permanent_tplAddr);
     DCStoreRange(permanent_tplAddr, permanent_tplLen);
 
-    gCellAnimManager->fn_801DB568(permanent_brcadAddr, permanent_tplAddr, 255);
+    gCellAnimManager->registBank(permanent_brcadAddr, permanent_tplAddr, 255);
 
     if (gMyCanvasManager == NULL) {
         gMyCanvasManager = new CMyCanvasManager;
@@ -476,30 +476,30 @@ void CExScene::fn_80009028(void) {
 
     gMyCanvasManager->fn_8007BEF8(1);
 
-    lbl_803201CC = gCellAnimManager->fn_801DBE7C(255, permanent_next);
-    lbl_803201D0 = gCellAnimManager->fn_801DBE7C(255, permanent_skip);
-    lbl_803201D4 = gCellAnimManager->fn_801DBE7C(255, permanent_inst_example);
-    lbl_803201D8 = gCellAnimManager->fn_801DBE7C(255, permanent_inst_example_msg);
-    lbl_803201DC = gCellAnimManager->fn_801DBE7C(255, permanent_mask);
-    lbl_803201E0 = gCellAnimManager->fn_801DBE7C(255, permanent_skip_base);
-    lbl_803201E4 = gCellAnimManager->fn_801DBE7C(255, permanent_pause_in);
-    lbl_803201E8 = gCellAnimManager->fn_801DBE7C(255, permanent_pause_base);
-    lbl_803201EC = gCellAnimManager->fn_801DBE7C(255, permanent_exit);
-    lbl_803201F0 = gCellAnimManager->fn_801DBE7C(255, permanent_remain);
-    lbl_803201F4 = gCellAnimManager->fn_801DBE7C(255, permanent_remain_number);
-    lbl_8032020C = gCellAnimManager->fn_801DBE7C(255, permanent_mask);
-    lbl_80320210 = gCellAnimManager->fn_801DBE7C(255, permanent_frame_inst);
-    lbl_80320218 = gCellAnimManager->fn_801DBE7C(255, permanent_save);
+    lbl_803201CC = gCellAnimManager->createCellAnim(255, permanent_next);
+    lbl_803201D0 = gCellAnimManager->createCellAnim(255, permanent_skip);
+    lbl_803201D4 = gCellAnimManager->createCellAnim(255, permanent_inst_example);
+    lbl_803201D8 = gCellAnimManager->createCellAnim(255, permanent_inst_example_msg);
+    lbl_803201DC = gCellAnimManager->createCellAnim(255, permanent_mask);
+    lbl_803201E0 = gCellAnimManager->createCellAnim(255, permanent_skip_base);
+    lbl_803201E4 = gCellAnimManager->createCellAnim(255, permanent_pause_in);
+    lbl_803201E8 = gCellAnimManager->createCellAnim(255, permanent_pause_base);
+    lbl_803201EC = gCellAnimManager->createCellAnim(255, permanent_exit);
+    lbl_803201F0 = gCellAnimManager->createCellAnim(255, permanent_remain);
+    lbl_803201F4 = gCellAnimManager->createCellAnim(255, permanent_remain_number);
+    lbl_8032020C = gCellAnimManager->createCellAnim(255, permanent_mask);
+    lbl_80320210 = gCellAnimManager->createCellAnim(255, permanent_frame_inst);
+    lbl_80320218 = gCellAnimManager->createCellAnim(255, permanent_save);
 
-    lbl_803201F8 = gCellAnimManager->fn_801DBE7C(255, permanent_perfect_icon_hit);
-    lbl_803201FC = gCellAnimManager->fn_801DBE7C(255, permanent_perfect_msg_loop);
+    lbl_803201F8 = gCellAnimManager->createCellAnim(255, permanent_perfect_icon_hit);
+    lbl_803201FC = gCellAnimManager->createCellAnim(255, permanent_perfect_msg_loop);
     lbl_803201FC->setBase(lbl_803201F8, 0, true);
 
     gMyCanvasManager->fn_8007BEF8(2);
 
-    lbl_80320200 = gCellAnimManager->fn_801DBE7C(255, permanent_you);
-    lbl_80320204 = gCellAnimManager->fn_801DBE7C(255, permanent_you_1P);
-    lbl_80320208 = gCellAnimManager->fn_801DBE7C(255, permanent_you_2P);
+    lbl_80320200 = gCellAnimManager->createCellAnim(255, permanent_you);
+    lbl_80320204 = gCellAnimManager->createCellAnim(255, permanent_you_1P);
+    lbl_80320208 = gCellAnimManager->createCellAnim(255, permanent_you_2P);
 
     lbl_803201F4->setBase(lbl_803201F0, 0, false);
 
@@ -601,8 +601,8 @@ void CExScene::fn_8000966C(void) {
     }
     gMyCanvasManager = NULL;
 
-    gCellAnimManager->fn_801DBA98(255);
-    gCellAnimManager->fn_801DC068(255);
+    gCellAnimManager->endBank(255);
+    gCellAnimManager->endCellAnimByBank(255);
 
     gFileManager->fn_801D41CC(54);
     gFileManager->fn_801D41CC(94);
@@ -928,8 +928,8 @@ void CExScene::fn_8000A084(void) {
 }
 
 void CExScene::fn_8000A0A4(void) {
-    gCellAnimManager->fn_801DC068(254);
-    gCellAnimManager->fn_801DBA98(254);
+    gCellAnimManager->endCellAnimByBank(254);
+    gCellAnimManager->endBank(254);
 
     gFileManager->fn_801D41CC(50);
 
@@ -949,12 +949,12 @@ void CExScene::fn_8000A0F8(void) {
     UserTPLBind(tplAddr);
     DCStoreRange(tplAddr, tplLen);
 
-    gCellAnimManager->fn_801DB568(brcadAddr, tplAddr, 254);
+    gCellAnimManager->registBank(brcadAddr, tplAddr, 254);
 
     s32 prevCanvas = gMyCanvasManager->fn_8007BF28();
     gMyCanvasManager->fn_8007BEF8(2);
 
-    lbl_80320214 = gCellAnimManager->fn_801DBE7C(254, remix08_Mask_photo);
+    lbl_80320214 = gCellAnimManager->createCellAnim(254, remix08_Mask_photo);
     lbl_80320214->setEnabled(false);
 
     gMyCanvasManager->fn_8007BEF8(prevCanvas);
@@ -973,8 +973,8 @@ void CExScene::fn_8000A1EC(void) {
 }
 
 void CExScene::fn_8000A20C(void) {
-    gCellAnimManager->fn_801DC068(254);
-    gCellAnimManager->fn_801DBA98(254);
+    gCellAnimManager->endCellAnimByBank(254);
+    gCellAnimManager->endBank(254);
 
     gFileManager->fn_801D41CC(50);
 
@@ -995,7 +995,7 @@ void CExScene::fn_8000A260(void) {
     UserTPLBind(tplAddr);
     DCStoreRange(tplAddr, tplLen);
 
-    gCellAnimManager->fn_801DB568(brcadAddr, tplAddr, 254);
+    gCellAnimManager->registBank(brcadAddr, tplAddr, 254);
 }
 
 void CExScene::fn_8000A2FC(void) {
@@ -1153,10 +1153,10 @@ void CExScene::fn_8000A7AC(
     s32 prevCanvas = gMyCanvasManager->fn_8007BF28();
     gMyCanvasManager->fn_8007BEF8(1);
 
-    mEndlessGameOverAnim = gCellAnimManager->fn_801DBE7C(animDataID, mEndlessGameOverAnimID);
+    mEndlessGameOverAnim = gCellAnimManager->createCellAnim(animDataID, mEndlessGameOverAnimID);
     mEndlessGameOverAnim->setEnabled(false);
 
-    mEndlessHiScoreAnim = gCellAnimManager->fn_801DBE7C(animDataID, mEndlessHiScoreAnimID);
+    mEndlessHiScoreAnim = gCellAnimManager->createCellAnim(animDataID, mEndlessHiScoreAnimID);
     mEndlessHiScoreAnim->setEnabled(false);
 
     mEndlessGameOverAnim->fn_801DCF94(layer + 1);
@@ -1166,8 +1166,8 @@ void CExScene::fn_8000A7AC(
 }
 
 void CExScene::fn_8000A864(void) {
-    gCellAnimManager->fn_801DBFA0(mEndlessGameOverAnim);
-    gCellAnimManager->fn_801DBFA0(mEndlessHiScoreAnim);
+    gCellAnimManager->endCellAnim(mEndlessGameOverAnim);
+    gCellAnimManager->endCellAnim(mEndlessHiScoreAnim);
 }
 
 void CExScene::fn_8000A8A4(void) {

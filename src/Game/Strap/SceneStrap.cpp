@@ -75,9 +75,9 @@ void CSceneStrap::_14(void) {
     UserTPLBind(tplAddr);
     DCStoreRange(tplAddr, tplLen);
 
-    gCellAnimManager->fn_801DB568(brcadAddr, tplAddr, 0);
+    gCellAnimManager->registBank(brcadAddr, tplAddr, 0);
 
-    mStrapAnim = gCellAnimManager->fn_801DBE7C(0, strap_fade_in);
+    mStrapAnim = gCellAnimManager->createCellAnim(0, strap_fade_in);
 
     mStrapAnim->fn_801DCEE8(strap_show_a, NULL);
     mStrapAnim->fn_801DCF18();
@@ -133,8 +133,8 @@ void CSceneStrap::_20(void) {
 
     gHBMManager->setUnk416(true);
 
-    gCellAnimManager->fn_801DBA98(0);
-    gCellAnimManager->fn_801DC068(0);
+    gCellAnimManager->endBank(0);
+    gCellAnimManager->endCellAnimByBank(0);
 
     gFileManager->fn_801D41CC(2);
 

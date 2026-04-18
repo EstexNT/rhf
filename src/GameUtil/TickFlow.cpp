@@ -356,7 +356,7 @@ bool CTickFlow::_1C(u32 opcode, u32 arg0, const s32 *args) {
 
         s32 layer = args[4];
 
-        CCellAnim *cellAnim = gCellAnimManager->fn_801DBE7C(args[0], args[1]);
+        CCellAnim *cellAnim = gCellAnimManager->createCellAnim(args[0], args[1]);
         
         if ((arg0 == 3) || (arg0 == 4) || (arg0 == 5)) {
             cellAnim->setPlaybackReverse(true);

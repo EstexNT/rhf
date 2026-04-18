@@ -20,7 +20,7 @@ CMyCanvasManager::~CMyCanvasManager(void) {}
 
 void CMyCanvasManager::fn_8007BC9C(void) {
     for (s32 i = 0; i < CANVAS_COUNT; i++) {
-        CCellAnim *baseAnim = gCellAnimManager->fn_801DBE7C(0xFF, permanent_canvas);
+        CCellAnim *baseAnim = gCellAnimManager->createCellAnim(0xFF, permanent_canvas);
         mCanvas[i].setBaseAnim(baseAnim);
 
         fn_8007BDAC(i);
@@ -32,8 +32,8 @@ void CMyCanvasManager::fn_8007BC9C(void) {
 
     mCanvasIndex = -1;
 
-    gCellAnimManager->fn_801DC164(NULL);
-    gCellAnimManager->fn_801DC174(fn_8007B95C);
+    gCellAnimManager->setBaseDefault(NULL);
+    gCellAnimManager->setBaseCallback(fn_8007B95C);
 }
 
 void CMyCanvasManager::fn_8007BDAC(s32 index) {
@@ -50,7 +50,7 @@ void CMyCanvasManager::fn_8007BEA0(void) {
     for (s32 i = 0; i < CANVAS_COUNT; i++) {
         CCellAnim *baseAnim = mCanvas[i].getBaseAnim();
         if (baseAnim != NULL) {
-            gCellAnimManager->fn_801DBFA0(baseAnim);
+            gCellAnimManager->endCellAnim(baseAnim);
         }
     }
 }
@@ -58,10 +58,10 @@ void CMyCanvasManager::fn_8007BEA0(void) {
 void CMyCanvasManager::fn_8007BEF8(s32 index) {
     mCanvasIndex = index;
     if (index < 0) {
-        gCellAnimManager->fn_801DC164(NULL);
+        gCellAnimManager->setBaseDefault(NULL);
     }
     else {
-        gCellAnimManager->fn_801DC164(mCanvas[index].getBaseAnim());
+        gCellAnimManager->setBaseDefault(mCanvas[index].getBaseAnim());
     }
 }
 

@@ -18,7 +18,7 @@ void CCellAnim::init(u8 bankID, u16 animID) {
 
     mPrepAnimCount = 0;
 
-    mTotalFrames = gCellAnimManager->fn_801DBB58(this);
+    mTotalFrames = gCellAnimManager->getCurAnimFrames(this);
 
     mEnabled = true;
 
@@ -108,7 +108,7 @@ bool CCellAnim::update(void) {
                 u16 nextAnimID = handlePrepAnim();
 
                 mAnimID = nextAnimID;
-                mTotalFrames = gCellAnimManager->fn_801DBB58(this);
+                mTotalFrames = gCellAnimManager->getCurAnimFrames(this);
                 mPlaying = true;
                 mFrame = -1.0f;
             }
@@ -140,8 +140,8 @@ void CCellAnim::makeMtx(BOOL defMtx, Mtx baseMtx) {
         return;
     }
 
-    CellAnim_AnimKey *key = gCellAnimManager->fn_801DBC7C(this);
-    CellAnim_Cell *cell = gCellAnimManager->fn_801DBD38(this);
+    CellAnim_AnimKey *key = gCellAnimManager->getCurrentAnimKey(this);
+    CellAnim_Cell *cell = gCellAnimManager->getCurrentCell(this);
 
     Mtx transMtx;
     Mtx rotMtx;
@@ -182,9 +182,9 @@ void CCellAnim::makeMtx(BOOL defMtx, Mtx baseMtx) {
     }
 
     if (mBaseLinkedHead != NULL) {
-        u16 chrWidth = gCellAnimManager->fn_801DBE04(mBankID);
+        u16 chrWidth = gCellAnimManager->getBankChrWidth(mBankID);
 #pragma unused(chrWidth)
-        u16 chrHeight = gCellAnimManager->fn_801DBE14(mBankID);
+        u16 chrHeight = gCellAnimManager->getBankChrHeight(mBankID);
 #pragma unused(chrHeight)
 
         for (s32 i = 0; i < cell->objCount; i++) {
@@ -239,15 +239,15 @@ void CCellAnim::draw(BOOL forceDraw) {
         Mtx scaleMtx;
         Mtx tempMtx;
 
-        CellAnim_AnimKey *key = gCellAnimManager->fn_801DBC7C(this);
-        CellAnim_Cell *cell = gCellAnimManager->fn_801DBD38(this);
+        CellAnim_AnimKey *key = gCellAnimManager->getCurrentAnimKey(this);
+        CellAnim_Cell *cell = gCellAnimManager->getCurrentCell(this);
 
-        f32 chrWidth = gCellAnimManager->fn_801DBE04(mBankID);
-        f32 chrHeight = gCellAnimManager->fn_801DBE14(mBankID);
+        f32 chrWidth = gCellAnimManager->getBankChrWidth(mBankID);
+        f32 chrHeight = gCellAnimManager->getBankChrHeight(mBankID);
 
         for (s32 i = 0; i < cell->objCount; i++) {
             CellAnim_CellOBJ *obj = &cell->objArr[i];
-            gCellAnimManager->fn_801DB3D8(mBankID, obj, mLinearFiltering, mTextureIndex);
+            gCellAnimManager->loadChrForDraw(mBankID, obj, mLinearFiltering, mTextureIndex);
 
             f32 width = obj->width * obj->scaleX;
             f32 height = obj->height * obj->scaleY;
@@ -323,7 +323,7 @@ void CCellAnim::draw(BOOL forceDraw) {
 void CCellAnim::fn_801DCE9C(u16 animID) {
     mAnimID = animID;
     mPrepAnimCount = 0;
-    mTotalFrames = gCellAnimManager->fn_801DBB58(this);
+    mTotalFrames = gCellAnimManager->getCurAnimFrames(this);
 }
 
 void CCellAnim::fn_801DCEE0(u16 animID) {
@@ -342,16 +342,16 @@ void CCellAnim::fn_801DCF18(void) {
 }
 
 u16 CCellAnim::fn_801DCF2C(void) {
-    return gCellAnimManager->fn_801DBB58(this);
+    return gCellAnimManager->getCurAnimFrames(this);
 }
 
 void CCellAnim::fn_801DCF38(void) {
-    mFrame = gCellAnimManager->fn_801DBB58(this) - 1;
+    mFrame = gCellAnimManager->getCurAnimFrames(this) - 1;
 }
 
 void CCellAnim::fn_801DCF94(s32 layer) {
     mLayer = layer;
-    gCellAnimManager->fn_801DC0D4(this);
+    gCellAnimManager->layerReorder(this);
 }
 
 void CCellAnim::setBase(CCellAnim *baseAnim, u16 objIndex, bool drawBase) {
@@ -398,13 +398,13 @@ void CCellAnim::setBase(CCellAnim *baseAnim, u16 objIndex, bool drawBase) {
 void CCellAnim::finalInsert(void) {}
 
 void CCellAnim::finalDestroy(void) {
-    gCellAnimManager->fn_801DBE24(this);
+    gCellAnimManager->destroyCellAnim(this);
 }
 
 void CCellAnim::fn_801DD0AC(u16 animID) {
     mAnimID = animID;
     mPrepAnimCount = 0;
-    mTotalFrames = gCellAnimManager->fn_801DBB58(this);
+    mTotalFrames = gCellAnimManager->getCurAnimFrames(this);
     mLooping = false;
     mDestroyAtEnd = false;
     mDisableAtEnd = false;
@@ -416,7 +416,7 @@ void CCellAnim::fn_801DD0AC(u16 animID) {
 void CCellAnim::fn_801DD118(u16 animID) {
     mAnimID = animID;
     mPrepAnimCount = 0;
-    mTotalFrames = gCellAnimManager->fn_801DBB58(this);
+    mTotalFrames = gCellAnimManager->getCurAnimFrames(this);
     mLooping = false;
     mDestroyAtEnd = false;
     mPlaying = true;
@@ -428,7 +428,7 @@ void CCellAnim::fn_801DD118(u16 animID) {
 void CCellAnim::fn_801DD184(u16 animID) {
     mAnimID = animID;
     mPrepAnimCount = 0;
-    mTotalFrames = gCellAnimManager->fn_801DBB58(this);
+    mTotalFrames = gCellAnimManager->getCurAnimFrames(this);
     mLooping = false;
     mDisableAtEnd = false;
     mPlaying = true;
@@ -440,7 +440,7 @@ void CCellAnim::fn_801DD184(u16 animID) {
 void CCellAnim::fn_801DD1F0(u16 animID) {
     mAnimID = animID;
     mPrepAnimCount = 0;
-    mTotalFrames = gCellAnimManager->fn_801DBB58(this);
+    mTotalFrames = gCellAnimManager->getCurAnimFrames(this);
     mLooping = true;
     mPlaying = true;
     mFrame = -1.0f;
@@ -450,26 +450,26 @@ void CCellAnim::fn_801DD1F0(u16 animID) {
 void CCellAnim::fn_801DD24C(u16 animID, f32 frame) {
     mAnimID = animID;
     mPrepAnimCount = 0;
-    mTotalFrames = gCellAnimManager->fn_801DBB58(this);
+    mTotalFrames = gCellAnimManager->getCurAnimFrames(this);
     mFrame = frame;
     mPlaying = false;
     mEnabled = true;
 }
 
 void CCellAnim::fn_801DD2B4(u16 keyIndex) {
-    CellAnim_Anim *anim = gCellAnimManager->fn_801DBC5C(this);
+    CellAnim_Anim *anim = gCellAnimManager->getCurrentAnim(this);
     mFrame = anim->getFrameOfKey(keyIndex);
 }
 
 u16 CCellAnim::fn_801DD43C(void) {
-    CellAnim_Anim *anim = gCellAnimManager->fn_801DBC5C(this);
+    CellAnim_Anim *anim = gCellAnimManager->getCurrentAnim(this);
     return anim->findKeyAtFrame(getFrame());
 }
 
 u16 CCellAnim::fn_801DD4DC(void) {
-    CellAnim_Anim *anim = gCellAnimManager->fn_801DBC5C(this);
+    CellAnim_Anim *anim = gCellAnimManager->getCurrentAnim(this);
     // Unnecessary logic .. returning (anim->keyCount - 1) does the trick
-    return anim->findKeyAtFrame(gCellAnimManager->fn_801DBB58(this));
+    return anim->findKeyAtFrame(gCellAnimManager->getCurAnimFrames(this));
 }
 
 bool CCellAnim::fn_801DD5A0(void) {
