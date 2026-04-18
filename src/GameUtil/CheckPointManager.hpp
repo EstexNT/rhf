@@ -37,7 +37,7 @@ struct GradingCriteria {
     };
 
 enum ECheckInputType {
-    eCheckInputType_Hit = 0,
+    eCheckInputType_Hit,
     eCheckInputType_Miss,
     eCheckInputType_Through,
 };
