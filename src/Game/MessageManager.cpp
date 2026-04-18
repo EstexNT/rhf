@@ -84,8 +84,8 @@ CBMGRes::CBMGRes(void) {
 CBMGRes::~CBMGRes(void) {}
 
 void CBMGRes::init(u32 arcIndex, const char *pathInArc) {
-    // TODO: does fn_801D4270 actually accept a u16 instead of a s32?
-    mData = gFileManager->fn_801D4270((u16)arcIndex, pathInArc);
+    // TODO: does arcGetFileAddr actually accept a u16 instead of a s32?
+    mData = gFileManager->arcGetFileAddr((u16)arcIndex, pathInArc);
 
     mFileHeader = static_cast<BMGFileHeader *>(mData);
 
@@ -191,14 +191,14 @@ void CMessageManager::fn_80088030(void) {}
 void CMessageManager::fn_80088034(void) {
     switch (SCGetLanguage()) {
     default:
-        gFileManager->fn_801D3F94(0, "content2/message/riq_E.szs");
-        gFileManager->fn_801D4364(0);
+        gFileManager->startArchive(0, "content2/message/riq_E.szs");
+        gFileManager->waitArc(0);
         break;
     }
 }
 
 void CMessageManager::fn_8008807C(void) {
-    gFileManager->fn_801D41CC(0);
+    gFileManager->endArchive(0);
 }
 
 void CMessageManager::fn_80088088(void) {

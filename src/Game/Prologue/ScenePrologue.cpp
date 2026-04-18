@@ -33,9 +33,9 @@ SCENE_IMPL_CREATE_FN(CScenePrologue)
 
 void CScenePrologue::fn_8000AD98(void) {
     fn_801D369C(eHeapGroup_SceneAsset);
-    if (gFileManager->fn_801D42E0(51)) {
-        gFileManager->fn_801D3F94(51, "content2/cellanim/prologue/cellanim.szs");
-        gFileManager->fn_801D3F94(91, lbl_8032A278);
+    if (gFileManager->getArcFree(51)) {
+        gFileManager->startArchive(51, "content2/cellanim/prologue/cellanim.szs");
+        gFileManager->startArchive(91, lbl_8032A278);
     }
     fn_801D3644();
 }
@@ -45,7 +45,7 @@ void CScenePrologue::_10(void) {
 }
 
 bool CScenePrologue::_24(void) {
-    return gFileManager->fn_801D42FC(51) && gFileManager->fn_801D42FC(91);
+    return gFileManager->getArcReady(51) && gFileManager->getArcReady(91);
 }
 
 extern "C" void fn_8000C5F4(u8);
@@ -70,10 +70,10 @@ void CScenePrologue::_14(void) {
         }
     }
 
-    void *brcadAddr = gFileManager->fn_801D4270(51, "./prologue.brcad");
+    void *brcadAddr = gFileManager->arcGetFileAddr(51, "./prologue.brcad");
 
-    u32 tplLen = gFileManager->fn_801D422C(51, "./cellanim.tpl");
-    void *tplAddr = gFileManager->fn_801D4270(51, "./cellanim.tpl");
+    u32 tplLen = gFileManager->arcGetFileLen(51, "./cellanim.tpl");
+    void *tplAddr = gFileManager->arcGetFileAddr(51, "./cellanim.tpl");
 
     UserTPLBind(tplAddr);
     DCStoreRange(tplAddr, tplLen);
@@ -105,8 +105,8 @@ void CScenePrologue::_20(void) {
     gCellAnimManager->endBank(0);
     gCellAnimManager->endCellAnimByBank(0);
 
-    gFileManager->fn_801D41CC(51);
-    gFileManager->fn_801D41CC(91);
+    gFileManager->endArchive(51);
+    gFileManager->endArchive(91);
 
     this->CExScene::_20();
 }

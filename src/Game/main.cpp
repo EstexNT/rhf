@@ -191,7 +191,7 @@ void main(int argc, char **argv) {
     fn_800393DC();
 
     // @bug gFileManager is destroyed by the call to fn_800393DC
-    gFileManager->fn_801D41CC(0);
+    gFileManager->endArchive(0);
 
     // @bug This call requires gCellAnimManager and gFileManager, which both have been
     //      destroyed by the call to fn_800393DC
@@ -602,11 +602,11 @@ static void fn_80039900(void) {
     const char *fontBinName = sFontInitData.binName;
     const char *fontArcPath = sFontInitData.arcPath;
 
-    void *fontData = gFileManager->fn_801D3C4C(fontArcPath, eHeap_MEM2, -32);
-    gFileManager->fn_801D3D94();
+    void *fontData = gFileManager->loadFile(fontArcPath, eHeap_MEM2, -32);
+    gFileManager->waitDVD();
 
     if (strstr(fontArcPath, ".szs") != NULL) {
-        fontData = gFileManager->fn_801D461C(fontData, TRUE);
+        fontData = gFileManager->expandSZS(fontData, TRUE);
     }
 
     if (gLayoutManager->fn_801D6E2C(fontData, fontBinName)) {

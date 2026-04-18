@@ -38,34 +38,33 @@ public:
     const char *getLocaleDir(void);
 
     // NOTE: alignment must be a multiple of 32, or DVD read will fail!
-    void *fn_801D3C4C(
+    void *loadFile(
         const char *path,
         EHeapMEM heap = DEFAULT_HEAP, s32 alignment = DEFAULT_ALIGN
     );
-    bool fn_801D3D58(void);
-    void fn_801D3D94(void);
-    void fn_801D3E94(void);
+
+    bool getDVDBusy(void);
+    void waitDVD(void);
+    void waitDVD2(void); // NOTE: functionally equivalent to waitDVD
+
     // NOTE: alignment must be a multiple of 32, or DVD read will fail!
-    void fn_801D3F94(
+    void startArchive(
         s32 arcIndex, const char *path,
         EHeapMEM heap = DEFAULT_HEAP, s32 alignment = DEFAULT_ALIGN
     );
-    void fn_801D41CC(s32 arcIndex);
-    u32 fn_801D422C(s32 arcIndex, const char *path);
-    void *fn_801D4270(s32 arcIndex, const char *path);
-    void *fn_801D42CC(s32 arcIndex);
-    bool fn_801D42E0(s32 arcIndex);
-    bool fn_801D42FC(s32 arcIndex);
-    bool fn_801D431C(void);
-    void fn_801D4364(s32 arcIndex);
-    void fn_801D443C(void);
-    void fn_801D4544(void);
-    void fn_801D49D4(void);
+    void endArchive(s32 arcIndex);
 
-    static void *fn_801D461C(
-        void *data, BOOL deleteSrc,
-        EHeapMEM heap = DEFAULT_HEAP, s32 alignment = DEFAULT_ALIGN
-    );
+    u32 arcGetFileLen(s32 arcIndex, const char *path);
+    void *arcGetFileAddr(s32 arcIndex, const char *path);
+    void *arcGetAddr(s32 arcIndex);
+    bool getArcFree(s32 arcIndex);
+    bool getArcReady(s32 arcIndex);
+    bool getArcIdle(void);
+    void waitArc(s32 arcIndex);
+    void waitAllArc(void);
+
+    void updateArc(void);
+    void updateDVD(void);
 
     void setDVDErrorFuncF(void (*DVDErrorFuncF)(void)) {
         mDVDErrorFuncF = DVDErrorFuncF;
@@ -75,15 +74,20 @@ public:
     }
 
     u32 getRFLResLen(void) {
-        return fn_801D422C(1, RFLGetArcFilePath());
+        return arcGetFileLen(1, RFLGetArcFilePath());
     }
     void *getRFLResAddr(void) {
-        return fn_801D4270(1, RFLGetArcFilePath());
+        return arcGetFileAddr(1, RFLGetArcFilePath());
     }
 
+    static void *expandSZS(
+        void *data, BOOL deleteSrc,
+        EHeapMEM heap = DEFAULT_HEAP, s32 alignment = DEFAULT_ALIGN
+    );
+
     static void waitTick(void) {
-        gFileManager->fn_801D49D4(); // Check DVD errors, wait for them to be resolved if they appear ..
-        gFileManager->fn_801D4544(); // Update archive processing (do decompression, relocation, etc.)
+        gFileManager->updateDVD();
+        gFileManager->updateArc();
         OSSleepTicks(OS_MSEC_TO_TICKS(10ll));
     }
 
@@ -99,14 +103,15 @@ private:
         return index;
     }
 
-    void fn_801D412C(s32 result, DVDFileInfo *fileInfo);
+    void dvdCallbackArcImpl(s32 result, DVDFileInfo *fileInfo);
 
-    static void fn_801D392C(s32, DVDFileInfo *); // DVDAsyncCallback
-    static void fn_801D3988(s32, DVDFileInfo *); // DVDAsyncCallback
+    static void dvdCallbackFile(s32 result, DVDFileInfo *fileInfo);
+    static void dvdCallbackArc(s32 result, DVDFileInfo *fileInfo);
 
-    static void *fn_801D46A4(void *data, BOOL deleteSrc, s32 arcInfoIdx, EHeapMEM heap, s32 alignment);
-    static void *fn_801D47B8(void *); // OSThreadFunc
-    static bool fn_801D47F8(u8 *src, u8 *dst, u32 srcSize, u32 dstSize, s32 idx, BOOL deleteSrc);
+    static void *tryExpandTask(void *data, BOOL deleteSrc, s32 arcInfoIdx, EHeapMEM heap, s32 alignment);
+    static void *expandTaskFunc(void *);
+
+    static bool expandSZSImpl(u8 *src, u8 *dst, u32 srcSize, u32 dstSize, s32 idx, BOOL deleteSrc);
 
 public:
     enum EArchiveInfoState {

@@ -21,7 +21,7 @@ void CFaderFlash::_08(void) {
             mUnk08--;
         }
         else {
-            if (gFileManager->fn_801D431C()) {
+            if (gFileManager->getArcIdle()) {
                 mUnk04 = 3;
                 mUnk08 = 2;
             }

@@ -46,26 +46,26 @@ SCENE_IMPL_CREATE_FN(CSceneRap)
 
 void CSceneRap::fn_80050340(void) {
     fn_801D369C(eHeapGroup_SceneAsset);
-    if (gFileManager->fn_801D42E0(25)) {
+    if (gFileManager->getArcFree(25)) {
         if (Rap::sceneVer == 0) {
-            gFileManager->fn_801D3F94(25, "content2/cellanim/rap/ver0/cellanim.szs");
-            gFileManager->fn_801D3F94(78, "content2/layout/layout_rap.szs");
+            gFileManager->startArchive(25, "content2/cellanim/rap/ver0/cellanim.szs");
+            gFileManager->startArchive(78, "content2/layout/layout_rap.szs");
         }
         else if (Rap::sceneVer == 1) {
-            gFileManager->fn_801D3F94(25, "content2/cellanim/rap/ver1/cellanim.szs");
-            gFileManager->fn_801D3F94(78, "content2/layout/layout_rap.szs");
+            gFileManager->startArchive(25, "content2/cellanim/rap/ver1/cellanim.szs");
+            gFileManager->startArchive(78, "content2/layout/layout_rap.szs");
         }
         else if (Rap::sceneVer == 2) {
-            gFileManager->fn_801D3F94(25, "content2/cellanim/rap/remix06/cellanim.szs");
-            gFileManager->fn_801D3F94(78, "content2/layout/layout_rap.szs");
+            gFileManager->startArchive(25, "content2/cellanim/rap/remix06/cellanim.szs");
+            gFileManager->startArchive(78, "content2/layout/layout_rap.szs");
         }
         else if (Rap::sceneVer == 3) {
-            gFileManager->fn_801D3F94(25, "content2/cellanim/rap/remix09/cellanim.szs");
-            gFileManager->fn_801D3F94(78, "content2/layout/layout_rap.szs");
+            gFileManager->startArchive(25, "content2/cellanim/rap/remix09/cellanim.szs");
+            gFileManager->startArchive(78, "content2/layout/layout_rap.szs");
         }
         else if (Rap::sceneVer == 4) {
-            gFileManager->fn_801D3F94(25, "content2/cellanim/rap/remix10/cellanim.szs");
-            gFileManager->fn_801D3F94(78, "content2/layout/layout_rap.szs");
+            gFileManager->startArchive(25, "content2/cellanim/rap/remix10/cellanim.szs");
+            gFileManager->startArchive(78, "content2/layout/layout_rap.szs");
         }
     }
     fn_801D3644();
@@ -80,13 +80,13 @@ void CSceneRap::fn_800504DC(void) {
         (Rap::sceneVer == 0) || (Rap::sceneVer == 1) || (Rap::sceneVer == 2) ||
         (Rap::sceneVer == 3) || (Rap::sceneVer == 4)
     ) {
-        gFileManager->fn_801D41CC(25);
-        gFileManager->fn_801D41CC(78);
+        gFileManager->endArchive(25);
+        gFileManager->endArchive(78);
     }
 }
 
 bool CSceneRap::_24(void) {
-    return gFileManager->fn_801D42FC(25) && gFileManager->fn_801D42FC(78);
+    return gFileManager->getArcReady(25) && gFileManager->getArcReady(78);
 }
 
 void CSceneRap::_14(void) {
@@ -117,13 +117,13 @@ void CSceneRap::_14(void) {
 
     mMyLayout = gLayoutManager->getLayout<Rap::CMyLayout>(3);
 
-    void *rap_brcadAddr = gFileManager->fn_801D4270(25, "./rap.brcad");
-    void *rap_bg_brcadAddr = gFileManager->fn_801D4270(25, "./rap_bg.brcad");
-    void *rap_bg_01_brcadAddr = gFileManager->fn_801D4270(25, "./rap_bg_01.brcad");
-    void *rap_airplane_brcadAddr = gFileManager->fn_801D4270(25, "./rap_airplane.brcad");
+    void *rap_brcadAddr = gFileManager->arcGetFileAddr(25, "./rap.brcad");
+    void *rap_bg_brcadAddr = gFileManager->arcGetFileAddr(25, "./rap_bg.brcad");
+    void *rap_bg_01_brcadAddr = gFileManager->arcGetFileAddr(25, "./rap_bg_01.brcad");
+    void *rap_airplane_brcadAddr = gFileManager->arcGetFileAddr(25, "./rap_airplane.brcad");
 
-    u32 tplLen = gFileManager->fn_801D422C(25, "./cellanim.tpl");
-    void *tplAddr = gFileManager->fn_801D4270(25, "./cellanim.tpl");
+    u32 tplLen = gFileManager->arcGetFileLen(25, "./cellanim.tpl");
+    void *tplAddr = gFileManager->arcGetFileAddr(25, "./cellanim.tpl");
 
     UserTPLBind(tplAddr);
     DCStoreRange(tplAddr, tplLen);
@@ -134,7 +134,7 @@ void CSceneRap::_14(void) {
     gCellAnimManager->registBank(rap_airplane_brcadAddr, tplAddr, 3);
 
     if (Rap::sceneVer == 1) {
-        void *rap_chandelier_brcadAddr = gFileManager->fn_801D4270(25, "./rap_chandelier.brcad");
+        void *rap_chandelier_brcadAddr = gFileManager->arcGetFileAddr(25, "./rap_chandelier.brcad");
         gCellAnimManager->registBank(rap_chandelier_brcadAddr, tplAddr, 4);
     }
 

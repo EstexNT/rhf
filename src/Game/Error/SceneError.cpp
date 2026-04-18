@@ -68,8 +68,8 @@ SCENE_IMPL_CREATE_FN(CSceneError)
 
 void CSceneError::fn_8007963C(void) {
     fn_801D369C(eHeapGroup_SceneAsset);
-    if (gFileManager->fn_801D42E0(55)) {
-        gFileManager->fn_801D3F94(55, "content2/layout/layout_error.szs");
+    if (gFileManager->getArcFree(55)) {
+        gFileManager->startArchive(55, "content2/layout/layout_error.szs");
     }
     fn_801D3644();
 }
@@ -162,7 +162,7 @@ void CSceneError::_1C(void) {
 }
 
 void CSceneError::_20(void) {
-    gFileManager->fn_801D41CC(55);
+    gFileManager->endArchive(55);
 
     this->CExScene::_20();
 

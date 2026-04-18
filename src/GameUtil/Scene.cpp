@@ -60,5 +60,5 @@ void CScene::fn_801D8578(void) {
 }
 
 bool CScene::_24(void) {
-    return gFileManager->fn_801D431C();
+    return gFileManager->getArcIdle();
 }

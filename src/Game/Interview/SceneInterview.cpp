@@ -52,21 +52,21 @@ SCENE_IMPL_CREATE_FN(CSceneInterview)
 void CSceneInterview::fn_800B5508(void) {
     fn_801D369C(eHeapGroup_SceneAsset);
 
-    if (gFileManager->fn_801D42E0(21)) {
+    if (gFileManager->getArcFree(21)) {
         if (Interview::sceneVer == 0) {
-            gFileManager->fn_801D3F94(21, "content2/cellanim/interview/ver0/cellanim.szs");
+            gFileManager->startArchive(21, "content2/cellanim/interview/ver0/cellanim.szs");
         }
         else if ((Interview::sceneVer == 1) || (Interview::sceneVer == 2) || (Interview::sceneVer == 3)) {
-            gFileManager->fn_801D3F94(21, "content2/cellanim/interview/2play/cellanim.szs");
+            gFileManager->startArchive(21, "content2/cellanim/interview/2play/cellanim.szs");
         }
         else if (Interview::sceneVer == 4) {
-            gFileManager->fn_801D3F94(21, "content2/cellanim/interview/remix04/cellanim.szs");
+            gFileManager->startArchive(21, "content2/cellanim/interview/remix04/cellanim.szs");
         }
         else if (Interview::sceneVer == 5) {
-            gFileManager->fn_801D3F94(21, "content2/cellanim/interview/remix09/cellanim.szs");
+            gFileManager->startArchive(21, "content2/cellanim/interview/remix09/cellanim.szs");
         }
         else if (Interview::sceneVer == 6) {
-            gFileManager->fn_801D3F94(21, "content2/cellanim/interview/remix10/cellanim.szs");
+            gFileManager->startArchive(21, "content2/cellanim/interview/remix10/cellanim.szs");
         }
     }
 
@@ -83,12 +83,12 @@ void CSceneInterview::fn_800B5624(void) {
         (Interview::sceneVer == 3) || (Interview::sceneVer == 4) || (Interview::sceneVer == 5) ||
         (Interview::sceneVer == 6)
     ) {
-        gFileManager->fn_801D41CC(21);
+        gFileManager->endArchive(21);
     }
 }
 
 bool CSceneInterview::_24(void) {
-    return gFileManager->fn_801D42FC(21);
+    return gFileManager->getArcReady(21);
 }
 
 enum {
@@ -135,17 +135,17 @@ void CSceneInterview::_14(void) {
     gLayoutManager->getLayout<CPauseLayout>(0)->setDrawEnable(false);
     gLayoutManager->getLayout<CCursorLayout>(1)->setDrawEnable(false);
 
-    void *bg_00_brcadAddr       = gFileManager->fn_801D4270(21, "./interview_bg_00.brcad");
-    void *bg_01_brcadAddr       = gFileManager->fn_801D4270(21, "./interview_bg_01.brcad");
-    void *bg_02_brcadAddr       = gFileManager->fn_801D4270(21, "./interview_bg_02.brcad");
-    void *far_00_brcadAddr      = gFileManager->fn_801D4270(21, "./interview_far_00.brcad");
-    void *far_01_brcadAddr      = gFileManager->fn_801D4270(21, "./interview_far_01.brcad");
-    void *far_02_brcadAddr      = gFileManager->fn_801D4270(21, "./interview_far_02.brcad");
-    void *girl_brcadAddr        = gFileManager->fn_801D4270(21, "./interview_girl.brcad");
-    void *wrestler_1P_brcadAddr = gFileManager->fn_801D4270(21, "./interview_wrestler_1P.brcad");
+    void *bg_00_brcadAddr       = gFileManager->arcGetFileAddr(21, "./interview_bg_00.brcad");
+    void *bg_01_brcadAddr       = gFileManager->arcGetFileAddr(21, "./interview_bg_01.brcad");
+    void *bg_02_brcadAddr       = gFileManager->arcGetFileAddr(21, "./interview_bg_02.brcad");
+    void *far_00_brcadAddr      = gFileManager->arcGetFileAddr(21, "./interview_far_00.brcad");
+    void *far_01_brcadAddr      = gFileManager->arcGetFileAddr(21, "./interview_far_01.brcad");
+    void *far_02_brcadAddr      = gFileManager->arcGetFileAddr(21, "./interview_far_02.brcad");
+    void *girl_brcadAddr        = gFileManager->arcGetFileAddr(21, "./interview_girl.brcad");
+    void *wrestler_1P_brcadAddr = gFileManager->arcGetFileAddr(21, "./interview_wrestler_1P.brcad");
 
-    u32 tplLen      = gFileManager->fn_801D422C(21, "./cellanim.tpl");
-    void *tplAddr   = gFileManager->fn_801D4270(21, "./cellanim.tpl");
+    u32 tplLen      = gFileManager->arcGetFileLen(21, "./cellanim.tpl");
+    void *tplAddr   = gFileManager->arcGetFileAddr(21, "./cellanim.tpl");
 
     UserTPLBind(tplAddr);
     DCStoreRange(tplAddr, tplLen);
@@ -160,7 +160,7 @@ void CSceneInterview::_14(void) {
     gCellAnimManager->registBank(wrestler_1P_brcadAddr, tplAddr, wrestler_1P);
 
     if ((Interview::sceneVer == 1) || (Interview::sceneVer == 2) || (Interview::sceneVer == 3)) {
-        void *wrestler_2P_brcadAddr = gFileManager->fn_801D4270(21, "./interview_wrestler_2P.brcad");
+        void *wrestler_2P_brcadAddr = gFileManager->arcGetFileAddr(21, "./interview_wrestler_2P.brcad");
         gCellAnimManager->registBank(wrestler_2P_brcadAddr, tplAddr, wrestler_2P);
     }
 

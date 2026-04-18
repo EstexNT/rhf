@@ -85,8 +85,8 @@ SCENE_IMPL_CREATE_FN(CSceneAgbTap)
 
 void CSceneAgbTap::fn_800A9034(void) {
     fn_801D369C(eHeapGroup_SceneAsset);
-    if (gFileManager->fn_801D42E0(2)) {
-        gFileManager->fn_801D3F94(2, "content2/cellanim/agbTap/ver0/cellanim.szs");
+    if (gFileManager->getArcFree(2)) {
+        gFileManager->startArchive(2, "content2/cellanim/agbTap/ver0/cellanim.szs");
     }
     fn_801D3644();
 }
@@ -96,7 +96,7 @@ void CSceneAgbTap::_10(void) {
 }
 
 bool CSceneAgbTap::_24(void) {
-    return gFileManager->fn_801D42FC(2);
+    return gFileManager->getArcReady(2);
 }
 
 void CSceneAgbTap::_14(void) {
@@ -109,11 +109,11 @@ void CSceneAgbTap::_14(void) {
     CController *controller = gControllerManager->fn_801D5FF0(0);
     controller->fn_801D5500(WPAD_BUTTON_A, 3);
 
-    void *agb_tap_brcadAddr = gFileManager->fn_801D4270(2, "./agb_tap.brcad");
-    void *agb_tap_bg_brcadAddr = gFileManager->fn_801D4270(2, "./agb_tap_bg.brcad");
+    void *agb_tap_brcadAddr = gFileManager->arcGetFileAddr(2, "./agb_tap.brcad");
+    void *agb_tap_bg_brcadAddr = gFileManager->arcGetFileAddr(2, "./agb_tap_bg.brcad");
 
-    u32 tplLen = gFileManager->fn_801D422C(2, "./cellanim.tpl");
-    void *tplAddr = gFileManager->fn_801D4270(2, "./cellanim.tpl");
+    u32 tplLen = gFileManager->arcGetFileLen(2, "./cellanim.tpl");
+    void *tplAddr = gFileManager->arcGetFileAddr(2, "./cellanim.tpl");
 
     UserTPLBind(tplAddr);
     DCStoreRange(tplAddr, tplLen);
@@ -245,7 +245,7 @@ void CSceneAgbTap::_20(void) {
     gCellAnimManager->endCellAnimByBank(0);
     gCellAnimManager->endCellAnimByBank(1);
 
-    gFileManager->fn_801D41CC(2);
+    gFileManager->endArchive(2);
 
     this->CExScene::_20();
 }

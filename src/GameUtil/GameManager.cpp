@@ -75,8 +75,8 @@ void CGameManager::_1C(CScene::CreateFn initSceneCreateFn, CFaderFlash *fader, u
             gControllerManager->_18();
         }
 
-        gFileManager->fn_801D49D4();
-        gFileManager->fn_801D4544();
+        gFileManager->updateDVD();
+        gFileManager->updateArc();
 
         gTickFlowManager->_18();
 
@@ -194,7 +194,7 @@ void CGameManager::fn_801D7538(s32 driveStatus) {
 
     while (
         (CSoundManager::fn_801E4D4C() && gSoundManager->get_loading()) ||
-        gFileManager->fn_801D3D58()
+        gFileManager->getDVDBusy()
     ) {
         gGraphicManager->fn_801D63B4();
 

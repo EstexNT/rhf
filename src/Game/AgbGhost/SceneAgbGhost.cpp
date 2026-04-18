@@ -55,8 +55,8 @@ SCENE_IMPL_CREATE_FN(CSceneAgbGhost)
 
 void CSceneAgbGhost::fn_800A772C(void) {
     fn_801D369C(eHeapGroup_SceneAsset);
-    if (gFileManager->fn_801D42E0(2)) {
-        gFileManager->fn_801D3F94(2, "content2/cellanim/agbGhost/ver0/cellanim.szs");
+    if (gFileManager->getArcFree(2)) {
+        gFileManager->startArchive(2, "content2/cellanim/agbGhost/ver0/cellanim.szs");
     }
     fn_801D3644();
 }
@@ -66,7 +66,7 @@ void CSceneAgbGhost::_10(void) {
 }
 
 bool CSceneAgbGhost::_24(void) {
-    return gFileManager->fn_801D42FC(2);
+    return gFileManager->getArcReady(2);
 }
 
 void CSceneAgbGhost::_14(void) {
@@ -78,10 +78,10 @@ void CSceneAgbGhost::_14(void) {
 
     fn_80008FC0(true, WSD_AGB_SHIROI_OBAKE);
 
-    void *ghost_brcadAddr = gFileManager->fn_801D4270(2, "./ghost.brcad");
+    void *ghost_brcadAddr = gFileManager->arcGetFileAddr(2, "./ghost.brcad");
 
-    u32 ghost_tplLen = gFileManager->fn_801D422C(2, "./cellanim.tpl");
-    void *ghost_tplAddr = gFileManager->fn_801D4270(2, "./cellanim.tpl");
+    u32 ghost_tplLen = gFileManager->arcGetFileLen(2, "./cellanim.tpl");
+    void *ghost_tplAddr = gFileManager->arcGetFileAddr(2, "./cellanim.tpl");
 
     UserTPLBind(ghost_tplAddr);
     DCStoreRange(ghost_tplAddr, ghost_tplLen);
@@ -233,7 +233,7 @@ void CSceneAgbGhost::_20(void) {
     gCellAnimManager->endBank(0);
     gCellAnimManager->endCellAnimByBank(0);
 
-    gFileManager->fn_801D41CC(2);
+    gFileManager->endArchive(2);
 
     this->CExScene::_20();
 }

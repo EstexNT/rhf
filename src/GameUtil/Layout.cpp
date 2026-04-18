@@ -176,7 +176,8 @@ void CExBtnPane::_10(EBtnState state, bool arg1) {
         if ((prevState == eBtnState_Selected) && (mFocusAnime != NULL)) {
             if (!mFocusAnime->getIsPlaying()) {
                 mFocusAnime->playFromBeginReverse();
-            } else {
+            }
+            else {
                 mFocusAnime->fn_801DA09C(TRUE);
                 mFocusAnime->setIsPlaying(true);
             }

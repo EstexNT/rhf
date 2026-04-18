@@ -36,16 +36,16 @@ SCENE_IMPL_CREATE_FN(CSceneStrap)
 void CSceneStrap::fn_8007B2D8(void) {
     fn_801D369C(eHeapGroup_SceneAsset);
 
-    if (gFileManager->fn_801D42E0(2)) {
+    if (gFileManager->getArcFree(2)) {
         switch (SCGetLanguage()) {
         case SC_LANG_FR:
-            gFileManager->fn_801D3F94(2, "content2/cellanim/strap/verF/cellanim.szs");
+            gFileManager->startArchive(2, "content2/cellanim/strap/verF/cellanim.szs");
             break;
         case SC_LANG_SP:
-            gFileManager->fn_801D3F94(2, "content2/cellanim/strap/verS/cellanim.szs");
+            gFileManager->startArchive(2, "content2/cellanim/strap/verS/cellanim.szs");
             break;
         default:
-            gFileManager->fn_801D3F94(2, "content2/cellanim/strap/verE/cellanim.szs");
+            gFileManager->startArchive(2, "content2/cellanim/strap/verE/cellanim.szs");
             break;
         }
     }
@@ -58,7 +58,7 @@ void CSceneStrap::_10(void) {
 }
 
 bool CSceneStrap::_24(void) {
-    return gFileManager->fn_801D42FC(2);
+    return gFileManager->getArcReady(2);
 }
 
 void CSceneStrap::_14(void) {
@@ -68,10 +68,10 @@ void CSceneStrap::_14(void) {
 
     gTickFlowManager->registerFlow<Strap::CMyFlow>();
 
-    void *brcadAddr = gFileManager->fn_801D4270(2, "./strap.brcad");
+    void *brcadAddr = gFileManager->arcGetFileAddr(2, "./strap.brcad");
 
-    u32 tplLen = gFileManager->fn_801D422C(2, "./cellanim.tpl");
-    void *tplAddr = gFileManager->fn_801D4270(2, "./cellanim.tpl");
+    u32 tplLen = gFileManager->arcGetFileLen(2, "./cellanim.tpl");
+    void *tplAddr = gFileManager->arcGetFileAddr(2, "./cellanim.tpl");
     UserTPLBind(tplAddr);
     DCStoreRange(tplAddr, tplLen);
 
@@ -125,7 +125,7 @@ void CSceneStrap::_1C(void) {
 }
 
 void CSceneStrap::_20(void) {
-    gFileManager->fn_801D4364(1);
+    gFileManager->waitArc(1);
 
     gRFLManager->fn_800C2CA4();
     gRFLManager->fn_800C2E04();
@@ -136,7 +136,7 @@ void CSceneStrap::_20(void) {
     gCellAnimManager->endBank(0);
     gCellAnimManager->endCellAnimByBank(0);
 
-    gFileManager->fn_801D41CC(2);
+    gFileManager->endArchive(2);
 
     this->CExScene::_20();
 }

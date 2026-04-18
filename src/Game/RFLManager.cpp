@@ -38,14 +38,14 @@ void CRFLManager::_08(void) {
 
 void CRFLManager::fn_800C2C40(void) {
     fn_801D369C(eHeapGroup_SceneAsset);
-    if (gFileManager->fn_801D42E0(1)) {
-        gFileManager->fn_801D3F94(1, "content2/RFLRes01.arc");
+    if (gFileManager->getArcFree(1)) {
+        gFileManager->startArchive(1, "content2/RFLRes01.arc");
     }
     fn_801D3644();
 }
 
 void CRFLManager::fn_800C2C98(void) {
-    gFileManager->fn_801D41CC(1);
+    gFileManager->endArchive(1);
 }
 
 RFLErrcode CRFLManager::fn_800C2CA4(void) {

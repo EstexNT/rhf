@@ -48,21 +48,21 @@ SCENE_IMPL_CREATE_FN(CSceneFork)
 void CSceneFork::fn_8004BEB4(void) {
     fn_801D369C(eHeapGroup_SceneAsset);
 
-    if (gFileManager->fn_801D42E0(19)) {
+    if (gFileManager->getArcFree(19)) {
         if (Fork::sceneVer == 0) {
-            gFileManager->fn_801D3F94(19, "content2/cellanim/fork/ver0/cellanim.szs");
+            gFileManager->startArchive(19, "content2/cellanim/fork/ver0/cellanim.szs");
         }
         else if (Fork::sceneVer == 1 || Fork::sceneVer == 2 || Fork::sceneVer == 3) {
-            gFileManager->fn_801D3F94(19, "content2/cellanim/fork/2play/cellanim.szs");
+            gFileManager->startArchive(19, "content2/cellanim/fork/2play/cellanim.szs");
         }
         else if (Fork::sceneVer == 4) {
-            gFileManager->fn_801D3F94(19, "content2/cellanim/fork/remix02/cellanim.szs");
+            gFileManager->startArchive(19, "content2/cellanim/fork/remix02/cellanim.szs");
         }
         else if (Fork::sceneVer == 5) {
-            gFileManager->fn_801D3F94(19, "content2/cellanim/fork/remix09/cellanim.szs");
+            gFileManager->startArchive(19, "content2/cellanim/fork/remix09/cellanim.szs");
         }
         else if (Fork::sceneVer == 6) {
-            gFileManager->fn_801D3F94(19, "content2/cellanim/fork/remix10/cellanim.szs");
+            gFileManager->startArchive(19, "content2/cellanim/fork/remix10/cellanim.szs");
         }
     }
 
@@ -75,12 +75,12 @@ void CSceneFork::_10(void) {
 
 void CSceneFork::fn_8004BFD0(void) {
     if (Fork::sceneVer >= 0 && Fork::sceneVer <= 6) {
-        gFileManager->fn_801D41CC(19);
+        gFileManager->endArchive(19);
     }
 }
 
 bool CSceneFork::_24(void) {
-    return gFileManager->fn_801D42FC(19);
+    return gFileManager->getArcReady(19);
 }
 
 extern CCellAnim *lbl_80320204; // gPermanentAnimP1
@@ -105,10 +105,10 @@ void CSceneFork::_14(void) {
     gControllerManager->fn_801D5FF0(0)->fn_801D5500(WPAD_BUTTON_A, 2);
     gControllerManager->fn_801D5FF0(1)->fn_801D5500(WPAD_BUTTON_A, 2);
 
-    void *fork_brcadAddr = gFileManager->fn_801D4270(19, "./fork.brcad");
+    void *fork_brcadAddr = gFileManager->arcGetFileAddr(19, "./fork.brcad");
 
-    u32 tplLen = gFileManager->fn_801D422C(19, "./cellanim.tpl");
-    void *tplAddr = gFileManager->fn_801D4270(19, "./cellanim.tpl");
+    u32 tplLen = gFileManager->arcGetFileLen(19, "./cellanim.tpl");
+    void *tplAddr = gFileManager->arcGetFileAddr(19, "./cellanim.tpl");
 
     UserTPLBind(tplAddr);
     DCStoreRange(tplAddr, tplLen);
@@ -116,7 +116,7 @@ void CSceneFork::_14(void) {
     gCellAnimManager->registBank(fork_brcadAddr, tplAddr, 0);
 
     if (Fork::sceneVer == 1 || Fork::sceneVer == 2 || Fork::sceneVer == 3) {
-        void *fork2_brcadAddr = gFileManager->fn_801D4270(19, "./fork2.brcad");
+        void *fork2_brcadAddr = gFileManager->arcGetFileAddr(19, "./fork2.brcad");
         gCellAnimManager->registBank(fork2_brcadAddr, tplAddr, 0);
     }
 

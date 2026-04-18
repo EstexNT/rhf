@@ -86,23 +86,23 @@ void CHBMManager::_10(void) {
         break;
     }
 
-    mHBMInfo.layoutBuf = gFileManager->fn_801D3C4C(pathBuf);
-    gFileManager->fn_801D3D94();
+    mHBMInfo.layoutBuf = gFileManager->loadFile(pathBuf);
+    gFileManager->waitDVD();
 
     strcpy(pathBuf, hbmRootDir);
     strcat(pathBuf, "/SpeakerSe.arc");
-    mHBMInfo.spkSeBuf = gFileManager->fn_801D3C4C(pathBuf);
-    gFileManager->fn_801D3D94();
+    mHBMInfo.spkSeBuf = gFileManager->loadFile(pathBuf);
+    gFileManager->waitDVD();
 
     strcpy(pathBuf, hbmRootDir);
     strcat(pathBuf, "/home.csv");
-    mHBMInfo.msgBuf = gFileManager->fn_801D3C4C(pathBuf);
-    gFileManager->fn_801D3D94();
+    mHBMInfo.msgBuf = gFileManager->loadFile(pathBuf);
+    gFileManager->waitDVD();
 
     strcpy(pathBuf, hbmRootDir);
     strcat(pathBuf, "/config.txt");
-    mHBMInfo.configBuf = gFileManager->fn_801D3C4C(pathBuf);
-    gFileManager->fn_801D3D94();
+    mHBMInfo.configBuf = gFileManager->loadFile(pathBuf);
+    gFileManager->waitDVD();
 
     mHBMInfo.configBufSize = strlen(static_cast<char *>(mHBMInfo.configBuf));
 
@@ -124,8 +124,8 @@ void CHBMManager::_10(void) {
 
     strcpy(pathBuf, hbmRootDir);
     strcat(pathBuf, "/HomeButtonSe.arc");
-    mHBMSoundData = gFileManager->fn_801D3C4C(pathBuf);
-    gFileManager->fn_801D3D94();
+    mHBMSoundData = gFileManager->loadFile(pathBuf);
+    gFileManager->waitDVD();
 
     u32 soundMemSize = 0x18700;
     mHBMSoundMem = new (eHeap_MEM2, 32) u8[soundMemSize];
@@ -134,8 +134,8 @@ void CHBMManager::_10(void) {
 
     strcpy(pathBuf, hbmRootDir);
     strcat(pathBuf, "/homeBtnIcon.tpl");
-    mHBMIconPal = static_cast<TPLPalette *>(gFileManager->fn_801D3C4C(pathBuf));
-    gFileManager->fn_801D3D94();
+    mHBMIconPal = static_cast<TPLPalette *>(gFileManager->loadFile(pathBuf));
+    gFileManager->waitDVD();
 
     UserTPLBind(mHBMIconPal);
 }

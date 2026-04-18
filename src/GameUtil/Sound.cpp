@@ -33,7 +33,7 @@ void CSoundManager::_10(void *soundArchiveAddr) {
     mSoundArchiveType = eSoundArchiveType_Mem;
     mMemSoundArchiveData = static_cast<u8 *>(soundArchiveAddr);
 
-    gFileManager->fn_801D3E94();
+    gFileManager->waitDVD2();
 
     mMemSoundArchive = new nw4r::snd::MemorySoundArchive;
     mMemSoundArchive->Setup(mMemSoundArchiveData);

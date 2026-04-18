@@ -42,8 +42,8 @@ SCENE_IMPL_CREATE_FN(CSceneMetroman)
 
 void CSceneMetroman::fn_800D7FDC(void) {
     fn_801D369C(eHeapGroup_SceneAsset);
-    if (Metroman::sceneVer >= 0 && Metroman::sceneVer <= 2 && gFileManager->fn_801D42E0(40)) {
-        gFileManager->fn_801D3F94(40, "content2/cellanim/metroman/ver0/cellanim.szs");
+    if (Metroman::sceneVer >= 0 && Metroman::sceneVer <= 2 && gFileManager->getArcFree(40)) {
+        gFileManager->startArchive(40, "content2/cellanim/metroman/ver0/cellanim.szs");
     }
     fn_801D3644();
 }
@@ -54,13 +54,13 @@ void CSceneMetroman::_10(void) {
 
 void CSceneMetroman::fn_800D80A4(void) {
     if (Metroman::sceneVer >= 0 && Metroman::sceneVer <= 2) {
-        gFileManager->fn_801D41CC(40);
+        gFileManager->endArchive(40);
     }
 }
 
 bool CSceneMetroman::_24(void) {
     if (Metroman::sceneVer >= 0 && Metroman::sceneVer <= 2) {
-        return gFileManager->fn_801D42FC(40);
+        return gFileManager->getArcReady(40);
     }
     return this->CScene::_24();
 }
@@ -81,11 +81,11 @@ void CSceneMetroman::_14(void) {
     CController *controller = gControllerManager->fn_801D5FF0(0);
     controller->fn_801D5500(WPAD_BUTTON_A, 3);
 
-    void *metroman_00_brcadAddr = gFileManager->fn_801D4270(40, "./metroman_00.brcad");
-    void *metroman_bg_brcadAddr = gFileManager->fn_801D4270(40, "./metroman_bg.brcad");
+    void *metroman_00_brcadAddr = gFileManager->arcGetFileAddr(40, "./metroman_00.brcad");
+    void *metroman_bg_brcadAddr = gFileManager->arcGetFileAddr(40, "./metroman_bg.brcad");
 
-    u32 metroman_tplLen = gFileManager->fn_801D422C(40, "./cellanim.tpl");
-    void *metroman_tplAddr = gFileManager->fn_801D4270(40, "./cellanim.tpl");
+    u32 metroman_tplLen = gFileManager->arcGetFileLen(40, "./cellanim.tpl");
+    void *metroman_tplAddr = gFileManager->arcGetFileAddr(40, "./cellanim.tpl");
 
     UserTPLBind(metroman_tplAddr);
     DCStoreRange(metroman_tplAddr, metroman_tplLen);
@@ -243,7 +243,7 @@ void CSceneMetroman::_20(void) {
     gCellAnimManager->endCellAnimByBank(1);
     
     if (Metroman::sceneVer != 2 && (Metroman::sceneVer >= 0 && Metroman::sceneVer <= 2)) {
-        gFileManager->fn_801D41CC(40);
+        gFileManager->endArchive(40);
     }
 
     this->CExScene::_20();

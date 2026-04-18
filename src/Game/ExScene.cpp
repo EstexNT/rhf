@@ -168,7 +168,7 @@ void CExScene::_18(void) {
             lbl_80320230 = 0;
 
             if (
-                gFileManager->fn_801D42FC(50) &&
+                gFileManager->getArcReady(50) &&
                 gCellAnimManager->getBankActive(254) &&
                 lbl_80320214 != NULL && lbl_80320214->getEnabled()
             ) {
@@ -388,21 +388,21 @@ void CExScene::_20(void) {
 
         fn_8009E1C4();
 
-        if (gFileManager->fn_801D42FC(50) && gCellAnimManager->getBankActive(254)) {
+        if (gFileManager->getArcReady(50) && gCellAnimManager->getBankActive(254)) {
             gCellAnimManager->endCellAnimByBank(254);
             gCellAnimManager->endBank(254);
 
-            gFileManager->fn_801D41CC(50);
+            gFileManager->endArchive(50);
 
             lbl_80320214 = NULL;
         }
 
         // NOTE: duplicated code for no reason
-        if (gFileManager->fn_801D42FC(50) && gCellAnimManager->getBankActive(254)) {
+        if (gFileManager->getArcReady(50) && gCellAnimManager->getBankActive(254)) {
             gCellAnimManager->endCellAnimByBank(254);
             gCellAnimManager->endBank(254);
 
-            gFileManager->fn_801D41CC(50);
+            gFileManager->endArchive(50);
 
             lbl_80320214 = NULL;
         }
@@ -429,11 +429,11 @@ void CExScene::fn_80008EF0(void) {
 }
 
 void CExScene::fn_80008EFC(void) {
-    gFileManager->fn_801D443C();
+    gFileManager->waitAllArc();
 
     for (u8 i = 2; i < CFileManager::DEFAULT_MAX_ARCHIVE_COUNT; i++) {
-        if ((i != 54) && (i != 94) && gFileManager->fn_801D42FC(i)) {
-            gFileManager->fn_801D41CC(i);
+        if ((i != 54) && (i != 94) && gFileManager->getArcReady(i)) {
+            gFileManager->endArchive(i);
         }
     }
 }
@@ -453,16 +453,16 @@ void CExScene::fn_80008FC0(bool update, u16 soundID) {
 }
 
 void CExScene::fn_80009028(void) {
-    gFileManager->fn_801D3F94(54, "content2/cellanim/permanent/cellanim.szs");
-    gFileManager->fn_801D3F94(94, "content2/layout/layout_common.szs");
+    gFileManager->startArchive(54, "content2/cellanim/permanent/cellanim.szs");
+    gFileManager->startArchive(94, "content2/layout/layout_common.szs");
 
-    gFileManager->fn_801D4364(54);
-    gFileManager->fn_801D4364(94);
+    gFileManager->waitArc(54);
+    gFileManager->waitArc(94);
 
-    void *permanent_brcadAddr = gFileManager->fn_801D4270(54, "./permanent.brcad");
+    void *permanent_brcadAddr = gFileManager->arcGetFileAddr(54, "./permanent.brcad");
 
-    u32 permanent_tplLen = gFileManager->fn_801D422C(54, "./cellanim.tpl");
-    void *permanent_tplAddr = gFileManager->fn_801D4270(54, "./cellanim.tpl");
+    u32 permanent_tplLen = gFileManager->arcGetFileLen(54, "./cellanim.tpl");
+    void *permanent_tplAddr = gFileManager->arcGetFileAddr(54, "./cellanim.tpl");
 
     UserTPLBind(permanent_tplAddr);
     DCStoreRange(permanent_tplAddr, permanent_tplLen);
@@ -604,8 +604,8 @@ void CExScene::fn_8000966C(void) {
     gCellAnimManager->endBank(255);
     gCellAnimManager->endCellAnimByBank(255);
 
-    gFileManager->fn_801D41CC(54);
-    gFileManager->fn_801D41CC(94);
+    gFileManager->endArchive(54);
+    gFileManager->endArchive(94);
 }
 
 void CExScene::fn_800096EC(s32 x, s32 y) {
@@ -924,27 +924,27 @@ void CExScene::fn_8000A038(void) {
 }
 
 void CExScene::fn_8000A084(void) {
-    gFileManager->fn_801D3F94(50, "content2/cellanim/remix/ver8/cellanim.szs");
+    gFileManager->startArchive(50, "content2/cellanim/remix/ver8/cellanim.szs");
 }
 
 void CExScene::fn_8000A0A4(void) {
     gCellAnimManager->endCellAnimByBank(254);
     gCellAnimManager->endBank(254);
 
-    gFileManager->fn_801D41CC(50);
+    gFileManager->endArchive(50);
 
     lbl_80320214 = NULL;
 }
 
 bool CExScene::fn_8000A0EC(void) {
-    return gFileManager->fn_801D42FC(50);
+    return gFileManager->getArcReady(50);
 }
 
 void CExScene::fn_8000A0F8(void) {
-    void *brcadAddr = gFileManager->fn_801D4270(50, "./remix08_Mask.brcad");
+    void *brcadAddr = gFileManager->arcGetFileAddr(50, "./remix08_Mask.brcad");
 
-    u32 tplLen = gFileManager->fn_801D422C(50, "./cellanim.tpl");
-    void *tplAddr = gFileManager->fn_801D4270(50, "./cellanim.tpl");
+    u32 tplLen = gFileManager->arcGetFileLen(50, "./cellanim.tpl");
+    void *tplAddr = gFileManager->arcGetFileAddr(50, "./cellanim.tpl");
 
     UserTPLBind(tplAddr);
     DCStoreRange(tplAddr, tplLen);
@@ -969,28 +969,28 @@ void CExScene::fn_8000A1E0(s32 layer) {
 }
 
 void CExScene::fn_8000A1EC(void) {
-    gFileManager->fn_801D3F94(50, "content2/cellanim/endless/cellanim.szs");
+    gFileManager->startArchive(50, "content2/cellanim/endless/cellanim.szs");
 }
 
 void CExScene::fn_8000A20C(void) {
     gCellAnimManager->endCellAnimByBank(254);
     gCellAnimManager->endBank(254);
 
-    gFileManager->fn_801D41CC(50);
+    gFileManager->endArchive(50);
 
     // NOTE: this is probably here because of a copy-paste error
     lbl_80320214 = NULL;
 }
 
 bool CExScene::fn_8000A254(void) {
-    return gFileManager->fn_801D42FC(50);
+    return gFileManager->getArcReady(50);
 }
 
 void CExScene::fn_8000A260(void) {
-    void *brcadAddr = gFileManager->fn_801D4270(50, "./score.brcad");
+    void *brcadAddr = gFileManager->arcGetFileAddr(50, "./score.brcad");
 
-    u32 tplLen = gFileManager->fn_801D422C(50, "./cellanim.tpl");
-    void *tplAddr = gFileManager->fn_801D4270(50, "./cellanim.tpl");
+    u32 tplLen = gFileManager->arcGetFileLen(50, "./cellanim.tpl");
+    void *tplAddr = gFileManager->arcGetFileAddr(50, "./cellanim.tpl");
 
     UserTPLBind(tplAddr);
     DCStoreRange(tplAddr, tplLen);

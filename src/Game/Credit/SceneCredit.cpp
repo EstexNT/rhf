@@ -39,13 +39,13 @@ SCENE_IMPL_CREATE_FN(CSceneCredit)
 void CSceneCredit::fn_800C42AC(void) {
     fn_801D369C(eHeapGroup_SceneAsset);
     if (
-        gFileManager->fn_801D42E0(2) && gFileManager->fn_801D42E0(3) &&
-        gFileManager->fn_801D42E0(55) &&
+        gFileManager->getArcFree(2) && gFileManager->getArcFree(3) &&
+        gFileManager->getArcFree(55) &&
         (Credit::sceneVer == 0)
     ) {
-        gFileManager->fn_801D3F94(2, "content2/cellanim/credit/ver0/cellanim.szs");
-        gFileManager->fn_801D3F94(3, "content2/cellanim/navi/ver0/cellanim.szs");
-        gFileManager->fn_801D3F94(55, "content2/layout/layout_credit.szs");
+        gFileManager->startArchive(2, "content2/cellanim/credit/ver0/cellanim.szs");
+        gFileManager->startArchive(3, "content2/cellanim/navi/ver0/cellanim.szs");
+        gFileManager->startArchive(55, "content2/layout/layout_credit.szs");
     }
     fn_801D3644();
 }
@@ -55,8 +55,8 @@ void CSceneCredit::_10(void) {
 }
 
 bool CSceneCredit::_24(void) {
-    return gFileManager->fn_801D42FC(2) && gFileManager->fn_801D42FC(3) &&
-           gFileManager->fn_801D42FC(55);
+    return gFileManager->getArcReady(2) && gFileManager->getArcReady(3) &&
+           gFileManager->getArcReady(55);
 }
 
 char lbl_8034C860[24];
@@ -68,11 +68,11 @@ void CSceneCredit::_14(void) {
 
     gTickFlowManager->registerFlow<Credit::CMyFlow>();
 
-    u32 credit_tplLen = gFileManager->fn_801D422C(2, "./cellanim.tpl");
-    u32 navi_tplLen = gFileManager->fn_801D422C(3, "./cellanim.tpl");
+    u32 credit_tplLen = gFileManager->arcGetFileLen(2, "./cellanim.tpl");
+    u32 navi_tplLen = gFileManager->arcGetFileLen(3, "./cellanim.tpl");
 
-    void *credit_tplAddr = gFileManager->fn_801D4270(2, "./cellanim.tpl");
-    void *navi_tplAddr = gFileManager->fn_801D4270(3, "./cellanim.tpl");
+    void *credit_tplAddr = gFileManager->arcGetFileAddr(2, "./cellanim.tpl");
+    void *navi_tplAddr = gFileManager->arcGetFileAddr(3, "./cellanim.tpl");
 
     UserTPLBind(credit_tplAddr);
     UserTPLBind(navi_tplAddr);
@@ -82,13 +82,13 @@ void CSceneCredit::_14(void) {
 
     for (u8 i = 0; i < CHARA_COUNT; i++) {
         sprintf(lbl_8034C860, "./chara_%02d.brcad", i);
-        void *brcadAddr = gFileManager->fn_801D4270(2, lbl_8034C860);
+        void *brcadAddr = gFileManager->arcGetFileAddr(2, lbl_8034C860);
         gCellAnimManager->registBank(brcadAddr, credit_tplAddr, CELL_INDEX_CHARA_START + i);
     }
 
-    void *wipe_brcadAddr = gFileManager->fn_801D4270(2, "./wipe.brcad");
-    void *title_brcadAddr = gFileManager->fn_801D4270(2, "./title.brcad");
-    void *navigator_brcadAddr = gFileManager->fn_801D4270(3, "./navigator.brcad");
+    void *wipe_brcadAddr = gFileManager->arcGetFileAddr(2, "./wipe.brcad");
+    void *title_brcadAddr = gFileManager->arcGetFileAddr(2, "./title.brcad");
+    void *navigator_brcadAddr = gFileManager->arcGetFileAddr(3, "./navigator.brcad");
 
     gCellAnimManager->registBank(wipe_brcadAddr, credit_tplAddr, CELL_INDEX_WIPE);
     gCellAnimManager->registBank(title_brcadAddr, credit_tplAddr, CELL_INDEX_TITLE);
@@ -220,9 +220,9 @@ void CSceneCredit::_20(void) {
         gCellAnimManager->endCellAnimByBank(i);
     }
 
-    gFileManager->fn_801D41CC(2);
-    gFileManager->fn_801D41CC(3);
-    gFileManager->fn_801D41CC(55);
+    gFileManager->endArchive(2);
+    gFileManager->endArchive(3);
+    gFileManager->endArchive(55);
 
     this->CExScene::_20();
 }

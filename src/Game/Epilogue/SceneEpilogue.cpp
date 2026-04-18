@@ -27,9 +27,9 @@ void CSceneEpilogue::fn_8000B518(void) {
     fn_80008EFC();
 
     fn_801D369C(eHeapGroup_SceneAsset);
-    if (gFileManager->fn_801D42E0(52)) {
-        gFileManager->fn_801D3F94(52, lbl_8032A378);
-        gFileManager->fn_801D3F94(92, "content2/layout/layout_epilogue.szs");
+    if (gFileManager->getArcFree(52)) {
+        gFileManager->startArchive(52, lbl_8032A378);
+        gFileManager->startArchive(92, "content2/layout/layout_epilogue.szs");
     }
     fn_801D3644();
 }
@@ -41,10 +41,10 @@ void CSceneEpilogue::_10(void) {
 void CSceneEpilogue::_14(void) {
     this->CExScene::_14();
 
-    void *epilogue_brcadAddr = gFileManager->fn_801D4270(52, "./epilogue.brcad");
+    void *epilogue_brcadAddr = gFileManager->arcGetFileAddr(52, "./epilogue.brcad");
 
-    u32 tplLen      = gFileManager->fn_801D422C(52, "./cellanim.tpl");
-    void *tplAddr   = gFileManager->fn_801D4270(52, "./cellanim.tpl");
+    u32 tplLen      = gFileManager->arcGetFileLen(52, "./cellanim.tpl");
+    void *tplAddr   = gFileManager->arcGetFileAddr(52, "./cellanim.tpl");
 
     UserTPLBind(tplAddr);
     DCStoreRange(tplAddr, tplLen);
@@ -88,8 +88,8 @@ void CSceneEpilogue::_20(void) {
     gCellAnimManager->endBank(0);
     gCellAnimManager->endCellAnimByBank(0);
 
-    gFileManager->fn_801D41CC(52);
-    gFileManager->fn_801D41CC(92);
+    gFileManager->endArchive(52);
+    gFileManager->endArchive(92);
 
     this->CExScene::_20();
 }
