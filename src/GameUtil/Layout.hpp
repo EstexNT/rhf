@@ -41,7 +41,7 @@ public:
     CExBtnPane(void) {}
 
     void fn_801D8FFC(nw4r::lyt::Pane *pane);
-    EBtnState fn_801D9090(nw4r::math::VEC2 *, bool, nw4r::lyt::DrawInfo *);
+    EBtnState fn_801D9090(nw4r::math::VEC2 *cursorPos, bool arg1, nw4r::lyt::DrawInfo *drawInfo);
     void fn_801D9974(void);
 
     nw4r::lyt::Pane *getPane(void) const {
@@ -73,6 +73,23 @@ public:
     bool isActionPlaying(void) {
         return (mActionAnime && mActionAnime->getIsPlaying());
     }
+
+private:
+    nw4r::ut::Rect calcRect(nw4r::lyt::DrawInfo *drawInfo) {
+        nw4r::lyt::Pane *pane = mPane;
+        nw4r::ut::Rect paneRect = pane->GetPaneRect(*drawInfo);
+        if (fn_801D85BC(pane, drawInfo)) {
+            paneRect.left *= drawInfo->GetLocationAdjustScale().x;
+            paneRect.right *= drawInfo->GetLocationAdjustScale().x;
+        }
+    
+        nw4r::math::VEC2 vec = fn_801D86D0(pane, drawInfo);
+        paneRect.left += vec.x;
+        paneRect.right += vec.x;
+        paneRect.top += vec.y;
+        paneRect.bottom += vec.y;
+        return paneRect;
+    } 
 
 private:
     nw4r::lyt::Pane *mPane;

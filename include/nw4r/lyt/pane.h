@@ -29,6 +29,8 @@ class Pane : public detail::PaneBase {
 public:
     NW4R_UT_RUNTIME_TYPEINFO;
 
+    typedef ut::LinkList<Pane, offsetof(detail::PaneBase, mLink)> PaneList;
+
 private:
     enum {
         BIT_VISIBLE,
@@ -115,7 +117,7 @@ public:
         return mpParent;
     }
 
-    ut::LinkList<Pane, offsetof(detail::PaneBase, mLink)> &GetChildList() {
+    PaneList &GetChildList() {
         return mChildList;
     }
     
@@ -124,7 +126,7 @@ protected:
 
 protected:
     Pane *mpParent;
-    ut::LinkList<Pane, offsetof(detail::PaneBase, mLink)> mChildList;
+    PaneList mChildList;
     ut::LinkList<AnimationLink, offsetof(AnimationLink, mLink)> mAnimList;
     Material *mpMaterial;
     math::VEC3 mTranslate;
