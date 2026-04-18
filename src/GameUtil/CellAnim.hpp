@@ -106,22 +106,22 @@ public:
     void makeMtx(BOOL defMtx, Mtx baseMtx);
     void draw(BOOL forceDraw);
     void setBase(CCellAnim *baseAnim, u16 objIndex, bool drawBase);
-    void switchAnim(u16 animID); // switchAnim
-    void overrideAnim(u16 animID); // overrideAnim
-    void prepareAnim(u16 animID, CellAnimPrepFn callback); // prepareAnim
-    void playFromBegin(void); // playFromBegin
-    u16 calcFrameCount(void); // calcFrameCount
-    void goToAnimEnd(void); // goToAnimEnd
-    void setLayer(s32 layer); // setLayer
-    void setAnim(u16 animID); // setAnim
-    void setAnimDisable(u16 animID); // setAnimDisable
-    void setAnimDestroy(u16 animID); // setAnimDestroy
-    void setAnimLoop(u16 animID); // setAnimLoop
-    void setAnimFreezeFrame(u16 animID, f32 frame); // setAnimFreezeFrame
-    void setFrameAtKey(u16 keyIndex); // setFrameAtKey
-    u16 getKeyIndex(void); // getKeyIndex
-    u16 getFinalKeyIndex(void); // getFinalKeyIndex
-    bool getAtFinalKey(void); // getAtFinalKey
+    void switchAnim(u16 animID);
+    void overrideAnim(u16 animID);
+    void prepareAnim(u16 animID, CellAnimPrepFn callback);
+    void playFromBegin(void);
+    u16 calcFrameCount(void);
+    void goToAnimEnd(void);
+    void setLayer(s32 layer);
+    void setAnim(u16 animID);
+    void setAnimDisable(u16 animID);
+    void setAnimDestroy(u16 animID);
+    void setAnimLoop(u16 animID);
+    void setAnimFreezeFrame(u16 animID, f32 frame);
+    void setFrameAtKey(u16 keyIndex);
+    u16 getKeyIndex(void);
+    u16 getFinalKeyIndex(void);
+    bool getAtFinalKey(void);
 
 private:
     u16 handlePrepAnim(void) {
