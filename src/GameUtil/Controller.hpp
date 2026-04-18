@@ -246,6 +246,11 @@ public:
     CController *fn_801D5FF0(s32 channel);
     CGCController *fn_801D6000(s32 channel);
 
+    template <typename T>
+    T *getController(s32 channel) {
+        return static_cast<T *>(fn_801D5FF0(channel));
+    }
+
     void *doAlloc(u32 size) {
         // TODO: doesn't match when using CriticalSection
         BOOL prevInterrupts = OSDisableInterrupts();

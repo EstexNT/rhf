@@ -474,7 +474,7 @@ config.libs = [
             Object(Matching, "Game/SceneManager.cpp"),
             Object(NonMatching, "Game/ExController.cpp"),
             Object(NonMatching, "Game/ExFlow.cpp"),
-            Object(NonMatching, "Game/code_8008E430.cpp"),
+            Object(Matching, "Game/code_8008E430.cpp"),
             Object(NonMatching, "Game/code_8008E59C.cpp"),
             Object(NonMatching, "Game/ExChecker.cpp"),
             Object(NonMatching, "Game/ExBtnPane.cpp"),

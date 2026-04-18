@@ -89,6 +89,7 @@ public:
     void fn_801E9D88(void);
     void fn_801E9D8C(void);
 
+    static void fn_801E8118(void);
     static void fn_801E8560(void);
 
     CInputChecker *getUnk0C(void) {
@@ -198,7 +199,6 @@ private:
     u32 unk8A8;
     u32 unk8AC;
 
-    static void fn_801E8118(void);
     static s32 fn_801E85AC(u32);
 
     UnkSub *getUnk10(u32 i) {

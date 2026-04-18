@@ -9,6 +9,9 @@ class CExController : public CController {
 public:
     CExController(s32 channel);
 
+    bool fn_8008CDAC(void);
+    bool fn_8008CE98(void);
+
     // CController::CreateFn
     static CController *create(s32 channel) {
         return static_cast<CController *>(new CExController(channel));

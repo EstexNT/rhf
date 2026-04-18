@@ -44,6 +44,8 @@
 #include "Strap/SceneStrap.hpp"
 #include "Error/SceneError.hpp"
 
+#include "code_8008E430.hpp"
+
 #include "Mem.hpp"
 
 #include "SoundData.inc"
@@ -116,8 +118,6 @@ static const GXRenderModeObj sRenderModeEuRgb60Prog456 = {
     { 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6 },
     { 0, 0, 21, 22, 21, 0, 0 }
 };
-
-extern "C" void fn_8008E430(void);
 
 DONT_INLINE static void fn_80038350(void);
 DONT_INLINE static void fn_80038AE4(void);
