@@ -438,8 +438,8 @@ bool CTickFlow::_1C(u32 opcode, u32 arg0, const s32 *args) {
         SNDHandle *soundHandle = gTickFlowManager->fn_801E415C();
         if (arg0 == 0) {
             gSoundManager->fn_801E6BC8(static_cast<u16>(args[0]), soundHandle);
-        } else
-        if (arg0 == 1) {
+        }
+        else if (arg0 == 1) {
             gSoundManager->fn_801E6BC8((u16)gSoundManager->get_wave_tempo(args[0]), soundHandle);
         }
     } break;
@@ -527,12 +527,13 @@ bool CTickFlow::_1C(u32 opcode, u32 arg0, const s32 *args) {
             s32 fadeFrames;
             if (args[1]) {
                 fadeFrames = args[2];
-            } else {
+            }
+            else {
                 fadeFrames = gTickFlowManager->fn_801E26B4(args[2]);
             }
             gSoundManager->fn_801E7114(volume, fadeFrames);
-        } else
-        if (arg0 == 1) {
+        }
+        else if (arg0 == 1) {
             gSoundManager->fn_801E71C0();
         }
     } break;
@@ -555,8 +556,8 @@ bool CTickFlow::_1C(u32 opcode, u32 arg0, const s32 *args) {
     case TF_SET_INPUT_ALLOW: {
         if (arg0 == 0) {
             gInputCheckManager->setUnk429(args[0]);
-        } else
-        if (arg0 == 1) {
+        }
+        else if (arg0 == 1) {
             gInputCheckManager->setUnk42A(args[1], args[0]);
         }
     } break;
@@ -566,16 +567,16 @@ bool CTickFlow::_1C(u32 opcode, u32 arg0, const s32 *args) {
     case TF_044: {
         if (arg0 == 0) {
             gInputCheckManager->setUnk484(args[0]);
-        } else
-        if (arg0 == 1) {
+        }
+        else if (arg0 == 1) {
             gInputCheckManager->fn_801E923C(args[0]);
         }
     } break;
     case TF_045: {
         if (arg0 == 0) {
             gInputCheckManager->fn_801E9C30(args[0]);
-        } else
-        if (arg0 == 1) {
+        }
+        else if (arg0 == 1) {
             gInputCheckManager->fn_801E9C38(static_cast<u32>(args[0]) / 256.0f);
         }
     } break;
@@ -602,8 +603,8 @@ bool CTickFlow::_1C(u32 opcode, u32 arg0, const s32 *args) {
     case TF_047: {
         if (arg0 == 0) {
             gInputCheckManager->fn_801E9C40();
-        } else 
-        if (arg0 == 1) {
+        }
+        else if (arg0 == 1) {
             gInputCheckManager->fn_801E9D58(args[0], args[1]);
         }
     } break;
@@ -629,8 +630,8 @@ bool CTickFlow::_1C(u32 opcode, u32 arg0, const s32 *args) {
 
         if (arg0 == 0) {
             gInputCheckManager->fn_801E9D84();
-        } else 
-        if (arg0 == 1) {
+        }
+        else if (arg0 == 1) {
             sprintf(buf, "%s_%d.ici", reinterpret_cast<char *>(args[0]), args[1]);
             gInputCheckManager->fn_801E9D80(buf);
         }

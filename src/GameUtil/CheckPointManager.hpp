@@ -118,7 +118,8 @@ public:
         s32 temp1 = arg0 & ~0x8000;
         if (arg0 & 0x8000) {
             return arg2 < temp1;
-        } else {
+        }
+        else {
             return arg1 < temp1;
         }
     }
@@ -128,7 +129,8 @@ public:
         
         if (arg0) {
             temp = 0;
-        } else {
+        }
+        else {
             temp = 1;
             if (arg1) {
                 temp = 2;

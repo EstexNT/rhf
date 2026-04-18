@@ -67,7 +67,8 @@ void CVarParamManager::fn_801ED2AC(void) {
         if (paramNum == 0) {
             paramNum = 18;
         }
-    } else {
+    }
+    else {
         paramNum = 18;
     }
     
@@ -84,7 +85,8 @@ void CVarParamManager::fn_801ED2AC(void) {
         if (i == mUnk0C) {
             if (mDisplayMode == 2) {
                 gDebugPrint->fn_801EC674(20, y, 1, "⇒");
-            } else {
+            }
+            else {
                 gDebugPrint->fn_801EC674(20, y, 1, "→");
             }
         }
