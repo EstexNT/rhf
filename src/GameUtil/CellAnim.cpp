@@ -279,36 +279,35 @@ void CCellAnim::draw(BOOL forceDraw) {
             GXSetTevColor(GX_TEVREG0, (GXColor){ mFgColorR, mFgColorG, mFgColorB, opacity });
             GXSetTevColor(GX_TEVREG1, (GXColor){ mBgColorR, mBgColorG, mBgColorB, opacity });
 
-            // TODO rename
-            f32 uvStartX = obj->chrX / chrWidth;
-            f32 uvStartY = obj->chrY / chrHeight;
-            f32 uvEndX = (obj->chrX + obj->width) / chrWidth;
-            f32 uvEndY = (obj->chrY + obj->height) / chrHeight;
+            f32 chrNormX0 = obj->chrX / chrWidth;
+            f32 chrNormY0 = obj->chrY / chrHeight;
+            f32 chrNormX1 = (obj->chrX + obj->width) / chrWidth;
+            f32 chrNormY1 = (obj->chrY + obj->height) / chrHeight;
 
             if (obj->flipX) {
-                f32 temp = uvStartX;
-                uvStartX = uvEndX;
-                uvEndX = temp;
+                f32 temp = chrNormX0;
+                chrNormX0 = chrNormX1;
+                chrNormX1 = temp;
             }
             if (obj->flipY) {
-                f32 temp = uvStartY;
-                uvStartY = uvEndY;
-                uvEndY = temp;
+                f32 temp = chrNormY0;
+                chrNormY0 = chrNormY1;
+                chrNormY1 = temp;
             }
 
             GXBegin(GX_QUADS, GX_VTXFMT0, 4);
 
             GXPosition2f32(-0.5f, -0.5f);
-            GXTexCoord2f32(uvStartX, uvStartY);
+            GXTexCoord2f32(chrNormX0, chrNormY0);
 
             GXPosition2f32(-0.5f, 0.5f);
-            GXTexCoord2f32(uvStartX, uvEndY);
+            GXTexCoord2f32(chrNormX0, chrNormY1);
 
             GXPosition2f32(0.5f, 0.5f);
-            GXTexCoord2f32(uvEndX, uvEndY);
+            GXTexCoord2f32(chrNormX1, chrNormY1);
 
             GXPosition2f32(0.5f, -0.5f);
-            GXTexCoord2f32(uvEndX, uvStartY);
+            GXTexCoord2f32(chrNormX1, chrNormY0);
 
             GXEnd();
 
@@ -469,6 +468,7 @@ u16 CCellAnim::fn_801DD43C(void) {
 
 u16 CCellAnim::fn_801DD4DC(void) {
     CellAnim_Anim *anim = gCellAnimManager->fn_801DBC5C(this);
+    // Unnecessary logic .. returning (anim->keyCount - 1) does the trick
     return anim->findKeyAtFrame(gCellAnimManager->fn_801DBB58(this));
 }
 
