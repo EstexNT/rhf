@@ -2,6 +2,9 @@
 
 #include "rev_tengoku.rsid"
 
+// Pitch multiplier of -2 semitones (2 ** (-2 / 12))
+static const f32 MIN_2_SEMITONES = 0.89090383f;
+
 void fn_800D2920(u16 sfx1P, u16 sfx2P_P1, u16 sfx2P_P2, BOOL set2P, BOOL setP1, SNDHandle *soundHandle) {
     if (!set2P) {
         gSoundManager->play(sfx1P, 0.0f, soundHandle);
@@ -13,7 +16,7 @@ void fn_800D2920(u16 sfx1P, u16 sfx2P_P1, u16 sfx2P_P2, BOOL set2P, BOOL setP1, 
         else {
             gSoundManager->play(sfx2P_P2, 0.0f, soundHandle);
             if ((sfx2P_P2 != SE_ROCKET_BELL_2P) && (sfx2P_P2 != SE_KARATE_MANY_OBJECT_2P)) {
-                gSoundManager->fn_801E676C(1.0f - 0.10909617f, soundHandle); // -2 semitones
+                gSoundManager->fn_801E676C(MIN_2_SEMITONES, soundHandle);
             }
         }
     }
@@ -30,7 +33,7 @@ if (!set2P) {
         else {
             gSoundManager->play(sfx, 0.0f, soundHandle);
             if ((sfx != SE_ROCKET_BELL_2P) && (sfx != SE_KARATE_MANY_OBJECT_2P)) {
-                gSoundManager->fn_801E676C(1.0f - 0.10909617f, soundHandle); // -2 semitones
+                gSoundManager->fn_801E676C(MIN_2_SEMITONES, soundHandle);
             }
         }
     }
