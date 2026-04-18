@@ -51,7 +51,7 @@ void CSoundManager::_10(void *soundArchiveAddr) {
         mSetupBuf, setupBufSize, mSetupStrmBuf, setupStrmBufSize
     );
 
-    fn_801E734C();
+    reverb_param_init();
 
     mFxReverbHi0 = new nw4r::snd::FxReverbHi;
     mFxReverbHi1 = new nw4r::snd::FxReverbHi;
@@ -67,7 +67,7 @@ void CSoundManager::_14(const char *soundArchivePath) {
     mLoadData.loaded = false;
 
     OSCreateThread(
-        &mThread, fn_801E4948, &mLoadData,
+        &mThread, open_sound_archive_task, &mLoadData,
         &mThreadStack[ARRAY_LENGTH(mThreadStack)], sizeof(mThreadStack),
         OS_PRIORITY_MAX, OS_THREAD_DETACHED
     );
@@ -78,16 +78,16 @@ void CSoundManager::_14(const char *soundArchivePath) {
     }
 }
 
-void *CSoundManager::fn_801E4948(void *arg) {
+void *CSoundManager::open_sound_archive_task(void *arg) {
     LoadData *data = static_cast<LoadData *>(arg);
 
-    gSoundManager->fn_801E4988(data->soundArchivePath);
+    gSoundManager->open_sound_archive(data->soundArchivePath);
     data->loaded = true;
 
     return NULL;
 }
 
-void CSoundManager::fn_801E4988(const char *soundArchivePath) {
+void CSoundManager::open_sound_archive(const char *soundArchivePath) {
     mSoundArchiveType = eSoundArchiveType_DVD;
 
     mDVDSoundArchive = new nw4r::snd::DvdSoundArchive;
@@ -111,7 +111,7 @@ void CSoundManager::fn_801E4988(const char *soundArchivePath) {
         mSetupBuf, setupBufSize, mSetupStrmBuf, setupStrmBufSize
     );
 
-    fn_801E734C();
+    reverb_param_init();
 
     mFxReverbHi0 = new nw4r::snd::FxReverbHi;
     mFxReverbHi1 = new nw4r::snd::FxReverbHi;
@@ -195,7 +195,7 @@ void CSoundManager::fn_801E4D54(void) {
     sEnableSoundUpdate = true;
 }
 
-void CSoundManager::fn_801E4D60(void) {
+void CSoundManager::update(void) {
     for (s32 i = 0; i < mSoundCooldownCount; i++) {
         SoundCooldown *entry = &mSoundCooldown[i];
         if (entry->coolTimer != 0) {
@@ -203,7 +203,7 @@ void CSoundManager::fn_801E4D60(void) {
         }
     }
 
-    fn_801E5648();
+    update_delayed_sound();
 
     if ((mVolumeFadeFrames > 0) && !gTickFlowManager->getPaused()) {
         f32 curVolume = first_player_volume();
@@ -213,13 +213,13 @@ void CSoundManager::fn_801E4D60(void) {
             finalVolume = 0.0;
         }
 
-        fn_801E6E4C(finalVolume);
+        nosys_player_volume(finalVolume);
 
         mVolumeFadeFrames--;
     }
 
     if (!mNoSoloSystemPlayer) {
-        fn_801E7008(0);
+        nosys_player_stop(0);
     }
 
     mSoundArchivePlayer->Update();
@@ -301,15 +301,15 @@ void CSoundManager::play(u16 soundID, f32 start, SNDHandle *soundHandle) {
         mLastDelaySound = newDelaySound;
     }
 
-    f32 tempoRatio = fn_801E75C0(soundID);
-    gSoundManager->fn_801E6BC8(tempoRatio, NULL);
+    f32 tempoRatio = calc_seq_tempo_sound_id(soundID);
+    gSoundManager->tune_tempo_rel(tempoRatio, NULL);
 }
 
-void CSoundManager::fn_801E5640(f32 ticksPerFrame) {
+void CSoundManager::set_ticks_per_frame(f32 ticksPerFrame) {
     mTicksPerFrame = ticksPerFrame;
 }
 
-void CSoundManager::fn_801E5648(void) {
+void CSoundManager::update_delayed_sound(void) {
     for (s32 i = 0; i < (s32)ARRAY_LENGTH(mDelaySound); i++) {
         DelaySound *delaySound = &mDelaySound[i];
 
@@ -322,22 +322,22 @@ void CSoundManager::fn_801E5648(void) {
             gSoundManager->play(delaySound->soundID, 0.0f, delaySound->soundHandle);
 
             if (delaySound->volumeSet != 1.0) {
-                gSoundManager->fn_801E65F4(delaySound->volumeSet, 0, delaySound->soundHandle);
+                gSoundManager->tune_volume(delaySound->volumeSet, 0, delaySound->soundHandle);
             }
             if (delaySound->volumeFadeFrames > 0) {
-                gSoundManager->fn_801E65F4(delaySound->volumeFinal, delaySound->volumeFadeFrames, delaySound->soundHandle);
+                gSoundManager->tune_volume(delaySound->volumeFinal, delaySound->volumeFadeFrames, delaySound->soundHandle);
             }
             if (delaySound->pitch != 1.0) {
-                gSoundManager->fn_801E676C(delaySound->pitch, delaySound->soundHandle);
+                gSoundManager->tune_pitch(delaySound->pitch, delaySound->soundHandle);
             }
             if (delaySound->pan != 0.0) {
-                gSoundManager->fn_801E68E0(delaySound->pan, delaySound->soundHandle);
+                gSoundManager->tune_pan(delaySound->pan, delaySound->soundHandle);
             }
             if (delaySound->tempoRatio != 1.0) {
-                gSoundManager->fn_801E6A54(delaySound->tempoRatio, delaySound->soundHandle);
+                gSoundManager->tune_tempo_ratio(delaySound->tempoRatio, delaySound->soundHandle);
             }
             if (delaySound->stopFadeFrames >= 0) {
-                gSoundManager->fn_801E62B8(delaySound->stopFadeFrames, delaySound->soundHandle);
+                gSoundManager->tune_stop(delaySound->stopFadeFrames, delaySound->soundHandle);
             }
 
             delaySound->reset();
@@ -347,7 +347,7 @@ void CSoundManager::fn_801E5648(void) {
     mLastSoundType = eSoundType_None;
 }
 
-void CSoundManager::fn_801E60B4(SNDHandle *soundHandle) {
+void CSoundManager::start_prepared(SNDHandle *soundHandle) {
     if (soundHandle == NULL) {
         soundHandle = &mDefaultSoundHandle;
     }
@@ -355,7 +355,7 @@ void CSoundManager::fn_801E60B4(SNDHandle *soundHandle) {
     soundHandle->StartPrepared();
 }
 
-void CSoundManager::fn_801E60D4(SoundCooldown *soundCooldown, u16 count) {
+void CSoundManager::set_sound_cooldown_table(SoundCooldown *soundCooldown, u16 count) {
     mSoundCooldown = soundCooldown;
     mSoundCooldownCount = count;
 }
@@ -434,50 +434,50 @@ void CSoundManager::tune_delay_sound(ETuneType type, f32 value, s32 fadeFrames, 
     }
 }
 
-void CSoundManager::fn_801E62B8(s32 fadeFrames, SNDHandle *soundHandle) {
+void CSoundManager::tune_stop(s32 fadeFrames, SNDHandle *soundHandle) {
     tune(eTuneType_Stop, 0.0f, fadeFrames, soundHandle);
 }
 
-void CSoundManager::fn_801E6440(bool paused, s32 fadeFrames, SNDHandle *soundHandle) {
+void CSoundManager::tune_pause(bool paused, s32 fadeFrames, SNDHandle *soundHandle) {
     tune(eTuneType_Pause, paused ? 1.0f : 0.0f, fadeFrames, soundHandle);
 }
 
-void CSoundManager::fn_801E65F4(f32 volume, s32 fadeFrames, SNDHandle *soundHandle) {
+void CSoundManager::tune_volume(f32 volume, s32 fadeFrames, SNDHandle *soundHandle) {
     tune(eTuneType_Volume, volume, fadeFrames, soundHandle);
 }
 
-void CSoundManager::fn_801E676C(f32 pitch, SNDHandle *soundHandle) {
+void CSoundManager::tune_pitch(f32 pitch, SNDHandle *soundHandle) {
     tune(eTuneType_Pitch, pitch, 0, soundHandle);
 }
 
-void CSoundManager::fn_801E68E0(f32 pan, SNDHandle *soundHandle) {
+void CSoundManager::tune_pan(f32 pan, SNDHandle *soundHandle) {
     tune(eTuneType_Pan, pan, 0, soundHandle);
 }
 
-void CSoundManager::fn_801E6A54(f32 tempoRatio, SNDHandle *soundHandle) {
+void CSoundManager::tune_tempo_ratio(f32 tempoRatio, SNDHandle *soundHandle) {
     tune(eTuneType_TempoRatio, tempoRatio, 0, soundHandle);
 }
 
-void CSoundManager::fn_801E6BC8(f32 tempoRatio, SNDHandle *soundHandle) {
-    if (tempoRatio != 0.0f && mTicksPerFrame != 0.0f) {
+void CSoundManager::tune_tempo_rel(f32 tempo, SNDHandle *soundHandle) {
+    if ((tempo != 0.0f) && (mTicksPerFrame != 0.0f)) {
         f32 framesPerSecond = gTickFlowManager->fn_801E4180();
-        f32 effective = (mTicksPerFrame * 60.0f * framesPerSecond) / 48.0f;
+        f32 currentTempo = (mTicksPerFrame * 60.0f * framesPerSecond) / 48.0f;
 
-        fn_801E6A54(effective / tempoRatio, soundHandle);
+        tune_tempo_ratio(currentTempo / tempo, soundHandle);
     }
 }
 
-void CSoundManager::fn_801E6E00(s32 playerID) {
+void CSoundManager::set_system_player(s32 playerID) {
     mSystemPlayerID = playerID;
 }
 
-void CSoundManager::fn_801E6E08(f32 volume) {
+void CSoundManager::sys_player_volume(f32 volume) {
     if (mSystemPlayerID >= 0) {
         mSoundArchivePlayer->GetSoundPlayer(mSystemPlayerID).SetVolume(volume);
     }
 }
 
-void CSoundManager::fn_801E6E4C(f32 volume) {
+void CSoundManager::nosys_player_volume(f32 volume) {
     u32 soundPlayerCount = mSoundArchivePlayer->GetSoundPlayerCount();
     for (u32 i = 0; i < soundPlayerCount; i++) {
         if (static_cast<s32>(i) != mSystemPlayerID) {
@@ -486,20 +486,20 @@ void CSoundManager::fn_801E6E4C(f32 volume) {
     }
 }
 
-void CSoundManager::fn_801E6ECC(f32 volume) {
+void CSoundManager::all_player_volume(f32 volume) {
     u32 soundPlayerCount = mSoundArchivePlayer->GetSoundPlayerCount();
     for (u32 i = 0; i < soundPlayerCount; i++) {
         mSoundArchivePlayer->GetSoundPlayer(i).SetVolume(volume);
     }
 }
 
-void CSoundManager::fn_801E6F40(bool paused, s32 fadeFrames) {
+void CSoundManager::sys_player_pause(bool paused, s32 fadeFrames) {
     if (mSystemPlayerID >= 0) {
         mSoundArchivePlayer->GetSoundPlayer(mSystemPlayerID).PauseAllSound(paused, fadeFrames);
     }
 }
 
-void CSoundManager::fn_801E6F98(bool paused, s32 fadeFrames) {
+void CSoundManager::nosys_player_pause(bool paused, s32 fadeFrames) {
     u32 soundPlayerCount = mSoundArchivePlayer->GetSoundPlayerCount();
     for (u32 i = 0; i < soundPlayerCount; i++) {
         if (static_cast<s32>(i) != mSystemPlayerID) {
@@ -508,7 +508,7 @@ void CSoundManager::fn_801E6F98(bool paused, s32 fadeFrames) {
     }
 }
 
-void CSoundManager::fn_801E7008(s32 fadeFrames) {
+void CSoundManager::nosys_player_stop(s32 fadeFrames) {
     u32 soundPlayerCount = mSoundArchivePlayer->GetSoundPlayerCount();
     for (u32 i = 0; i < soundPlayerCount; i++) {
         if (static_cast<s32>(i) != mSystemPlayerID) {
@@ -517,53 +517,53 @@ void CSoundManager::fn_801E7008(s32 fadeFrames) {
     }
 }
 
-void CSoundManager::fn_801E7088(s32 fadeFrames) {
+void CSoundManager::all_player_stop(s32 fadeFrames) {
     u32 soundPlayerCount = mSoundArchivePlayer->GetSoundPlayerCount();
     for (u32 i = 0; i < soundPlayerCount; i++) {
         mSoundArchivePlayer->GetSoundPlayer(i).StopAllSound(fadeFrames);
     }
 }
 
-void CSoundManager::fn_801E70FC(void) {
+void CSoundManager::solo_sys_player_disable(void) {
     mNoSoloSystemPlayer = true;
 }
-void CSoundManager::fn_801E7108(void) {
+void CSoundManager::solo_sys_player_enable(void) {
     mNoSoloSystemPlayer = false;
 }
 
-void CSoundManager::fn_801E7114(f32 volume, s32 fadeFrames) {
+void CSoundManager::nosys_player_vol_fade(f32 volume, s32 fadeFrames) {
     mVolumeFadeFrames = fadeFrames;
 
     // (end - start) / frames
     mVolumeFadeStep = (volume - first_player_volume()) / mVolumeFadeFrames;
 }
 
-void CSoundManager::fn_801E71C0(void) {
+void CSoundManager::nosys_player_vol_fade_stop(void) {
     mVolumeFadeFrames = 0;
 }
 
-void CSoundManager::fn_801E71CC(u16 groupID, nw4r::snd::SoundHeap *soundHeap) {
+void CSoundManager::load_group_async(u16 groupID, nw4r::snd::SoundHeap *soundHeap) {
     mLoadData.soundHeap = soundHeap;
     mLoadData.groupID = groupID;
     mLoadData.loaded = false;
 
     OSCreateThread(
-        &mThread, fn_801E72E8, &mLoadData,
+        &mThread, load_group_task, &mLoadData,
         &mThreadStack[ARRAY_LENGTH(mThreadStack)], sizeof(mThreadStack),
         OS_PRIORITY_MAX, OS_THREAD_DETACHED
     );
     OSResumeThread(&mThread);
 }
 
-void CSoundManager::fn_801E7230(u16 groupID, nw4r::snd::SoundHeap *soundHeap) {
-    fn_801E71CC(groupID, soundHeap);
+void CSoundManager::load_group_sync(u16 groupID, nw4r::snd::SoundHeap *soundHeap) {
+    load_group_async(groupID, soundHeap);
 
     while (!mLoadData.loaded) {
         gFileManager->waitTick();
     }
 }
 
-void *CSoundManager::fn_801E72E8(void *arg) {
+void *CSoundManager::load_group_task(void *arg) {
     LoadData *data = static_cast<LoadData *>(arg);
 
     gSoundManager->mSoundArchivePlayer->LoadGroup(
@@ -574,15 +574,15 @@ void *CSoundManager::fn_801E72E8(void *arg) {
     return NULL;
 }
 
-bool CSoundManager::fn_801E7334(void) {
+bool CSoundManager::get_loading(void) {
     return !mLoadData.loaded;
 }
 
-void CSoundManager::fn_801E7344(nw4r::snd::SeqUserprocCallback *callback, void *callbackArg) {
+void CSoundManager::set_seq_userproc_callback(nw4r::snd::SeqUserprocCallback *callback, void *callbackArg) {
     mSoundArchivePlayer->SetSeqUserprocCallback(callback, callbackArg);
 }
 
-void CSoundManager::fn_801E734C(void) {    
+void CSoundManager::reverb_param_init(void) {    
     mFxReverbHi0Param.earlyMode =       nw4r::snd::FX_REVERB_EARLY_REFLECTION_30MS;
     mFxReverbHi0Param.preDelayTimeMax = 0.1f;
     mFxReverbHi0Param.preDelayTime =    0.1f;
@@ -608,12 +608,12 @@ void CSoundManager::fn_801E734C(void) {
     mFxReverbHi1Param.outGain =         0.4f;
 }
 
-void CSoundManager::fn_801E73C8(WaveInfo *waveInfo, u16 count) {
+void CSoundManager::set_wave_info_table(WaveInfo *waveInfo, u16 count) {
     mWaveInfo = waveInfo;
     mWaveInfoCount = count;
 }
 
-WaveInfo *CSoundManager::fn_801E73D4(u16 soundID) {
+WaveInfo *CSoundManager::find_wave_info(u16 soundID) {
     for (s32 i = 0; i < mWaveInfoCount; i++) {
         WaveInfo *entry = &mWaveInfo[i];
         if (entry->soundID == soundID) {
@@ -623,7 +623,7 @@ WaveInfo *CSoundManager::fn_801E73D4(u16 soundID) {
     return NULL;
 }
 
-WaveTempo *CSoundManager::fn_801E7414(WaveInfo *waveInfo, s32 pos) {
+WaveTempo *CSoundManager::get_wave_tempo_data(WaveInfo *waveInfo, s32 pos) {
     s32 currentSample = 0;
     for (s32 i = 0;; i++) {
         WaveTempo *curTempo = &waveInfo->tempo[i];
@@ -644,7 +644,7 @@ WaveTempo *CSoundManager::fn_801E7414(WaveInfo *waveInfo, s32 pos) {
     return NULL;
 }
 
-s32 CSoundManager::fn_801E7450(WaveInfo *waveInfo, WaveTempo *tempo) {
+s32 CSoundManager::calc_wave_tempo_pos(WaveInfo *waveInfo, WaveTempo *tempo) {
     s32 sampleCount = 0;
     for (s32 i = 0;; i++) {
         WaveTempo *curTempo = &waveInfo->tempo[i];
@@ -665,7 +665,7 @@ s32 CSoundManager::fn_801E7450(WaveInfo *waveInfo, WaveTempo *tempo) {
     return -1;
 }
 
-s32 CSoundManager::fn_801E748C(WaveInfo *waveInfo) {
+s32 CSoundManager::calc_wave_sample_count(WaveInfo *waveInfo) {
     s32 sampleCount = 0;
     for (s32 i = 0;; i++) {
         WaveTempo *curTempo = &waveInfo->tempo[i];
@@ -682,7 +682,7 @@ s32 CSoundManager::fn_801E748C(WaveInfo *waveInfo) {
     return sampleCount;
 }
 
-s32 CSoundManager::fn_801E74BC(WaveInfo *waveInfo) {
+s32 CSoundManager::calc_wave_beat_count(WaveInfo *waveInfo) {
     s32 beatCount = 0;
     for (s32 i = 0;; i++) {
         WaveTempo *curTempo = &waveInfo->tempo[i];
@@ -699,8 +699,8 @@ s32 CSoundManager::fn_801E74BC(WaveInfo *waveInfo) {
     return beatCount;
 }
 
-f32 CSoundManager::fn_801E74EC(WaveInfo *waveInfo) {
-    WaveTempo *tempo = fn_801E7414(waveInfo, 0);
+f32 CSoundManager::calc_initial_wave_tempo(WaveInfo *waveInfo) {
+    WaveTempo *tempo = get_wave_tempo_data(waveInfo, 0);
 
     f32 sampleRate = waveInfo->sampleRate;
     f32 samplesPerMin = sampleRate * 60.0f;
@@ -708,7 +708,7 @@ f32 CSoundManager::fn_801E74EC(WaveInfo *waveInfo) {
     return (static_cast<f32>(tempo->beatCount) * samplesPerMin) / tempo->sampleCount;
 }
 
-BOOL CSoundManager::fn_801E7584(WaveInfo *waveInfo) {
+BOOL CSoundManager::get_wave_loop(WaveInfo *waveInfo) {
     for (s32 i = 0;; i++) {
         WaveTempo *curTempo = &waveInfo->tempo[i];
 
@@ -723,12 +723,12 @@ BOOL CSoundManager::fn_801E7584(WaveInfo *waveInfo) {
     return FALSE;
 }
 
-void CSoundManager::fn_801E75B4(SeqTempo *seqTempo, u16 count) {
+void CSoundManager::set_seq_tempo_table(SeqTempo *seqTempo, u16 count) {
     mSeqTempo = seqTempo;
     mSeqTempoCount = count;
 }
 
-f32 CSoundManager::fn_801E75C0(u16 soundID) {
+f32 CSoundManager::calc_seq_tempo_sound_id(u16 soundID) {
     u16 prevSoundID = 0;
 
     for (u16 i = 0; i < mSeqTempoCount; i++) {
@@ -744,13 +744,13 @@ f32 CSoundManager::fn_801E75C0(u16 soundID) {
                 return static_cast<f32>(tempo->tempoOrSID);
 
             case SeqTempo::eType_WaveInfoRef:
-                return fn_801E7884(tempo->tempoOrSID);
+                return calc_wave_tempo_sound_id(tempo->tempoOrSID);
 
             case SeqTempo::eType_Alias:
-                return fn_801E75C0(tempo->tempoOrSID);
+                return calc_seq_tempo_sound_id(tempo->tempoOrSID);
 
             case SeqTempo::eType_FromPrev:
-                return fn_801E75C0(prevSoundID);
+                return calc_seq_tempo_sound_id(prevSoundID);
             }
         }
     }
@@ -758,9 +758,9 @@ f32 CSoundManager::fn_801E75C0(u16 soundID) {
     return 0.0f;
 }
 
-f32 CSoundManager::fn_801E7884(u16 soundID) {
-    WaveInfo *waveInfo = fn_801E73D4(soundID);
-    f32 tempo = fn_801E74EC(waveInfo);
+f32 CSoundManager::calc_wave_tempo_sound_id(u16 soundID) {
+    WaveInfo *waveInfo = find_wave_info(soundID);
+    f32 tempo = calc_initial_wave_tempo(waveInfo);
     return tempo;
 }
 

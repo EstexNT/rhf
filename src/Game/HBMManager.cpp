@@ -279,8 +279,8 @@ void CHBMManager::fn_80086CCC(void) {
         ) {
             gTickFlowManager->fn_801E4048(false);
             gInputCheckManager->setGamePaused(false);
-            gSoundManager->fn_801E6F98(false);
-            gSoundManager->fn_801E6F40(false);
+            gSoundManager->nosys_player_pause(false);
+            gSoundManager->sys_player_pause(false);
         }
 
         GXSetColorUpdate(TRUE);

@@ -133,7 +133,7 @@ static void funcDVDErrorF(void) {
     OSReport("funcDVDErrorF\n");
 
     if (sInitIsDone) {
-        gSoundManager->fn_801E6F98(true);
+        gSoundManager->nosys_player_pause(true);
 
         gControllerManager->fn_801D5FF0(0)->_44();
         gControllerManager->fn_801D5FF0(1)->_44();
@@ -154,7 +154,7 @@ static void funcDVDErrorB(void) {
         ) &&
         (gHBMManager == NULL || !gHBMManager->getUnk414())
     ) {
-        gSoundManager->fn_801E6F98(false);
+        gSoundManager->nosys_player_pause(false);
     }
 }
 
@@ -342,11 +342,11 @@ static void fn_80038AE4(void) {
     gSoundManager->_14(sndArcPath);
     gSoundManager->_1C();
 
-    gSoundManager->fn_801E6E00(PLAYER_SE_SYSTEM);
+    gSoundManager->set_system_player(PLAYER_SE_SYSTEM);
 
-    gSoundManager->fn_801E60D4(lbl_802E7370, ARRAY_LENGTH(lbl_802E7370));
-    gSoundManager->fn_801E73C8(lbl_802E8210, ARRAY_LENGTH(lbl_802E8210));
-    gSoundManager->fn_801E75B4(lbl_802E8720, ARRAY_LENGTH(lbl_802E8720));
+    gSoundManager->set_sound_cooldown_table(lbl_802E7370, ARRAY_LENGTH(lbl_802E7370));
+    gSoundManager->set_wave_info_table(lbl_802E8210, ARRAY_LENGTH(lbl_802E8210));
+    gSoundManager->set_seq_tempo_table(lbl_802E8720, ARRAY_LENGTH(lbl_802E8720));
 
     fn_8008357C();
 

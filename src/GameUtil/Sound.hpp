@@ -176,66 +176,67 @@ public:
     
     CSoundManager(void);
 
-    void fn_801E4D60(void);
+    void update(void);
     void prepare(u16 soundID, SNDHandle *soundHandle = NULL);
     void play(u16 soundID, f32 start = 0.0f, SNDHandle *soundHandle = NULL);
-    void fn_801E5640(f32 ticksPerFrame);
-    void fn_801E60B4(SNDHandle *soundHandle = NULL);
-    void fn_801E60D4(SoundCooldown *soundCooldown, u16 count);
-    void fn_801E62B8(s32 fadeFrames = 0, SNDHandle *soundHandle = NULL);
-    void fn_801E6440(bool paused, s32 fadeFrames = 0, SNDHandle *soundHandle = NULL);
-    void fn_801E65F4(f32 volume, s32 fadeFrames = 0, SNDHandle *soundHandle = NULL);
-    void fn_801E676C(f32 pitch, SNDHandle *soundHandle = NULL);
-    void fn_801E68E0(f32 pan, SNDHandle *soundHandle = NULL);
-    void fn_801E6A54(f32 tempoRatio, SNDHandle *soundHandle = NULL);
-    void fn_801E6BC8(f32 tempoRatio, SNDHandle *soundHandle = NULL);
-    void fn_801E6E00(s32 playerID);
-    void fn_801E6E08(f32 volume);
-    void fn_801E6E4C(f32 volume);
-    void fn_801E6ECC(f32 volume);
-    void fn_801E6F40(bool paused, s32 fadeFrames = 0);
-    void fn_801E6F98(bool paused, s32 fadeFrames = 0);
-    void fn_801E7008(s32 fadeFrames = 0);
-    void fn_801E7088(s32 fadeFrames = 0);
-    void fn_801E70FC(void);
-    void fn_801E7108(void);
-    void fn_801E7114(f32 volume, s32 fadeFrames);
-    void fn_801E71C0(void);
-    void fn_801E71CC(u16 groupID, nw4r::snd::SoundHeap *soundHeap);
-    void fn_801E7230(u16 groupID, nw4r::snd::SoundHeap *soundHeap);
-    bool fn_801E7334(void);
-    void fn_801E7344(nw4r::snd::SeqUserprocCallback *callback, void *callbackArg);
-    void fn_801E73C8(WaveInfo *waveInfo, u16 count);
-    WaveInfo *fn_801E73D4(u16 soundID);
-    WaveTempo *fn_801E7414(WaveInfo *waveInfo, s32 pos);
-    s32 fn_801E7450(WaveInfo *waveInfo, WaveTempo *tempo);
-    s32 fn_801E748C(WaveInfo *waveInfo);
-    s32 fn_801E74BC(WaveInfo *waveInfo);
-    f32 fn_801E74EC(WaveInfo *waveInfo);
-    BOOL fn_801E7584(WaveInfo *waveInfo);
-    void fn_801E75B4(SeqTempo *seqTempo, u16 count);
-    f32 fn_801E75C0(u16 soundID);
-    f32 fn_801E7884(u16 soundID);
+    void set_ticks_per_frame(f32 ticksPerFrame);
+    void start_prepared(SNDHandle *soundHandle = NULL);
+    void set_sound_cooldown_table(SoundCooldown *soundCooldown, u16 count);
+    void tune_stop(s32 fadeFrames = 0, SNDHandle *soundHandle = NULL);
+    void tune_pause(bool paused, s32 fadeFrames = 0, SNDHandle *soundHandle = NULL);
+    void tune_volume(f32 volume, s32 fadeFrames = 0, SNDHandle *soundHandle = NULL);
+    void tune_pitch(f32 pitch, SNDHandle *soundHandle = NULL);
+    void tune_pan(f32 pan, SNDHandle *soundHandle = NULL);
+    void tune_tempo_ratio(f32 tempoRatio, SNDHandle *soundHandle = NULL);
+    void tune_tempo_rel(f32 tempo, SNDHandle *soundHandle = NULL);
+    void set_system_player(s32 playerID);
+    void sys_player_volume(f32 volume);
+    void nosys_player_volume(f32 volume);
+    void all_player_volume(f32 volume);
+    void sys_player_pause(bool paused, s32 fadeFrames = 0);
+    void nosys_player_pause(bool paused, s32 fadeFrames = 0);
+    void nosys_player_stop(s32 fadeFrames = 0);
+    void all_player_stop(s32 fadeFrames = 0);
+    void solo_sys_player_disable(void);
+    void solo_sys_player_enable(void);
+    void nosys_player_vol_fade(f32 volume, s32 fadeFrames);
+    void nosys_player_vol_fade_stop(void);
+    void load_group_async(u16 groupID, nw4r::snd::SoundHeap *soundHeap);
+    void load_group_sync(u16 groupID, nw4r::snd::SoundHeap *soundHeap);
+    bool get_loading(void);
+    void set_seq_userproc_callback(nw4r::snd::SeqUserprocCallback *callback, void *callbackArg);
+    void set_wave_info_table(WaveInfo *waveInfo, u16 count);
+    WaveInfo *find_wave_info(u16 soundID);
+    WaveTempo *get_wave_tempo_data(WaveInfo *waveInfo, s32 pos);
+    s32 calc_wave_tempo_pos(WaveInfo *waveInfo, WaveTempo *tempo);
+    s32 calc_wave_sample_count(WaveInfo *waveInfo);
+    s32 calc_wave_beat_count(WaveInfo *waveInfo);
+    f32 calc_initial_wave_tempo(WaveInfo *waveInfo);
+    BOOL get_wave_loop(WaveInfo *waveInfo);
+    void set_seq_tempo_table(SeqTempo *seqTempo, u16 count);
+    f32 calc_seq_tempo_sound_id(u16 soundID);
+    f32 calc_wave_tempo_sound_id(u16 soundID);
     void fn_801E7954(void);
     SNDHandle *fn_801E7B30(s32 index);
 
     static bool fn_801E4D4C(void);
     static void fn_801E4D54(void);
 
+    // inlined version of calc_wave_tempo_sound_id
     f32 get_wave_tempo(u16 soundID) {
-        WaveInfo *waveInfo = fn_801E73D4(soundID);
-        return fn_801E74EC(waveInfo); 
+        WaveInfo *waveInfo = find_wave_info(soundID);
+        return calc_initial_wave_tempo(waveInfo); 
     }
 
 private:
-    void fn_801E4988(const char *soundArchivePath);
-    void fn_801E5648(void);
+    void open_sound_archive(const char *soundArchivePath);
+    void update_delayed_sound(void);
     void tune_sound_handle(ETuneType type, f32 value, s32 fadeFrames, SNDHandle *soundHandle = NULL);
     void tune_delay_sound(ETuneType type, f32 value, s32 fadeFrames, DelaySound *delaySound);
-    void fn_801E734C(void);
+    void reverb_param_init(void);
 
-    static void *fn_801E4948(void *);
-    static void *fn_801E72E8(void *);
+    static void *open_sound_archive_task(void *);
+    static void *load_group_task(void *);
 
     void end_sound_handle(SNDHandle *soundHandle) {
         if (soundHandle != NULL) {

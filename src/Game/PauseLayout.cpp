@@ -121,7 +121,7 @@ void CPauseLayout::_18(nw4r::lyt::DrawInfo *drawInfo) {
     
             gTickFlowManager->fn_801E4048(false);
             gInputCheckManager->setGamePaused(false);
-            gSoundManager->fn_801E6F98(false);
+            gSoundManager->nosys_player_pause(false);
         }
     }
     else {
@@ -155,7 +155,7 @@ void CPauseLayout::_18(nw4r::lyt::DrawInfo *drawInfo) {
 
                         gTickFlowManager->fn_801E4048(true);
                         gInputCheckManager->setGamePaused(true);
-                        gSoundManager->fn_801E6F98(true);
+                        gSoundManager->nosys_player_pause(true);
 
                         if (controllerP1->checkTrig(WPAD_BUTTON_PLUS)) {
                             gSoundManager->play(SE_PAUSE_ON);

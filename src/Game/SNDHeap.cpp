@@ -39,10 +39,10 @@ void fn_8008357C(void) {
 }
 
 void fn_80083630(u16 groupID, ESoundHeap heap) {
-    gSoundManager->fn_801E7230(groupID, sSoundHeap[heap]);
+    gSoundManager->load_group_sync(groupID, sSoundHeap[heap]);
 }
 void fn_8008364C(u16 groupID, ESoundHeap heap) {
-    gSoundManager->fn_801E71CC(groupID, sSoundHeap[heap]);
+    gSoundManager->load_group_async(groupID, sSoundHeap[heap]);
 }
 
 void fn_80083668(ESoundHeap heap) {

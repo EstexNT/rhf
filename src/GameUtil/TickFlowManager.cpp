@@ -118,12 +118,12 @@ void CTickFlowManager::_14(CTickFlow::CreateFn createFn, u32 size, const TickFlo
 
 bool CTickFlowManager::_18(void) {
     if (mPaused) {
-        gSoundManager->fn_801E5640(0.0f);
+        gSoundManager->set_ticks_per_frame(0.0f);
         return false;
     }
 
     f32 ticksPerFrame = (fn_801E2CA8() * 48.0f) / (fn_801E4180() * 60.0f);
-    gSoundManager->fn_801E5640(ticksPerFrame);
+    gSoundManager->set_ticks_per_frame(ticksPerFrame);
     mUnk128 = NULL;
 
     if (
@@ -131,8 +131,8 @@ bool CTickFlowManager::_18(void) {
         gControllerManager->fn_801D5FF0(mSkipControllerIndex)->checkTrig(mSkipButton) &&
         (gGameManager->getCurrentScene()->getState() == CScene::eState_Active)
     ) {
-        gSoundManager->fn_801E7008();
-        gSoundManager->fn_801E7108();
+        gSoundManager->nosys_player_stop();
+        gSoundManager->solo_sys_player_enable();
 
         fn_801E1E4C();
 
@@ -234,8 +234,8 @@ void CTickFlowManager::calcTickPassStrm(void) {
         ((mUnk10C == 2) && !fn_801ED7B8(mUnk110)) ||
         ((mUnk10C != 2) && attached && strmDataRead)
     ) {
-        WaveInfo *waveInfo = gSoundManager->fn_801E73D4(mStrmSoundID);
-        s32 len = gSoundManager->fn_801E748C(waveInfo);
+        WaveInfo *waveInfo = gSoundManager->find_wave_info(mStrmSoundID);
+        s32 len = gSoundManager->calc_wave_sample_count(waveInfo);
 
         s32 pos;
         if (mUnk10C == 2) {
@@ -269,8 +269,8 @@ void CTickFlowManager::calcTickPassStrm(void) {
         
         s32 posPass = pos - prevPos;
 
-        WaveTempo *tempoPrev = gSoundManager->fn_801E7414(waveInfo, prevPos);
-        WaveTempo *tempoCur = gSoundManager->fn_801E7414(waveInfo, pos);
+        WaveTempo *tempoPrev = gSoundManager->get_wave_tempo_data(waveInfo, prevPos);
+        WaveTempo *tempoCur = gSoundManager->get_wave_tempo_data(waveInfo, pos);
 
         if (tempoPrev == tempoCur) {
             if (prevPos <= pos) {
@@ -289,7 +289,7 @@ void CTickFlowManager::calcTickPassStrm(void) {
             }
         }
         else {
-            s32 tempoPos = gSoundManager->fn_801E7450(waveInfo, tempoCur);
+            s32 tempoPos = gSoundManager->calc_wave_tempo_pos(waveInfo, tempoCur);
             
             s32 a = tempoPos - prevPos;
             s32 b = pos - tempoPos;
@@ -324,8 +324,8 @@ void CTickFlowManager::calcTickPassWave(void) {
         ((mUnk10C == 2) && !fn_801ED7B8(mUnk110)) ||
         ((mUnk10C != 2) && attached && waveDataRead)
     ) {
-        WaveInfo *waveInfo = gSoundManager->fn_801E73D4(mWaveSoundID);        
-        s32 len = gSoundManager->fn_801E748C(waveInfo);
+        WaveInfo *waveInfo = gSoundManager->find_wave_info(mWaveSoundID);        
+        s32 len = gSoundManager->calc_wave_sample_count(waveInfo);
         
         s32 pos;
         if (mUnk10C == 2) {
@@ -359,8 +359,8 @@ void CTickFlowManager::calcTickPassWave(void) {
     
         s32 posPass = pos - prevPos;
     
-        WaveTempo *tempoPrev = gSoundManager->fn_801E7414(waveInfo, prevPos);
-        WaveTempo *tempoCur = gSoundManager->fn_801E7414(waveInfo, pos);
+        WaveTempo *tempoPrev = gSoundManager->get_wave_tempo_data(waveInfo, prevPos);
+        WaveTempo *tempoCur = gSoundManager->get_wave_tempo_data(waveInfo, pos);
 
         if (tempoPrev == tempoCur) {
             if (prevPos < pos) {
@@ -380,7 +380,7 @@ void CTickFlowManager::calcTickPassWave(void) {
             }
         }
         else {
-            s32 tempoPos = gSoundManager->fn_801E7450(waveInfo, tempoCur);
+            s32 tempoPos = gSoundManager->calc_wave_tempo_pos(waveInfo, tempoCur);
             
             s32 a = tempoPos - prevPos;
             s32 b = pos - tempoPos;
@@ -592,7 +592,7 @@ void CTickFlowManager::playPreparedSeq(void) {
     mPreparedSeqSoundID = -1;
     mCurrentSoundHandle = mPrepareSoundHandle;
 
-    gSoundManager->fn_801E60B4(mCurrentSoundHandle);
+    gSoundManager->start_prepared(mCurrentSoundHandle);
 
     nw4r::snd::SeqSoundHandle seqHandle (mCurrentSoundHandle);
     if (seqHandle.IsAttachedSound()) {
@@ -611,13 +611,13 @@ void CTickFlowManager::playPreparedSeq(void) {
 
 void CTickFlowManager::stopSeq(s32 fadeFrames) {
     mCurrentBGMType = eBGMType_None;
-    gSoundManager->fn_801E62B8(fadeFrames, mCurrentSoundHandle);
+    gSoundManager->tune_stop(fadeFrames, mCurrentSoundHandle);
 
     mTempo = rethinkTempo();
 }
 
 void CTickFlowManager::fn_801E334C(f32 volume, s32 fadeFrames) {
-    gSoundManager->fn_801E65F4(volume, fadeFrames, mCurrentSoundHandle);
+    gSoundManager->tune_volume(volume, fadeFrames, mCurrentSoundHandle);
 }
 
 void CTickFlowManager::fn_801E335C(u32 trackBitFlag, bool mute) {
@@ -667,7 +667,7 @@ void CTickFlowManager::playPreparedStrm(void) {
     }
 
     mCurrentSoundHandle = mPrepareSoundHandle;
-    gSoundManager->fn_801E60B4(mCurrentSoundHandle);
+    gSoundManager->start_prepared(mCurrentSoundHandle);
 
     mCurrentSoundHandle->SetPitch(mSpeed);
 
@@ -682,13 +682,13 @@ void CTickFlowManager::playPreparedStrm(void) {
 
 void CTickFlowManager::stopStrm(s32 fadeFrames) {
     mCurrentBGMType = eBGMType_None;
-    gSoundManager->fn_801E62B8(fadeFrames, mCurrentSoundHandle);
+    gSoundManager->tune_stop(fadeFrames, mCurrentSoundHandle);
 
     mTempo = rethinkTempo();
 }
 
 void CTickFlowManager::fn_801E38BC(f32 volume, s32 fadeFrames) {
-    gSoundManager->fn_801E65F4(volume, fadeFrames, mCurrentSoundHandle);
+    gSoundManager->tune_volume(volume, fadeFrames, mCurrentSoundHandle);
 }
 
 bool CTickFlowManager::fn_801E38CC(void) {
@@ -732,7 +732,7 @@ void CTickFlowManager::playPreparedWave(void) {
     }
 
     mCurrentSoundHandle = mPrepareSoundHandle;
-    gSoundManager->fn_801E60B4(mCurrentSoundHandle);
+    gSoundManager->start_prepared(mCurrentSoundHandle);
 
     mCurrentSoundHandle->SetPitch(mSpeed);
 
@@ -747,13 +747,13 @@ void CTickFlowManager::playPreparedWave(void) {
 
 void CTickFlowManager::stopWave(s32 fadeFrames) {
     mCurrentBGMType = eBGMType_None;
-    gSoundManager->fn_801E62B8(fadeFrames, mCurrentSoundHandle);
+    gSoundManager->tune_stop(fadeFrames, mCurrentSoundHandle);
 
     mTempo = rethinkTempo();
 }
 
 void CTickFlowManager::fn_801E3E2C(f32 volume, s32 fadeFrames) {
-    gSoundManager->fn_801E65F4(volume, fadeFrames, mCurrentSoundHandle);
+    gSoundManager->tune_volume(volume, fadeFrames, mCurrentSoundHandle);
 }
 
 bool CTickFlowManager::fn_801E3E3C(void) {
@@ -785,7 +785,7 @@ void CTickFlowManager::fn_801E4048(bool paused) {
         (mCurrentBGMType == eBGMType_Seq) ||
         (mCurrentBGMType == eBGMType_Strm) || (mCurrentBGMType == eBGMType_Wave)
     ) {
-        gSoundManager->fn_801E6440(mPaused, 0, mCurrentSoundHandle);
+        gSoundManager->tune_pause(mPaused, 0, mCurrentSoundHandle);
     }
 }
 

@@ -537,7 +537,7 @@ void CSceneInterview::fn_800B6860(u32 button, s32 type, s32 param_3, f32 ticks) 
                         mIsTwoPlay, fromP1
                     );
                     if (mIsTwoPlay) {
-                        gSoundManager->fn_801E65F4(0.8f);
+                        gSoundManager->tune_volume(0.8f);
                     }
                 }
                 else if (type == 1) {
@@ -558,7 +558,7 @@ void CSceneInterview::fn_800B6860(u32 button, s32 type, s32 param_3, f32 ticks) 
                         mIsTwoPlay, fromP1
                     );
                     if (mIsTwoPlay) {
-                        gSoundManager->fn_801E65F4(0.8f);
+                        gSoundManager->tune_volume(0.8f);
                     }
                 }
                 else if (type == 2) {
@@ -586,7 +586,7 @@ void CSceneInterview::fn_800B6860(u32 button, s32 type, s32 param_3, f32 ticks) 
                             mIsTwoPlay, fromP1
                         );
                         if (mIsTwoPlay) {
-                            gSoundManager->fn_801E65F4(0.8f);
+                            gSoundManager->tune_volume(0.8f);
                         }
                     }
                 }
@@ -608,7 +608,7 @@ void CSceneInterview::fn_800B6860(u32 button, s32 type, s32 param_3, f32 ticks) 
                     mIsTwoPlay, fromP1
                 );
                 if (mIsTwoPlay) {
-                    gSoundManager->fn_801E65F4(0.8f);
+                    gSoundManager->tune_volume(0.8f);
                 }
 
                 if (mUnk264 == mWrestlerCount) {
@@ -627,7 +627,7 @@ void CSceneInterview::fn_800B6860(u32 button, s32 type, s32 param_3, f32 ticks) 
                     mIsTwoPlay, fromP1
                 );
                 if (mIsTwoPlay) {
-                    gSoundManager->fn_801E65F4(0.8f);
+                    gSoundManager->tune_volume(0.8f);
                 }
 
                 if (mUnk264 == mWrestlerCount) {

@@ -229,8 +229,8 @@ void CExScene::_18(void) {
     gBackupManager->fn_8008414C();
 
     if (reset) {
-        gSoundManager->fn_801E7008();
-        gSoundManager->fn_801E7108();
+        gSoundManager->nosys_player_stop();
+        gSoundManager->solo_sys_player_enable();
 
         gTickFlowManager->fn_801E1E4C();
         gTickFlowManager->setUnkFC(false);
@@ -443,7 +443,7 @@ void CExScene::fn_80008F68(bool update, u16 tempo) {
 }
 
 void CExScene::fn_80008F70(bool update, u16 soundID) {
-    u16 tempo = gSoundManager->fn_801E75C0(soundID);
+    u16 tempo = gSoundManager->calc_seq_tempo_sound_id(soundID);
     fn_80008F68(update, tempo);
 }
 
@@ -1130,7 +1130,7 @@ void CExScene::fn_8000A74C(s32 param_1) {
 }
 
 void CExScene::fn_8000A790(s32 fadeFrames) {
-    gSoundManager->fn_801E7114(0.0f, fadeFrames);
+    gSoundManager->nosys_player_vol_fade(0.0f, fadeFrames);
 }
 
 bool CExScene::fn_8000A7A0(void) {

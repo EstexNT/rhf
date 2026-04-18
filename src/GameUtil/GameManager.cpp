@@ -100,7 +100,7 @@ void CGameManager::_1C(CScene::CreateFn initSceneCreateFn, CFaderFlash *fader, u
 
         mFader->_08();
 
-        gSoundManager->fn_801E4D60();
+        gSoundManager->update();
         
         bool nowReady = mCurrentScene->getState() == CScene::eState_Ready;
 
@@ -169,7 +169,7 @@ void CGameManager::fn_801D7538(s32 driveStatus) {
         gGraphicManager->fn_801D63B4();
 
         if (CSoundManager::fn_801E4D4C()) {
-            gSoundManager->fn_801E4D60();
+            gSoundManager->update();
         }
 
         sDVDMessageData.fn_801D77A4();
@@ -193,13 +193,13 @@ void CGameManager::fn_801D7538(s32 driveStatus) {
     }
 
     while (
-        (CSoundManager::fn_801E4D4C() && gSoundManager->fn_801E7334()) ||
+        (CSoundManager::fn_801E4D4C() && gSoundManager->get_loading()) ||
         gFileManager->fn_801D3D58()
     ) {
         gGraphicManager->fn_801D63B4();
 
         if (CSoundManager::fn_801E4D4C()) {
-            gSoundManager->fn_801E4D60();
+            gSoundManager->update();
         }
 
         sDVDMessageData.fn_801D77A4();

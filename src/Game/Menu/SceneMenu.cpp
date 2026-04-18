@@ -101,7 +101,7 @@ void CSceneMenu::_14(void) {
     gLayoutManager->fn_801D6AEC(1);
     gLayoutManager->registerLayout<CMenuLayout>();
 
-    gSoundManager->fn_801E6ECC(1.0f);
+    gSoundManager->all_player_volume(1.0f);
 
     fn_800077A8(lbl_80320143);
     mUnkB4 = false;

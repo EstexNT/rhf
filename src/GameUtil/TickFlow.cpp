@@ -290,7 +290,7 @@ bool CTickFlow::_1C(u32 opcode, u32 arg0, const s32 *args) {
         gTickFlowManager->fn_801E2B9C(tempo);
     } break;
     case TF_TEMPO_SEQ: {
-        f32 seqTempo = gSoundManager->fn_801E75C0(arg0);
+        f32 seqTempo = gSoundManager->calc_seq_tempo_sound_id(arg0);
 
         u16 seqTempoInt = seqTempo; // NOTE: Decimal precision is lost.
         if (seqTempoInt == 0) {
@@ -321,7 +321,7 @@ bool CTickFlow::_1C(u32 opcode, u32 arg0, const s32 *args) {
             temp_f31 = static_cast<u32>(args[1]);
         }
         if (arg0 == 1) {
-            temp_f31 = gSoundManager->fn_801E75C0(args[1]);
+            temp_f31 = gSoundManager->calc_seq_tempo_sound_id(args[1]);
         }
         gTickFlowManager->fn_801E2C04(gSoundManager->get_wave_tempo(soundID) / temp_f31);
     } break;
@@ -330,11 +330,11 @@ bool CTickFlow::_1C(u32 opcode, u32 arg0, const s32 *args) {
         f32 temp_f1;
         switch (arg0) {
         case 0:
-            temp_f31 = gSoundManager->fn_801E75C0(args[0]);
+            temp_f31 = gSoundManager->calc_seq_tempo_sound_id(args[0]);
             temp_f1 = static_cast<u32>(args[1]);
             break;
         case 1:
-            temp_f31 = gSoundManager->fn_801E75C0(args[0]);
+            temp_f31 = gSoundManager->calc_seq_tempo_sound_id(args[0]);
             temp_f1 = gSoundManager->get_wave_tempo(args[1]);
             break;
         }
@@ -379,7 +379,7 @@ bool CTickFlow::_1C(u32 opcode, u32 arg0, const s32 *args) {
 
         f32 volume = static_cast<u32>(args[1]) / 256.0f;
         gSoundManager->play(args[0], 0.0f, soundHandle);
-        gSoundManager->fn_801E65F4(volume, 0, soundHandle);
+        gSoundManager->tune_volume(volume, 0, soundHandle);
     } break;
     case TF_PLAY_SFX: {
         SNDHandle *soundHandle = gTickFlowManager->fn_801E415C();
@@ -406,9 +406,9 @@ bool CTickFlow::_1C(u32 opcode, u32 arg0, const s32 *args) {
         }
 
         gSoundManager->play(soundID, (f32)(s32)delay, soundHandle);
-        gSoundManager->fn_801E65F4(volume, 0, soundHandle);
-        gSoundManager->fn_801E676C(pitch, soundHandle);
-        gSoundManager->fn_801E68E0(pan, soundHandle);
+        gSoundManager->tune_volume(volume, 0, soundHandle);
+        gSoundManager->tune_pitch(pitch, soundHandle);
+        gSoundManager->tune_pan(pan, soundHandle);
         
     } break;
     case TF_024: {
@@ -417,36 +417,36 @@ bool CTickFlow::_1C(u32 opcode, u32 arg0, const s32 *args) {
         f32 volume = arg0 / 256.0f;
         s32 fadeFrames = gTickFlowManager->fn_801E26B4(static_cast<u32>(args[0]));
 
-        gSoundManager->fn_801E65F4(volume, fadeFrames, soundHandle);
+        gSoundManager->tune_volume(volume, fadeFrames, soundHandle);
     } break;
     case TF_025: {
         SNDHandle *soundHandle = gTickFlowManager->fn_801E415C();
 
-        gSoundManager->fn_801E676C(static_cast<u32>(args[0]) / 256.0f, soundHandle);
+        gSoundManager->tune_pitch(static_cast<u32>(args[0]) / 256.0f, soundHandle);
     } break;
     case TF_026: {
         SNDHandle *soundHandle = gTickFlowManager->fn_801E415C();
 
-        gSoundManager->fn_801E68E0(args[0] / 256.0f, soundHandle);
+        gSoundManager->tune_pan(args[0] / 256.0f, soundHandle);
     } break;
     case TF_027: {
         SNDHandle *soundHandle = gTickFlowManager->fn_801E415C();
 
-        gSoundManager->fn_801E6A54(static_cast<u32>(args[0]) / 256.0f, soundHandle);
+        gSoundManager->tune_tempo_ratio(static_cast<u32>(args[0]) / 256.0f, soundHandle);
     } break;
     case TF_028: {
         SNDHandle *soundHandle = gTickFlowManager->fn_801E415C();
         if (arg0 == 0) {
-            gSoundManager->fn_801E6BC8(static_cast<u16>(args[0]), soundHandle);
+            gSoundManager->tune_tempo_rel(static_cast<u16>(args[0]), soundHandle);
         }
         else if (arg0 == 1) {
-            gSoundManager->fn_801E6BC8((u16)gSoundManager->get_wave_tempo(args[0]), soundHandle);
+            gSoundManager->tune_tempo_rel((u16)gSoundManager->get_wave_tempo(args[0]), soundHandle);
         }
     } break;
     case TF_029: {
         SNDHandle *soundHandle = gTickFlowManager->fn_801E415C();
 
-        gSoundManager->fn_801E62B8(gTickFlowManager->fn_801E26B4(arg0), soundHandle);
+        gSoundManager->tune_stop(gTickFlowManager->fn_801E26B4(arg0), soundHandle);
     } break;
     case TF_02A: {
         gTickFlowManager->fn_801E4154(gSoundManager->fn_801E7B30(arg0));
@@ -512,13 +512,13 @@ bool CTickFlow::_1C(u32 opcode, u32 arg0, const s32 *args) {
     case TF_SET_PLAYER_VOLUME: {
         f32 volume = static_cast<u32>(args[0]) / 256.0f;
         if (arg0 == 0) {
-            gSoundManager->fn_801E6E08(volume);
+            gSoundManager->sys_player_volume(volume);
         } 
         if (arg0 == 1) {
-            gSoundManager->fn_801E6E4C(volume);
+            gSoundManager->nosys_player_volume(volume);
         } 
         if (arg0 == 2) {
-            gSoundManager->fn_801E6ECC(volume);
+            gSoundManager->all_player_volume(volume);
         }
     } break;
     case TF_SET_PLAYER_VOLUME_FADE: {
@@ -531,14 +531,14 @@ bool CTickFlow::_1C(u32 opcode, u32 arg0, const s32 *args) {
             else {
                 fadeFrames = gTickFlowManager->fn_801E26B4(args[2]);
             }
-            gSoundManager->fn_801E7114(volume, fadeFrames);
+            gSoundManager->nosys_player_vol_fade(volume, fadeFrames);
         }
         else if (arg0 == 1) {
-            gSoundManager->fn_801E71C0();
+            gSoundManager->nosys_player_vol_fade_stop();
         }
     } break;
     case TF_GET_GROUP_LOADING: {
-        mCondvar = gSoundManager->fn_801E7334();
+        mCondvar = gSoundManager->get_loading();
     } break;
 
     case TF_MESG_PANE_VISIBLE: {

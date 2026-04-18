@@ -189,7 +189,7 @@ void CSceneAgbGhost::_28(void) {
         ) {
             volume = (256.0f - mGhostHeight) / 2.0f;
         }
-        gSoundManager->fn_801E65F4((volume + 64.0f) / 256.0f, 15, &mRainSound);
+        gSoundManager->tune_volume((volume + 64.0f) / 256.0f, 15, &mRainSound);
         mUnk1B2 = false;
     }
 
@@ -228,7 +228,7 @@ void CSceneAgbGhost::_1C(void) {
 }
 
 void CSceneAgbGhost::_20(void) {
-    gSoundManager->fn_801E62B8(0, &mRainSound);
+    gSoundManager->tune_stop(0, &mRainSound);
 
     gCellAnimManager->fn_801DBA98(0);
     gCellAnimManager->fn_801DC068(0);
@@ -294,7 +294,7 @@ void CSceneAgbGhost::fn_800A81A8(u32 pos) {
     mGhostAnim->fn_801DD118(6);
 
     gSoundManager->play(SE_AGB_AIM_WALK);
-    gSoundManager->fn_801E65F4((mGhostHeight / 2.13333333f) * (1.0f / 256.0f));
+    gSoundManager->tune_volume((mGhostHeight / 2.13333333f) * (1.0f / 256.0f));
 }
 
 void CSceneAgbGhost::fn_800A8348(void) {
