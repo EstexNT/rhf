@@ -160,20 +160,20 @@ void CSceneMetroman::_14(void) {
 
     fn_8000A7AC(-2, score_game_over, score_hiscore, -1, 1001);
 
-    mScoreCounter = new CEndlessCounter(6, 0, 254, score_number_00_L, false, 2, 20.0f);
+    mScoreCounter = new CEndlessCounter(6, 0, -2, score_number_00_L, false, 2, 20.0f);
     mScoreCounter->fn_80083CB8(1000);
     
     mScoreCounter->fn_80083C5C(260.0f, -145.0f);
     mScoreCounter->fn_8008397C(0);
     mScoreCounter->fn_80083CAC(mUnk9C);
 
-    mHiScoreCounter = new CEndlessCounter(6, 0, 254, score_number_00_S, false, 2, 14.0f);
+    mHiScoreCounter = new CEndlessCounter(6, 0, -2, score_number_00_S, false, 2, 14.0f);
     mHiScoreCounter->fn_80083CB8(1000);
     mHiScoreCounter->fn_80083C5C(260.0f, -180.0f);
     mHiScoreCounter->fn_8008397C(gSaveData->fn_80078F4C()->fn_80077E40(3));
     mHiScoreCounter->fn_80083CAC(mUnk9C);
 
-    mHiScoreRecordAnim = gCellAnimManager->createCellAnim(254, score_hiscore_record);
+    mHiScoreRecordAnim = gCellAnimManager->createCellAnim(-2, score_hiscore_record);
     mHiScoreRecordAnim->setLayer(1000);
     mHiScoreRecordAnim->setPos(110.0f, -180.0f);
     mHiScoreRecordAnim->setEnabled(mUnk9C);

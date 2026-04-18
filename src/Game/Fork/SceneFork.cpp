@@ -145,7 +145,7 @@ void CSceneFork::_14(void) {
     }
 
     for (s32 i = 0; i < mForkCount; i++) {
-        mFork[i].mAnimBase = gCellAnimManager->createCellAnim(255, permanent_canvas);
+        mFork[i].mAnimBase = gCellAnimManager->createCellAnim(-1, permanent_canvas);
         gCellAnimManager->setBaseDefault(mFork[i].mAnimBase);
 
         mFork[i].mForkAnim = gCellAnimManager->createCellAnim(i, fork_fork_sting);
