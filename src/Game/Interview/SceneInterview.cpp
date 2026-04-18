@@ -17,6 +17,8 @@
 
 #include "Mem.hpp"
 
+#include "code_800D2920.hpp"
+
 #include "PauseLayout.hpp"
 #include "CursorLayout.hpp"
 #include "BalloonLayout.hpp"
@@ -466,8 +468,6 @@ void CSceneInterview::_1C(void) {
     }
     this->CExScene::_1C();
 }
-
-extern "C" void fn_800D2920(u16, u16, u16, BOOL, BOOL, SNDHandle * = NULL);
 
 void CSceneInterview::_20(void) {
     if (mUnk258 != eCellAnimRenderEff_5) {

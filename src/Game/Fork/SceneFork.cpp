@@ -19,6 +19,8 @@
 
 #include "Sound.hpp"
 
+#include "code_800D2920.hpp"
+
 #include "Mem.hpp"
 
 #include "TPL.hpp"
@@ -80,8 +82,6 @@ void CSceneFork::fn_8004BFD0(void) {
 bool CSceneFork::_24(void) {
     return gFileManager->fn_801D42FC(19);
 }
-
-extern "C" void fn_800D2920(u16, u16, u16, BOOL, BOOL, SNDHandle *);
 
 extern CCellAnim *lbl_80320204; // gPermanentAnimP1
 extern CCellAnim *lbl_80320208; // gPermanentAnimP2

@@ -577,7 +577,7 @@ config.libs = [
             Object(NonMatching, "Game/Grading2P/MyFlow.cpp"),
             Object(NonMatching, "Game/Grading2P/SceneGrading2P.cpp"),
             Object(NonMatching, "Game/Grading2P/MyLayout.cpp"),
-            Object(NonMatching, "Game/code_800D2920.cpp"),
+            Object(Matching, "Game/code_800D2920.cpp"),
             Object(NonMatching, "Game/GameSelect/code_800D2A70.cpp"),
             Object(NonMatching, "Game/Omochi/SceneOmochi.cpp"),
             Object(NonMatching, "Game/Omochi/MyFlow.cpp"),
