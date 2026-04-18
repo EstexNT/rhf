@@ -98,7 +98,6 @@ void CVarParamManager::fn_801ED2AC(void) {
 
 void CVarParamManager::fn_801ED44C(void) {
     f32 coord[4];
-
     coord[0] = 0.02f;
     coord[1] = 0.02f;
     coord[2] = 0.98f;

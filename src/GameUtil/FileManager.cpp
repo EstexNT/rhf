@@ -8,10 +8,10 @@
 static char sDVDPathBuffer[64];
 
 // In words.
-static const u32 THREAD_STACK_SIZE = 0xA00;
+static const u32 THREAD_STACK_SIZE = 0x2800 / sizeof(u32);
 
 void CFileManager::fn_801D392C(s32 result, DVDFileInfo *fileInfo) {
-    s32 index = gFileManager->getFileInfoIdx(fileInfo);
+    s32 index = gFileManager->getFileInfoIndex(fileInfo);
     if (result == -1) {
         return;
     }
@@ -240,6 +240,7 @@ void CFileManager::fn_801D443C(void) {
 }
 
 void CFileManager::fn_801D4544(void) {
+    // @bug Type mismatch between i (s16) and mMaxArchiveCount (s32)
     for (s16 i = 0; i < mMaxArchiveCount; i++) {
         ArchiveInfo *archiveInfo = &mArchiveInfo[i];
         bool shouldArcInit = false;

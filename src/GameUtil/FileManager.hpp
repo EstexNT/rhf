@@ -88,7 +88,7 @@ public:
     }
 
 private:
-    s32 getFileInfoIdx(DVDFileInfo *fileInfo) {
+    s32 getFileInfoIndex(DVDFileInfo *fileInfo) {
         s32 index = -1;
         for (s32 i = 0; i < mMaxFileCount; i++) {
             if (&mDVDFileInfo[i] == fileInfo) {
