@@ -64,7 +64,7 @@ void CLayoutManager::_20(s32 resCount) {
 
 // TODO: ArcResourceLink::ArcResourceLink() is compiled with -O0
 
-void CLayoutManager::_24(s32 arcIndex, const char *rootDir) {
+void CLayoutManager::_24(u16 arcIndex, const char *rootDir) {
     mResLink[mResLinkCount].Set(gFileManager->arcGetAddr(arcIndex), rootDir);
     mResAccessor->Attach(&mResLink[mResLinkCount]);
 

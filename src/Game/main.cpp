@@ -124,9 +124,8 @@ DONT_INLINE static void fn_80038AE4(void);
 DONT_INLINE static void fn_800393DC(void);
 DONT_INLINE static void fn_80039900(void);
 
-// @bug Should be initialized to false, but left uninitialized.
 // Used in DVD error functions to check if managers are up.
-static bool sInitIsDone;
+static bool sInitIsDone = false;
 
 // DVD error has started (front)
 static void funcDVDErrorF(void) {

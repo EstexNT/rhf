@@ -115,7 +115,7 @@ void CFileManager::waitDVD2(void) {
     }
 }
 
-void CFileManager::startArchive(s32 arcIndex, const char *path, EHeapMEM heap, s32 alignment) {
+void CFileManager::startArchive(u16 arcIndex, const char *path, EHeapMEM heap, s32 alignment) {
     sprintf(sDVDPathBuffer, "%s%s", gFileManager->getLocaleDir(), path);
 
     s32 fileInfoIndex = -1;
@@ -171,14 +171,14 @@ void CFileManager::dvdCallbackArcImpl(s32 result, DVDFileInfo *fileInfo) {
     }
 }
 
-void CFileManager::endArchive(s32 arcIndex) {
+void CFileManager::endArchive(u16 arcIndex) {
     delete[] mArchiveInfo[arcIndex].data;
     mArchiveInfo[arcIndex].data = NULL;
 
     mArchiveInfo[arcIndex].state = eArchiveInfoState_Free;
 }
 
-u32 CFileManager::arcGetFileLen(s32 arcIndex, const char *path) {
+u32 CFileManager::arcGetFileLen(u16 arcIndex, const char *path) {
     ARCFileInfo fileInfo;
     ARCOpen(&mArchiveInfo[arcIndex].arcHandle, path, &fileInfo);
 
@@ -192,7 +192,7 @@ u32 CFileManager::arcGetFileLen(s32 arcIndex, const char *path) {
     return length;
 }
 
-void *CFileManager::arcGetFileAddr(s32 arcIndex, const char *path) {
+void *CFileManager::arcGetFileAddr(u16 arcIndex, const char *path) {
     ARCFileInfo fileInfo;
     ARCOpen(&mArchiveInfo[arcIndex].arcHandle, path, &fileInfo);
 
@@ -202,15 +202,15 @@ void *CFileManager::arcGetFileAddr(s32 arcIndex, const char *path) {
     return startAddr;
 }
 
-void *CFileManager::arcGetAddr(s32 arcIndex) {
+void *CFileManager::arcGetAddr(u16 arcIndex) {
     return mArchiveInfo[arcIndex].data;
 }
 
-bool CFileManager::getArcFree(s32 arcIndex) {
+bool CFileManager::getArcFree(u16 arcIndex) {
     return mArchiveInfo[arcIndex].state == eArchiveInfoState_Free;
 }
 
-bool CFileManager::getArcReady(s32 arcIndex) {
+bool CFileManager::getArcReady(u16 arcIndex) {
     return mArchiveInfo[arcIndex].state == eArchiveInfoState_Ready;
 }
 
@@ -229,7 +229,7 @@ bool CFileManager::getArcIdle(void) {
     return isIdle;
 }
 
-void CFileManager::waitArc(s32 arcIndex) {
+void CFileManager::waitArc(u16 arcIndex) {
     while (mArchiveInfo[arcIndex].state != eArchiveInfoState_Ready) {
         waitTick();
     }

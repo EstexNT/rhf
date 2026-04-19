@@ -49,18 +49,18 @@ public:
 
     // NOTE: alignment must be a multiple of 32, or DVD read will fail!
     void startArchive(
-        s32 arcIndex, const char *path,
+        u16 arcIndex, const char *path,
         EHeapMEM heap = DEFAULT_HEAP, s32 alignment = DEFAULT_ALIGN
     );
-    void endArchive(s32 arcIndex);
+    void endArchive(u16 arcIndex);
 
-    u32 arcGetFileLen(s32 arcIndex, const char *path);
-    void *arcGetFileAddr(s32 arcIndex, const char *path);
-    void *arcGetAddr(s32 arcIndex);
-    bool getArcFree(s32 arcIndex);
-    bool getArcReady(s32 arcIndex);
+    u32 arcGetFileLen(u16 arcIndex, const char *path);
+    void *arcGetFileAddr(u16 arcIndex, const char *path);
+    void *arcGetAddr(u16 arcIndex);
+    bool getArcFree(u16 arcIndex);
+    bool getArcReady(u16 arcIndex);
     bool getArcIdle(void);
-    void waitArc(s32 arcIndex);
+    void waitArc(u16 arcIndex);
     void waitAllArc(void);
 
     void updateArc(void);

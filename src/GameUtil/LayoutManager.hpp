@@ -21,7 +21,7 @@ public:
     virtual void _18(void);
     virtual void _1C(void);
     virtual void _20(s32 resCount);
-    virtual void _24(s32 arcIndex, const char *rootDir);
+    virtual void _24(u16 arcIndex, const char *rootDir);
     virtual void _28(void);
 
     void fn_801D6AEC(u8 layoutCount);

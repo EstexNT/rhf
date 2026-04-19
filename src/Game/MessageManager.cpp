@@ -84,8 +84,7 @@ CBMGRes::CBMGRes(void) {
 CBMGRes::~CBMGRes(void) {}
 
 void CBMGRes::init(u32 arcIndex, const char *pathInArc) {
-    // TODO: does arcGetFileAddr actually accept a u16 instead of a s32?
-    mData = gFileManager->arcGetFileAddr((u16)arcIndex, pathInArc);
+    mData = gFileManager->arcGetFileAddr(arcIndex, pathInArc);
 
     mFileHeader = static_cast<BMGFileHeader *>(mData);
 
