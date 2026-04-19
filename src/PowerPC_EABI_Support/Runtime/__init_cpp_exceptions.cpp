@@ -1,5 +1,5 @@
-#include "PowerPC_EABI_Support/Runtime/NMWException.h"
-#include "PowerPC_EABI_Support/Runtime/__ppc_eabi_linker.h"
+#include <Runtime/NMWException.h>
+#include <Runtime/__ppc_eabi_linker.h>
 
 extern "C" void __init_cpp_exceptions(void);
 extern "C" void __fini_cpp_exceptions(void);

@@ -3,9 +3,9 @@
 #include <string.h>
 
 /*
-    Handwritten assembly routine; sourced from:
-    https://github.com/xbret/xenoblade/blob/main/libs/PowerPC_EABI_Support/src/Runtime/__mem.c
-*/
+ * Handwritten assembly routine; sourced from:
+ * https://github.com/xbret/xenoblade/blob/main/libs/PowerPC_EABI_Support/src/Runtime/__mem.c
+ */
 DECL_SECTION(".init") asm void *memcpy(void *dst, const void *src, size_t n) {
     // clang-format off
     nofralloc

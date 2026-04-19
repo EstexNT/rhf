@@ -1,7 +1,7 @@
 /*
-    Sourced from:
-    https://github.com/xbret/xenoblade/blob/main/libs/PowerPC_EABI_Support/src/Runtime/runtime.c
-*/
+ * Sourced from:
+ * https://github.com/xbret/xenoblade/blob/main/libs/PowerPC_EABI_Support/src/Runtime/runtime.c
+ */
 
 /* macros for GPR/FPR resting and saving */
 #define SAVE_FPR(reg) _savefpr_ ## reg
