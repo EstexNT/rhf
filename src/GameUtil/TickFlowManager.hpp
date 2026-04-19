@@ -170,7 +170,7 @@ private:
     MEMiHeapHead *mHeap;
 
     CTickFlow *mTickFlowHead;
-    CTickFlow *mTickFlowTail;
+    CTickFlow *mTickFlowCurProc;
 
     EBGMType mCurrentBGMType;
 

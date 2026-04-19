@@ -35,7 +35,7 @@ private:
 
     u32 mFrameBufferSize;
     void *mFrameBuffers[2];
-    void *mCurrentFrameBuf;
+    void *mCurrentFrameBuffer;
 };
 
 extern CGraphicManager *gGraphicManager;

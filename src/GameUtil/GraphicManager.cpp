@@ -49,7 +49,7 @@ void CGraphicManager::_14(GXRenderModeObj *renderMode, GXColor *clearColor, u32 
 
     GXSetDispCopyGamma(GX_GM_1_0);
 
-    if (mRenderMode->aa != 0) {
+    if (mRenderMode->aa) {
         GXSetPixelFmt(GX_PF_RGBA565_Z16, GX_ZC_LINEAR);
     }
     else {
@@ -61,7 +61,7 @@ void CGraphicManager::_14(GXRenderModeObj *renderMode, GXColor *clearColor, u32 
     VIConfigure(mRenderMode);
 
     VISetNextFrameBuffer(mFrameBuffers[0]);
-    mCurrentFrameBuf = mFrameBuffers[1];
+    mCurrentFrameBuffer = mFrameBuffers[1];
 
     VIFlush();
     VIWaitForRetrace();
@@ -73,14 +73,14 @@ void CGraphicManager::_14(GXRenderModeObj *renderMode, GXColor *clearColor, u32 
 }
 
 void CGraphicManager::fn_801D63B4(void) {
-    GXRenderModeObj *rmode = mRenderMode;
+    GXRenderModeObj *renderMode = mRenderMode;
 
-    if (rmode->field_rendering != 0) {
+    if (renderMode->field_rendering) {
         u32 nextField = VIGetNextField();
-        GXSetViewportJitter(0.0f, 0.0f, rmode->fbWidth, rmode->efbHeight, 0.0f, 1.0f, nextField);
+        GXSetViewportJitter(0.0f, 0.0f, renderMode->fbWidth, renderMode->efbHeight, 0.0f, 1.0f, nextField);
     }
     else {
-        GXSetViewport(0.0f, 0.0f, rmode->fbWidth, rmode->efbHeight, 0.0f, 1.0f);
+        GXSetViewport(0.0f, 0.0f, renderMode->fbWidth, renderMode->efbHeight, 0.0f, 1.0f);
     }
 
     GXInvalidateVtxCache();
@@ -92,23 +92,22 @@ void CGraphicManager::fn_801D63B4(void) {
 void CGraphicManager::fn_801D6478(void) {
     GXSetZMode(TRUE, GX_LEQUAL, TRUE);
     GXSetColorUpdate(TRUE);
-    GXCopyDisp(mCurrentFrameBuf, TRUE);
+    GXCopyDisp(mCurrentFrameBuffer, TRUE);
     GXDrawDone();
 
-    VISetNextFrameBuffer(mCurrentFrameBuf);
+    VISetNextFrameBuffer(mCurrentFrameBuffer);
     if (mScreenBlack) {
         VISetBlack(FALSE);
         mScreenBlack = false;
     }
-
     VIFlush();
     VIWaitForRetrace();
 
-    if (mCurrentFrameBuf == mFrameBuffers[0]) {
-        mCurrentFrameBuf = mFrameBuffers[1];
+    if (mCurrentFrameBuffer == mFrameBuffers[0]) {
+        mCurrentFrameBuffer = mFrameBuffers[1];
     }
     else {
-        mCurrentFrameBuf = mFrameBuffers[0];
+        mCurrentFrameBuffer = mFrameBuffers[0];
     }
 }
 
@@ -141,5 +140,5 @@ void CGraphicManager::fn_801D6514(GXRenderModeObj *renderMode) {
 }
 
 void CGraphicManager::fn_801D6680(void) {
-    GXCopyDisp(mCurrentFrameBuf, TRUE);
+    GXCopyDisp(mCurrentFrameBuffer, TRUE);
 }

@@ -120,8 +120,8 @@ void memInitHeap(void) {
         sHeapInitialized = true;
 
         sHeapGroupIDStackPos = 0;
-        MEMSetGroupIDForExpHeap(gHeapMEM1, 0);
-        MEMSetGroupIDForExpHeap(gHeapMEM2, 0);
+        MEMSetGroupIDForExpHeap(gHeapMEM1, eMemGroup_Default);
+        MEMSetGroupIDForExpHeap(gHeapMEM2, eMemGroup_Default);
     }
 }
 

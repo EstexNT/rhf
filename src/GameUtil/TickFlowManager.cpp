@@ -12,7 +12,7 @@
 
 #include "Mem.hpp"
 
-#define CTICKFLOWMANAGER_DEBUG_HEAP_ALLOC(block)                \
+#define TICKFLOWMANAGER_DEBUG_HEAP_ALLOC(block)                 \
     do {                                                        \
         if ((block) == NULL) {                                  \
             OSReport(                                           \
@@ -69,7 +69,7 @@ void CTickFlowManager::_14(CTickFlow::CreateFn createFn, u32 size, const TickFlo
 
     if (tickFlowCode != NULL) {
         void *block = MEMAllocFromExpHeap(mHeap, mTickFlowSize);
-        CTICKFLOWMANAGER_DEBUG_HEAP_ALLOC(block);
+        TICKFLOWMANAGER_DEBUG_HEAP_ALLOC(block);
 
         mTickFlowHead = mTickFlowCreateFn(block, tickFlowCode, 0.0f);
     }
@@ -77,7 +77,7 @@ void CTickFlowManager::_14(CTickFlow::CreateFn createFn, u32 size, const TickFlo
         mTickFlowHead = NULL;
     }
 
-    mTickFlowTail = NULL;
+    mTickFlowCurProc = NULL;
 
     fn_801E2C04(1.0f);
     fn_801E2B9C(120.0f);
@@ -176,7 +176,7 @@ bool CTickFlowManager::_18(void) {
 
             CTickFlow *current = mTickFlowHead;
             while (current != NULL) {
-                mTickFlowTail = current;
+                mTickFlowCurProc = current;
                 CTickFlow *next = static_cast<CTickFlow *>(current->getNext());
 
                 if (current->fn_801DD9E8()) {
@@ -189,7 +189,7 @@ bool CTickFlowManager::_18(void) {
                 current = next;
             }
 
-            mTickFlowTail = NULL;
+            mTickFlowCurProc = NULL;
         } while (mUnk6C);
 
         return ret;
@@ -406,7 +406,7 @@ void CTickFlowManager::calcTickPassWave(void) {
 
 CTickFlow *CTickFlowManager::fn_801E1CC0(const TickFlowCode *code, f32 initRest) {
     void *block = MEMAllocFromExpHeap(mHeap, mTickFlowSize);
-    CTICKFLOWMANAGER_DEBUG_HEAP_ALLOC(block);
+    TICKFLOWMANAGER_DEBUG_HEAP_ALLOC(block);
 
     pushTickFlow(mTickFlowCreateFn(block, code, initRest));
 
@@ -484,7 +484,7 @@ void CTickFlowManager::_1C(CTickFlow::CreateFn createFn, u32 size) {
         next = static_cast<CTickFlow *>(current->getNext());
 
         void *block = MEMAllocFromExpHeap(mHeap, mTickFlowSize);
-        CTICKFLOWMANAGER_DEBUG_HEAP_ALLOC(block);
+        TICKFLOWMANAGER_DEBUG_HEAP_ALLOC(block);
 
         CTickFlow *tickFlow = createTickFlowDerive(block, current);
 

@@ -171,7 +171,7 @@ void CGameManager::fn_801D7538(s32 driveStatus) {
     while (driveStatus == static_cast<s32>(DVDGetDriveStatus())) {
         gGraphicManager->fn_801D63B4();
 
-        if (CSoundManager::fn_801E4D4C()) {
+        if (gSoundManager->fn_801E4D4C()) {
             gSoundManager->update();
         }
 
@@ -196,12 +196,12 @@ void CGameManager::fn_801D7538(s32 driveStatus) {
     }
 
     while (
-        (CSoundManager::fn_801E4D4C() && gSoundManager->get_loading()) ||
+        (gSoundManager->fn_801E4D4C() && gSoundManager->get_loading()) ||
         gFileManager->getDVDBusy()
     ) {
         gGraphicManager->fn_801D63B4();
 
-        if (CSoundManager::fn_801E4D4C()) {
+        if (gSoundManager->fn_801E4D4C()) {
             gSoundManager->update();
         }
 
