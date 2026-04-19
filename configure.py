@@ -879,7 +879,7 @@ config.libs = [
     RevolutionLib(
         "euart",
         [
-            Object(NonMatching, "revolution/euart/euart.c"),
+            Object(Matching, "revolution/euart/euart.c"),
         ]
     ),
     RevolutionLib(
