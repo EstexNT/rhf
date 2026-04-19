@@ -148,8 +148,10 @@ bool CTickFlow::fn_801DD9E8(void) {
 bool CTickFlow::_1C(u32 opcode, u32 arg0, const s32 *args) {
     switch (opcode) {
     case TF_ASYNC_CALL: {
-        gTickFlowManager->fn_801E1CC0(reinterpret_cast<const TickFlowCode *>(args[0]), 
-                    mCurrentRest + gTickFlowManager->fn_801E2698() + static_cast<u32>(args[1]));
+        gTickFlowManager->fn_801E1CC0(
+            reinterpret_cast<const TickFlowCode *>(args[0]), 
+            mCurrentRest + gTickFlowManager->fn_801E2698() + static_cast<u32>(args[1])
+        );
     } break;
     case TF_CALL:
         // instruction swap between args[0] and mCode
@@ -292,7 +294,7 @@ bool CTickFlow::_1C(u32 opcode, u32 arg0, const s32 *args) {
     case TF_TEMPO_SEQ: {
         f32 seqTempo = gSoundManager->calc_seq_tempo_sound_id(arg0);
 
-        u16 seqTempoInt = seqTempo; // NOTE: Decimal precision is lost.
+        u16 seqTempoInt = seqTempo; // NOTE: decimal precision is lost
         if (seqTempoInt == 0) {
             seqTempoInt = 120;
             // "TFC_TEMPO_SEQ( %d ) : no tempo data was found\n"
@@ -411,7 +413,7 @@ bool CTickFlow::_1C(u32 opcode, u32 arg0, const s32 *args) {
         gSoundManager->tune_pan(pan, soundHandle);
         
     } break;
-    case TF_024: {
+    case TF_SFX_VOL: {
         SNDHandle *soundHandle = gTickFlowManager->fn_801E415C();
         
         f32 volume = arg0 / 256.0f;
@@ -419,22 +421,22 @@ bool CTickFlow::_1C(u32 opcode, u32 arg0, const s32 *args) {
 
         gSoundManager->tune_volume(volume, fadeFrames, soundHandle);
     } break;
-    case TF_025: {
+    case TF_SFX_PITCH: {
         SNDHandle *soundHandle = gTickFlowManager->fn_801E415C();
 
         gSoundManager->tune_pitch(static_cast<u32>(args[0]) / 256.0f, soundHandle);
     } break;
-    case TF_026: {
+    case TF_SFX_PAN: {
         SNDHandle *soundHandle = gTickFlowManager->fn_801E415C();
 
         gSoundManager->tune_pan(args[0] / 256.0f, soundHandle);
     } break;
-    case TF_027: {
+    case TF_SFX_TEMPO_RATIO: {
         SNDHandle *soundHandle = gTickFlowManager->fn_801E415C();
 
         gSoundManager->tune_tempo_ratio(static_cast<u32>(args[0]) / 256.0f, soundHandle);
     } break;
-    case TF_028: {
+    case TF_SFX_TEMPO_REL: {
         SNDHandle *soundHandle = gTickFlowManager->fn_801E415C();
         if (arg0 == 0) {
             gSoundManager->tune_tempo_rel(static_cast<u16>(args[0]), soundHandle);
@@ -443,7 +445,7 @@ bool CTickFlow::_1C(u32 opcode, u32 arg0, const s32 *args) {
             gSoundManager->tune_tempo_rel((u16)gSoundManager->get_wave_tempo(args[0]), soundHandle);
         }
     } break;
-    case TF_029: {
+    case TF_SFX_STOP: {
         SNDHandle *soundHandle = gTickFlowManager->fn_801E415C();
 
         gSoundManager->tune_stop(gTickFlowManager->fn_801E26B4(arg0), soundHandle);

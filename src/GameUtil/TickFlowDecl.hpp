@@ -8,48 +8,48 @@ typedef u32 TickFlowCode;
 enum {
     /*   TickFlow opcodes (0x000 to 0x050)   */
 
-    TF_ASYNC_CALL = 0x000, ///< Args: TickFlowCode *, delay in ticks
-    TF_CALL, ///< Args: TickFlowCode *
-    TF_RETURN, // Return to the previous call.
-    TF_STOP, // End execution.
-    TF_CATEGORY, ///< Set category. Args: category to set
-    TF_SET_CONDVAR, ///< Args: value to set condvar to
-    TF_INCR_CONDVAR, ///< Args: value to increment condvar by
+    TF_ASYNC_CALL = 0x000,      ///< Args: TickFlowCode *, delay in ticks
+    TF_CALL,                    ///< Args: TickFlowCode *
+    TF_RETURN,                  // Return to the previous call.
+    TF_STOP,                    // End execution.
+    TF_CATEGORY,                ///< Set category. Args: category to set
+    TF_SET_CONDVAR,             ///< Args: value to set condvar to
+    TF_INCR_CONDVAR,            ///< Args: value to increment condvar by
     TF_PUSH_CONDVAR,
     TF_POP_CONDVAR,
-    TF_REST, ///< Arg0: ticks to rest for
+    TF_REST,                    ///< Arg0: ticks to rest for
     TF_00A,
-    TF_REST_FRAMES, ///< Arg0: frames to rest for
-    TF_UNREST, ///< Arg0: ticks to decrement the current rest by
+    TF_REST_FRAMES,             ///< Arg0: frames to rest for
+    TF_UNREST,                  ///< Arg0: ticks to decrement the current rest by
     TF_RESET_TICK_PASS,
-    TF_LABEL, ///< Arg0: label identifier
-    TF_JUMP, ///< Arg0: identifier of label to jump to
-    TF_IF, ///< TODO Multiple variations depending on arg0. Args: value to compare to condvar
+    TF_LABEL,                   ///< Arg0: label identifier
+    TF_JUMP,                    ///< Arg0: identifier of label to jump to
+    TF_IF,                      ///< TODO Multiple variations depending on arg0. Args: value to compare to condvar
     TF_ELSE,
     TF_ENDIF,
     TF_SWITCH_BEGIN,
-    TF_SWITCH_CASE, ///< Arg0: value to compare to condvar
+    TF_SWITCH_CASE,             ///< Arg0: value to compare to condvar
     TF_SWITCH_BREAK,
     TF_SWITCH_DEFAULT,
     TF_SWITCH_END,
     TF_018,
     TF_CHECK_BGM_TYPE,
-    TF_TEMPO, ///< Set tempo. Arg0: BPM to set
-    TF_TEMPO_SEQ, ///< Set tempo. Arg0: SID of sequence to reference BPM from
-    TF_TEMPO_WAVE, ///< Set tempo. Arg0: SID of wave to reference BPM from
-    TF_SPEED, ///< Set speed. Arg0: Speed value (fixed, 256)
+    TF_TEMPO,                   ///< Set tempo. Arg0: BPM to set
+    TF_TEMPO_SEQ,               ///< Set tempo. Arg0: SID of sequence to reference BPM from
+    TF_TEMPO_WAVE,              ///< Set tempo. Arg0: SID of wave to reference BPM from
+    TF_SPEED,                   ///< Set speed. Arg0: Speed value (fixed, 256)
     TF_01E,
     TF_01F,
     TF_020,
-    TF_SPAWN_CELLANIM, ///< Create and display a new CellAnim. Arg0: TODO; Args: cell ID, anim ID, pos X, pos Y, display layer, scale X, scale Y
-    TF_PLAY_SFX_VOL, ///< Play a SFX. Args: SID of SFX, volume (fixed, 256)
-    TF_PLAY_SFX, ///< Play a SFX. Arg0: TODO; Args: SID of SFX, volume, pitch, pan, (UNUSED), start offset (all args are fixed, 256)
-    TF_024,
-    TF_025,
-    TF_026,
-    TF_027,
-    TF_028,
-    TF_029,
+    TF_SPAWN_CELLANIM,          ///< Create and display a new CellAnim. Arg0: TODO; Args: cell ID, anim ID, pos X, pos Y, display layer, scale X, scale Y
+    TF_PLAY_SFX_VOL,            ///< Play a SFX. Args: SID of SFX, volume (fixed, 256)
+    TF_PLAY_SFX,                ///< Play a SFX. Arg0: TODO; Args: SID of SFX, volume, pitch, pan, (UNUSED), start offset (all args are fixed, 256)
+    TF_SFX_VOL,
+    TF_SFX_PITCH,
+    TF_SFX_PAN,
+    TF_SFX_TEMPO_RATIO,
+    TF_SFX_TEMPO_REL,
+    TF_SFX_STOP,
     TF_02A,
     TF_PREPARE_SEQ,
     TF_START_SEQ,
@@ -63,36 +63,36 @@ enum {
     TF_STOP_STRM,
     TF_SET_STRM_VOLUME,
     TF_GET_STRM_PREPARED,
-    TF_PREPARE_WAVE, ///< Prepare WSD (wave sound data) for playback. Arg0: SID of WSD
+    TF_PREPARE_WAVE,            ///< Prepare WSD (wave sound data) for playback. Arg0: SID of WSD
     TF_START_WAVE,
-    TF_START_PREPARED_WAVE, ///< Start WSD (wave sound data) playback.
+    TF_START_PREPARED_WAVE,     ///< Start WSD (wave sound data) playback.
     TF_STOP_WAVE,
     TF_SET_WAVE_VOLUME,
-    TF_GET_WAVE_PREPARED, ///< Set condvar to 1 if WSD (wave sound data) is ready, and 0 if not.
+    TF_GET_WAVE_PREPARED,       ///< Set condvar to 1 if WSD (wave sound data) is ready, and 0 if not.
     TF_SET_PLAYER_VOLUME,
     TF_SET_PLAYER_VOLUME_FADE,
-    TF_GET_GROUP_LOADING, ///< Set condvar to 1 if the current group is loading, and 0 if not.
-    TF_MESG_PANE_VISIBLE, ///< Set a message pane's visibillity. Arg0: access index; Args: is visible
+    TF_GET_GROUP_LOADING,       ///< Set condvar to 1 if the current group is loading, and 0 if not.
+    TF_MESG_PANE_VISIBLE,       ///< Set a message pane's visibillity. Arg0: access index; Args: is visible
     TF_MESG_PANE_SET_STRING,
-    TF_SET_INPUT_ALLOW, ///< Set if inputs from the controller(s) should be allowed.
-                        ///      - Arg0: 0 for all controllers (args will be: inputs allowed),
-                        ///              1 for specific controller (args will be: controller index, inputs allowed).
+    TF_SET_INPUT_ALLOW,         ///< Set if inputs from the controller(s) should be allowed.
+                                ///      - Arg0: 0 for all controllers (args will be: inputs allowed),
+                                ///              1 for specific controller (args will be: controller index, inputs allowed).
     TF_043,
     TF_044,
     TF_045,
     TF_BUTTON_PROMPT,
     TF_047,
     TF_SET_BUTTON_COOLDOWN,
-    TF_SET_SKIPPABLE, ///< Set if the player is allowed to skip. Arg0: enabled
-    TF_SET_SKIP_HANDLER, ///< Set the TickFlow that runs when a skip is triggered. Args: TickFlowCode *
+    TF_SET_SKIPPABLE,           ///< Set if the player is allowed to skip. Arg0: enabled
+    TF_SET_SKIP_HANDLER,        ///< Set the TickFlow that runs when a skip is triggered. Args: TickFlowCode *
     TF_SET_SKIP_CONTROLLER,
     TF_SET_SKIP_INPUT,
     TF_ICI_CTRL,
     TF_CONTROLLER_DO_MOTOR_SEQ,
-    TF_04F,
-    TF_RANDOM, ///< Set the condvar to a random value. Arg0: upper bound of random value
+    TF_04F,                     ///< (not implemented)
+    TF_RANDOM,                  ///< Set the condvar to a random value. Arg0: upper bound of random value
 
-    /*   ExFlow opcodes (0x100 to 0x141) are found in Game/ExFlowDecl.hpp */
+    /*   ExFlow opcodes (0x100 to 0x141) are found in Game/ExFlowDecl.hpp   */
 };
 
 // decl macros
