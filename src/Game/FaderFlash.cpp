@@ -34,6 +34,9 @@ void CFaderFlash::_08(void) {
             mUnk04 = 0;
         }
         break;
+
+    default:
+        break;
     }
 
     if (mUnk10 != 0.0f && !gTickFlowManager->getPaused()) {

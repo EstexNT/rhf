@@ -249,7 +249,7 @@ private:
         }
     }
 
-    f32 first_player_volume(void) {
+    f32 first_nosys_player_volume(void) {
         u32 soundPlayerCount = mSoundArchivePlayer->GetSoundPlayerCount();
         for (u32 i = 0; i < soundPlayerCount; i++) {
             if (static_cast<s32>(i) != mSystemPlayerID) {

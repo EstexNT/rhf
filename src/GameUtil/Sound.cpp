@@ -125,7 +125,7 @@ void CSoundManager::open_sound_archive(const char *soundArchivePath) {
 void CSoundManager::_18(void) {
     mSoundArchiveType = eSoundArchiveType_Nand;
 
-    // NOTE: NAND Sound Archive init impl is mysteriously missing
+    // NOTE: NAND Sound Archive is not implemented
 }
 
 void CSoundManager::_08(void) {
@@ -206,7 +206,7 @@ void CSoundManager::update(void) {
     update_delayed_sound();
 
     if ((mVolumeFadeFrames > 0) && !gTickFlowManager->getPaused()) {
-        f32 curVolume = first_player_volume();
+        f32 curVolume = first_nosys_player_volume();
 
         f32 finalVolume = curVolume + mVolumeFadeStep;
         if (finalVolume < 0.0) {
@@ -219,7 +219,7 @@ void CSoundManager::update(void) {
     }
 
     if (!mNoSoloSystemPlayer) {
-        nosys_player_stop(0);
+        nosys_player_stop();
     }
 
     mSoundArchivePlayer->Update();
@@ -265,7 +265,7 @@ void CSoundManager::play(u16 soundID, f32 start, SNDHandle *soundHandle) {
         startInfo.seqSoundInfo.startLocationLabel = NULL;
         startInfo.enableFlag = nw4r::snd::SoundStartable::StartInfo::ENABLE_START_OFFSET;
         startInfo.startOffsetType = nw4r::snd::SoundStartable::StartInfo::START_OFFSET_TYPE_TICK;
-        startInfo.startOffset = static_cast<s32>(start); // NOTE: Decimal precision is lost.
+        startInfo.startOffset = static_cast<s32>(start); // NOTE: decimal precision is lost.
 
         nw4r::snd::SoundStartable::StartResult result =
             mSoundArchivePlayer->StartSound(soundHandle, soundID, &startInfo);
@@ -318,7 +318,7 @@ void CSoundManager::update_delayed_sound(void) {
             if (delaySound->startOffset < 0.0f) {
                 continue;
             }
-            
+
             gSoundManager->play(delaySound->soundID, 0.0f, delaySound->soundHandle);
 
             if (delaySound->volumeSet != 1.0) {
@@ -373,7 +373,7 @@ void CSoundManager::tune_sound_handle(ETuneType type, f32 value, s32 fadeFrames,
     case eTuneType_Pitch: {
         soundHandle->SetPitch(value);
     } break;
-    
+
     case eTuneType_Pan: {
         soundHandle->SetPan(value);
     } break;
@@ -533,9 +533,7 @@ void CSoundManager::solo_sys_player_enable(void) {
 
 void CSoundManager::nosys_player_vol_fade(f32 volume, s32 fadeFrames) {
     mVolumeFadeFrames = fadeFrames;
-
-    // (end - start) / frames
-    mVolumeFadeStep = (volume - first_player_volume()) / mVolumeFadeFrames;
+    mVolumeFadeStep = (volume - first_nosys_player_volume()) / mVolumeFadeFrames;
 }
 
 void CSoundManager::nosys_player_vol_fade_stop(void) {
@@ -760,8 +758,7 @@ f32 CSoundManager::calc_seq_tempo_sound_id(u16 soundID) {
 
 f32 CSoundManager::calc_wave_tempo_sound_id(u16 soundID) {
     WaveInfo *waveInfo = find_wave_info(soundID);
-    f32 tempo = calc_initial_wave_tempo(waveInfo);
-    return tempo;
+    return calc_initial_wave_tempo(waveInfo);
 }
 
 void CSoundManager::fn_801E7954(void) {

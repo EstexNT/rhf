@@ -70,7 +70,8 @@ void CCheckPointManager::fn_801EAF2C(u8 arg0, ECheckInputType type) {
         }
         unkD8 = unkD4;
         unkDC = arg0;
-    } else {
+    }
+    else {
         unkD8 = 0.0f;
     }
 
@@ -114,7 +115,8 @@ void CCheckPointManager::fn_801EB00C(u8 arg0, ECheckInputType type) {
 
     if ((unkCC > 0) && (!(unkA4[arg0]->flags & GRADE_CRITERIA_FLAG_UNK1))) {
         unkCC--;
-    } else {
+    }
+    else {
         unk04[arg0].unk6++;
         unk04[arg0].unk0++;
     }
@@ -203,11 +205,13 @@ void CCheckPointManager::fn_801EB130(void) {
             wcscat(unkE0[unkC8], reinterpret_cast<const wchar_t *>(unkA4[i]->mesgPositive));
             unkDE = 1;
             unkC8++;
-        } else {
+        }
+        else {
             if (unkC8 < 3) {
                 sp8[unkC8] = i;
                 unkC8++;
-            } else {
+            }
+            else {
                 sp8[0] = sp8[1];
                 sp8[1] = sp8[2];
                 sp8[2] = i;
@@ -279,7 +283,8 @@ s32 CCheckPointManager::fn_801EB808(s32 i) {
         for (s32 j = 0; j < unkC4; j++) {
             retVal += unk04[j].unk0;
         }
-    } else {
+    }
+    else {
         retVal = unk04[i].unk0;
     }
     return retVal;
@@ -291,7 +296,8 @@ s32 CCheckPointManager::fn_801EB8FC(s32 i) {
         for (s32 j = 0; j < unkC4; j++) {
             retVal += unk04[j].unk2;
         }
-    } else {
+    }
+    else {
         retVal = unk04[i].unk2;
     }
     return retVal;
@@ -303,7 +309,8 @@ s32 CCheckPointManager::fn_801EB9F0(s32 i) {
         for (s32 j = 0; j < unkC4; j++) {
             retVal += unk04[j].unk4;
         }
-    } else {
+    }
+    else {
         retVal = unk04[i].unk4;
     }
     return retVal;
@@ -315,7 +322,8 @@ s32 CCheckPointManager::fn_801EBAE4(s32 i) {
         for (s32 j = 0; j < unkC4; j++) {
             retVal += unk04[j].unk6;
         }
-    } else {
+    }
+    else {
         retVal = unk04[i].unk6;
     }
     return retVal;
