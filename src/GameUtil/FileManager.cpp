@@ -11,7 +11,7 @@ static const u32 THREAD_STACK_SIZE = 0x2800; // bytes
 
 void CFileManager::dvdCallbackFile(s32 result, DVDFileInfo *fileInfo) {
     s32 index = gFileManager->getFileInfoIndex(fileInfo);
-    if (result == -1) {
+    if (result == DVD_RESULT_FATAL) {
         return;
     }
     gFileManager->mDVDFileInfoActive[index] = false;
@@ -251,9 +251,9 @@ void CFileManager::updateArc(void) {
             if (archiveInfo->compressed) {
                 // NOTE: this returns the decompressed buffer before the decompression is actually finished.
                 //       if NULL is returned, the decompression thread is still busy; we'll try again next time.
-                void *decompDst = tryExpandTask(archiveInfo->data, TRUE, i, archiveInfo->heapType, -32);
-                if (decompDst != NULL) {
-                    archiveInfo->data = static_cast<u8 *>(decompDst);
+                void *expandBuffer = tryExpandTask(archiveInfo->data, TRUE, i, archiveInfo->heapType, -32);
+                if (expandBuffer != NULL) {
+                    archiveInfo->data = static_cast<u8 *>(expandBuffer);
                     archiveInfo->state = eArchiveInfoState_Decompressing;
                 }
             }
@@ -288,7 +288,7 @@ void *CFileManager::expandSZS(void *data, BOOL deleteSrc, EHeapMEM heap, s32 ali
     return dst;
 }
 
-struct DecompThreadData {
+struct ExpandTaskParam {
     void *src;
     void *dst;
     u32 expandSize;
@@ -296,7 +296,7 @@ struct DecompThreadData {
     s16 arcInfoIdx; // Index into gFileManager->mArchiveInfo.
     u8 deleteSrc; // If nonzero, src will be deleted when decompression finishes.
 };
-static DecompThreadData sDecompThreadData;
+static ExpandTaskParam sExpandTaskParam;
 
 void *CFileManager::tryExpandTask(void *data, BOOL deleteSrc, s32 arcInfoIdx, EHeapMEM heap, s32 alignment) {
     BOOL threadInactive = OSIsThreadTerminated(&gFileManager->mThread);
@@ -312,15 +312,15 @@ void *CFileManager::tryExpandTask(void *data, BOOL deleteSrc, s32 arcInfoIdx, EH
             memPopGroup();
         }
 
-        sDecompThreadData.src = data;
-        sDecompThreadData.dst = dst;
-        sDecompThreadData.expandSize = expandSize;
-        sDecompThreadData.dstSize = dstSize;
-        sDecompThreadData.arcInfoIdx = arcInfoIdx;
-        sDecompThreadData.deleteSrc = deleteSrc;
+        sExpandTaskParam.src = data;
+        sExpandTaskParam.dst = dst;
+        sExpandTaskParam.expandSize = expandSize;
+        sExpandTaskParam.dstSize = dstSize;
+        sExpandTaskParam.arcInfoIdx = arcInfoIdx;
+        sExpandTaskParam.deleteSrc = deleteSrc;
 
         OSCreateThread(
-            &gFileManager->mThread, expandTaskFunc, &sDecompThreadData,
+            &gFileManager->mThread, expandTaskFunc, &sExpandTaskParam,
             &gFileManager->mThreadStack[THREAD_STACK_SIZE / sizeof(u32)],
             THREAD_STACK_SIZE,
             OS_PRIORITY_MAX, OS_THREAD_DETACHED
@@ -334,17 +334,17 @@ void *CFileManager::tryExpandTask(void *data, BOOL deleteSrc, s32 arcInfoIdx, EH
 }
 
 void *CFileManager::expandTaskFunc(void *arg) {
-    DecompThreadData *data = static_cast<DecompThreadData *>(arg);
+    ExpandTaskParam *param = static_cast<ExpandTaskParam *>(arg);
 
     expandSZSImpl(
-        static_cast<u8 *>(data->src), static_cast<u8 *>(data->dst),
-        data->expandSize, data->dstSize, data->arcInfoIdx, data->deleteSrc
+        static_cast<u8 *>(param->src), static_cast<u8 *>(param->dst),
+        param->expandSize, param->dstSize, param->arcInfoIdx, param->deleteSrc
     );
     return NULL;
 }
 
 // Yaz0 (SZS) decompression.
-bool CFileManager::expandSZSImpl(u8 *src, u8 *dst, u32 expandSize, u32 dstSize, s32 arcInfoIdx, BOOL deleteSrc) {
+bool CFileManager::expandSZSImpl(u8 *src, u8 *dst, u32 expandSize, u32 dstSize, s16 arcInfoIdx, BOOL deleteSrc) {
     DCInvalidateRange(dst, dstSize);
 
     s32 srcIdx = 0x10; // Skip the header data ..

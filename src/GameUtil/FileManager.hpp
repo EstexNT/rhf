@@ -37,7 +37,7 @@ public:
     void setLocaleDir(const char *localeDir);
     const char *getLocaleDir(void);
 
-    // NOTE: alignment must be a multiple of 32, or DVD read will fail!
+    // NOTE: Alignment must be a power-of-two value >= 32 (or <= -32).
     void *loadFile(
         const char *path,
         EHeapMEM heap = DEFAULT_HEAP, s32 alignment = DEFAULT_ALIGN
@@ -47,7 +47,7 @@ public:
     void waitDVD(void);
     void waitDVD2(void); // NOTE: functionally equivalent to waitDVD
 
-    // NOTE: alignment must be a multiple of 32, or DVD read will fail!
+    // NOTE: Alignment must be a power-of-two value >= 32 (or <= -32).
     void startArchive(
         u16 arcIndex, const char *path,
         EHeapMEM heap = DEFAULT_HEAP, s32 alignment = DEFAULT_ALIGN
@@ -111,7 +111,7 @@ private:
     static void *tryExpandTask(void *data, BOOL deleteSrc, s32 arcInfoIdx, EHeapMEM heap, s32 alignment);
     static void *expandTaskFunc(void *);
 
-    static bool expandSZSImpl(u8 *src, u8 *dst, u32 srcSize, u32 dstSize, s32 idx, BOOL deleteSrc);
+    static bool expandSZSImpl(u8 *src, u8 *dst, u32 expandSize, u32 dstSize, s16 arcInfoIdx, BOOL deleteSrc);
 
 public:
     enum EArchiveInfoState {
