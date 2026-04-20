@@ -867,7 +867,7 @@ void CExScene::fn_80009E98(u32 param_1) {
     }
 }
 
-static const char * lbl_802E5828[] = {
+static const char *lbl_802E5828[] = {
     "*-----",
     "**--------",
     "***----------",
@@ -978,7 +978,7 @@ void CExScene::fn_8000A20C(void) {
 
     gFileManager->endArchive(50);
 
-    // NOTE: this is probably here because of a copy-paste error
+    // NOTE: Copypasta from fn_8000A0A4
     lbl_80320214 = NULL;
 }
 

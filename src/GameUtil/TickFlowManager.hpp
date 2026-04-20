@@ -42,10 +42,6 @@ public:
         _1C(&T::create, sizeof(T));
     }
 
-    void calcTickPassSeq(void);
-    void calcTickPassStrm(void);
-    void calcTickPassWave(void);
-
     CTickFlow *fn_801E1CC0(const TickFlowCode *code, f32 initRest = 0.0f);
     bool fn_801E1D9C(CTickFlow *tickFlow);
     bool fn_801E1DC8(CTickFlow *tickFlow);
@@ -123,6 +119,10 @@ public:
     void setUnk100(u32 value) { mSkipButton = value; }
 
 private:
+    void calcTickPassSeq(void);
+    void calcTickPassStrm(void);
+    void calcTickPassWave(void);
+
     void pushTickFlow(CTickFlow *tickFlow) {
         tickFlow->insertBefore(mTickFlowHead);
         mTickFlowHead = tickFlow;

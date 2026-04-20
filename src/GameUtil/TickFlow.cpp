@@ -75,7 +75,7 @@ CTickFlow::~CTickFlow(void) {}
 
 void CTickFlow::_18(CTickFlow *other) {
 #define COPY(member) other->member = member
-#define COPYARR(member, count) for (s32 i = 0; i < count; i++) COPY(member[i])
+#define COPYARR(member) for (s32 i = 0; i < (s32)ARRAY_LENGTH(member); i++) COPY(member[i])
     COPY(mCode);
     COPY(mInstanceCount);
     COPY(mCategory);
@@ -84,8 +84,8 @@ void CTickFlow::_18(CTickFlow *other) {
     COPY(mExecPaused);
     COPY(mCondvar);
     COPY(mCondvarStackPos);
-    COPYARR(mCondvarStack, (s32)ARRAY_LENGTH(mCondvarStack));
-    COPYARR(mExecStack, (s32)ARRAY_LENGTH(mExecStack));
+    COPYARR(mCondvarStack);
+    COPYARR(mExecStack);
     COPY(mExecStackPos);
     COPY(mButtonPromptControllerIdx);
     COPY(mButtonPromptIsReleased);
@@ -153,10 +153,10 @@ bool CTickFlow::_1C(u32 opcode, u32 arg0, const s32 *args) {
             mCurrentRest + gTickFlowManager->fn_801E2698() + static_cast<u32>(args[1])
         );
     } break;
-    case TF_CALL:
-        // instruction swap between args[0] and mCode
+    case TF_CALL: {
+        // instruction swap between load of args[0] and mCode
         fn_801DEF8C(reinterpret_cast<const TickFlowCode *>(args[0]));
-        break;
+    } break;
     case TF_RETURN:
         mExecStackPos--;
         mCode = mExecStack[mExecStackPos].code;
@@ -744,8 +744,8 @@ nw4r::lyt::TextBox *CTickFlow::fn_801DEF78(u8 accessIndex) {
 void CTickFlow::fn_801DEF8C(const TickFlowCode *code) {
     mExecStack[mExecStackPos].code = mCode;
     mExecStack[mExecStackPos].instructionPos = mNextInstructionPos;
-    mCode = code;
     mExecStackPos++;
+    mCode = code;
     mNextInstructionPos = 0;
 }
 
