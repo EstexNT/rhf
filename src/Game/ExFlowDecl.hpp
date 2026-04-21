@@ -55,7 +55,7 @@ enum {
     TF_126,
     TF_127,
     TF_128,
-    TF_129,
+    TF_UPDATE_PERFECT_STATUS,   ///< Update whether the stage is eligible for a "Perfect" completion.
     TF_12A,
     TF_12B,
     TF_LOAD_SND_GROUP,          ///< Start loading a sound group. Arg0: heap (see ESoundHeap); Args: SID of group

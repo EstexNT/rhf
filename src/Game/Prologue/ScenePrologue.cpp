@@ -59,7 +59,7 @@ void CScenePrologue::_14(void) {
             if (gSaveData->fn_80078F4C()->fn_80077E08() != 0) {
                 gSaveData->fn_80078F4C()->fn_800786E4();
                 gSaveData->fn_80078F68();
-                if (fn_80009E1C() && (gBackupManager != NULL)) {
+                if (getPerfectEligible() && (gBackupManager != NULL)) {
                     gBackupManager->fn_80084FC8(1);
                 } 
                 fn_8000C5F4(0);
