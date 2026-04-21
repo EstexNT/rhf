@@ -108,7 +108,7 @@ public:
 
     static bool fn_80009D94(void);
     static void fn_80009DB8(bool);
-    static bool isPerfectEligible(void);
+    static bool getPerfectEligible(void);
     static void updatePerfectStatus(bool enabled);
     static void fn_80009E44(bool);
     static void fn_80009E58(void);
