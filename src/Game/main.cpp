@@ -616,3 +616,8 @@ static void fn_80039900(void) {
 
     memPopGroup();
 }
+
+CDebugConsole *gDebugConsole = NULL;
+CDebugFont *gDebugFont = NULL;
+CPlayHistory *gPlayHistory = NULL;
+CRFLManager *gRFLManager = NULL;

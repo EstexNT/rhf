@@ -18,30 +18,37 @@
 #include "DebugPrint.hpp"
 #include "MyCanvas.hpp"
 #include "DummyManager.hpp"
-
-// NOTE: The global instances of these classes are located elsewhere.
-// #include "CafeTopic.hpp"
-// #include "RFLManager.hpp"
-// #include "PlayHistory.hpp"
 // #include "DebugFont.hpp"
+// #include "PlayHistory.hpp"
+// #include "RFLManager.hpp"
+// #include "CafeTopic.hpp"
 
-CMyCanvasManager *gMyCanvasManager;
-CMessageManager *gMessageManager;
-CBackupManager *gBackupManager;
-CSaveData *gSaveData;
-CHBMManager *gHBMManager;
-CSceneManager *gSceneManager;
-CDebugPrint *gDebugPrint;
-CVarParamManager *gVarParamManager;
-CSDManager *gSDManager;
-CCheckPointManager *gCheckPointManager;
-CInputCheckManager *gInputCheckManager;
-CTickFlowManager *gTickFlowManager;
-CCellAnimManager *gCellAnimManager;
-CDummyManager *gDummyManager;
-CGameManager *gGameManager;
-CSoundManager *gSoundManager;
-CLayoutManager *gLayoutManager;
-CControllerManager *gControllerManager;
-CGraphicManager *gGraphicManager;
-CFileManager *gFileManager;
+/*
+ * The following global instances are located elsewhere:
+ *  - gDebugConsole, in main.cpp
+ *  - gDebugFont, in main.cpp
+ *  - gPlayHistory, in main.cpp
+ *  - gRFLManager, in main.cpp
+ *  - gCafeTopic, in GameSelect/MyLayout.cpp
+ */
+
+CMyCanvasManager *gMyCanvasManager = NULL;
+CMessageManager *gMessageManager = NULL;
+CBackupManager *gBackupManager = NULL;
+CSaveData *gSaveData = NULL;
+CHBMManager *gHBMManager = NULL;
+CSceneManager *gSceneManager = NULL;
+CDebugPrint *gDebugPrint = NULL;
+CVarParamManager *gVarParamManager = NULL;
+CSDManager *gSDManager = NULL;
+CCheckPointManager *gCheckPointManager = NULL;
+CInputCheckManager *gInputCheckManager = NULL;
+CTickFlowManager *gTickFlowManager = NULL;
+CCellAnimManager *gCellAnimManager = NULL;
+CDummyManager *gDummyManager = NULL;
+CGameManager *gGameManager = NULL;
+CSoundManager *gSoundManager = NULL;
+CLayoutManager *gLayoutManager = NULL;
+CControllerManager *gControllerManager = NULL;
+CGraphicManager *gGraphicManager = NULL;
+CFileManager *gFileManager = NULL;
