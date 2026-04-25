@@ -1,12 +1,10 @@
 #ifndef RVL_SDK_EXI_COMMON_H
 #define RVL_SDK_EXI_COMMON_H
-#include <types.h>
+#include <revolution/types.h>
+#include <revolution/OS.h> // OSContext
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-// Forward declarations
-typedef struct OSContext OSContext;
 
 typedef enum {
     EXI_STATE_DMA_ACCESS = (1 << 0),

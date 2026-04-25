@@ -51,10 +51,10 @@ bool CExFlow::_1C(u32 opcode, u32 arg0, const s32 *args) {
         } break;
         case TF_GET_SCENE_RUNNING: {
             if (gGameManager->getCurrentScene()->getState() == CScene::eState_Active) {
-                mCondvar = true;
+                mCondvar = TRUE;
             }
             else {
-                mCondvar = false;
+                mCondvar = FALSE;
             }
         } break;
 

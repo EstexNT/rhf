@@ -15,11 +15,7 @@
 
 static char lbl_8032A378[256];
 
-namespace Epilogue {
-
-s32 sceneVer;
-
-} // namespace Epilogue
+s32 Epilogue::sceneVer;
 
 SCENE_IMPL_CREATE_FN(CSceneEpilogue)
 

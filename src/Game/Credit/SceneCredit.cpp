@@ -26,11 +26,7 @@
 #include "cellanim/credit/ver0/rcad_wipe_labels.h"
 #include "cellanim/navi/ver0/rcad_navigator_labels.h"
 
-namespace Credit {
-
-s32 sceneVer;
-
-} // namespace Credit
+s32 Credit::sceneVer;
 
 void CSceneCredit::fn_800C421C(u32) {}
 

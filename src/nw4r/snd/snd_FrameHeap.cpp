@@ -60,7 +60,7 @@ void FrameHeap::Clear() {
 }
 
 void *FrameHeap::Alloc(u32 size, FreeCallback pCallback, void* pCallbackArg) {
-    unsigned long blockSize = BLOCK_BUFFER_SIZE;
+    u32 blockSize = BLOCK_BUFFER_SIZE;
 
     void *mem = MEMAllocFromFrmHeapEx(
         mHandle, blockSize + ut::RoundUp(size, HEAP_ALIGN), HEAP_ALIGN

@@ -87,7 +87,7 @@ CCellAnimManager::DrawSetupFn fn_8009E204(void) {
         return fn_8009E0B0;
     case eCellAnimRenderEff_ShowEdge:
         return fn_8009E0E8;
-    
+
     default:
         return NULL;
     }
@@ -103,7 +103,7 @@ CCellAnimManager::DrawRestoreFn fn_8009E260(void) {
         return fn_8009E150;
     case eCellAnimRenderEff_ShowEdge:
         return fn_8009E168;
-    
+
     default:
         return NULL;
     }

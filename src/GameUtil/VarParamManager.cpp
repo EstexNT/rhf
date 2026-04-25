@@ -143,7 +143,7 @@ void CVarParamManager::fn_801ED44C(void) {
     GXSetCullMode(GX_CULL_NONE);
     GXSetClipMode(GX_CLIP_ENABLE);
     
-    GXSetTevColor(GX_TEVREG0, (GXColor){ 0, 0, 0, 216 });
+    GXSetTevColor(GX_TEVREG0, (GXColor){ 0, 0, 0, 0xD8 });
 
     GXBegin(GX_QUADS, GX_VTXFMT0, 4);
 

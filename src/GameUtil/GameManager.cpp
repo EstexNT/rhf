@@ -63,14 +63,14 @@ void CGameManager::_14(void) {
 
 void CGameManager::_18(void) {}
 
-void CGameManager::_1C(CScene::CreateFn initSceneCreateFn, CFaderFlash *fader, u16 initSceneMemGroup) {
+void CGameManager::_1C(CScene::CreateFn sceneCreateFn, CFaderFlash *fader, u16 sceneMemGroup) {
     u32 freeInMEM1 = MEMGetTotalFreeSizeForExpHeap(gHeapMEM1);
     u32 freeInMEM2 = MEMGetTotalFreeSizeForExpHeap(gHeapMEM2);
 
 #pragma unused(freeInMEM1)
 #pragma unused(freeInMEM2)
 
-    mCurrentScene = initSceneCreateFn(initSceneMemGroup);
+    mCurrentScene = sceneCreateFn(sceneMemGroup);
     mFader = fader;
 
     while (TRUE) {
@@ -130,9 +130,9 @@ void CGameManager::_1C(CScene::CreateFn initSceneCreateFn, CFaderFlash *fader, u
     }
 }
 
-void CGameManager::_20(CScene::CreateFn sceneCreateFn, u16 memGroup) {
+void CGameManager::_20(CScene::CreateFn sceneCreateFn, u16 sceneMemGroup) {
     mNextSceneCreateFunc = sceneCreateFn;
-    mNextSceneMemGroup = memGroup;
+    mNextSceneMemGroup = sceneMemGroup;
     mCurrentScene->fn_801D8578();
 }
 
@@ -253,7 +253,6 @@ void DVDMessageData::fn_801D77A4(void) {
     Mtx mtx;
     MTXIdentity(mtx);
     GXLoadPosMtxImm(mtx, 0);
-
     GXSetCurrentMtx(0);
 
     GXClearVtxDesc();

@@ -60,7 +60,7 @@ public:
 
     virtual void _08(void);
     virtual ~CInputCheckManager(void);
-    virtual void _10(u32);
+    virtual void _10(u32 heapSize);
     virtual void _14(void);
 
     CInputCheckManager(void);

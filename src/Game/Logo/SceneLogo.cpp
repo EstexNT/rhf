@@ -15,11 +15,7 @@
 
 #include "DebugPrint.hpp"
 
-namespace Logo {
-
-s32 sceneVer;
-
-} // namespace Logo
+s32 Logo::sceneVer;
 
 void CSceneLogo::fn_800A0B5C(u32) {}
 

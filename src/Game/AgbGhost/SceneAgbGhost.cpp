@@ -27,11 +27,7 @@
 
 #include "rev_tengoku.rsid"
 
-namespace AgbGhost {
-
-s32 sceneVer;
-
-} // namespace AgbGhost
+s32 AgbGhost::sceneVer;
 
 void CSceneAgbGhost::fn_800A75DC(u32 button) {
     CSceneAgbGhost *scene = gGameManager->getCurrentScene<CSceneAgbGhost>();

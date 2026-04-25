@@ -32,11 +32,7 @@
 
 #include "rev_tengoku.rsid"
 
-namespace Fork {
-
-s32 sceneVer;
-
-} // namespace Fork
+s32 Fork::sceneVer;
 
 void CSceneFork::fn_8004BE3C(u32 arg1) {
     CSceneFork *scene = gGameManager->getCurrentScene<CSceneFork>(); 

@@ -37,11 +37,7 @@
 
 #include "rev_tengoku.rsid"
 
-namespace Interview {
-
-s32 sceneVer;
-
-} // namespace Interview
+s32 Interview::sceneVer;
 
 void CSceneInterview::fn_800B5444(u32 button) {
     gGameManager->getCurrentScene<CSceneInterview>()->fn_800B6860(button, 2, 0, 0.0f);

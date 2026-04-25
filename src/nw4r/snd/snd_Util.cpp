@@ -723,7 +723,7 @@ u16 Util::CalcRandom()
 	 * randq1 :D
 	 */
 
-	static unsigned long u = 0x12345678ul;
+	static u32 u = 0x12345678ul;
 
 	u = u * 0x19660d + 0x3c6ef35f;
 	return u >> 16;

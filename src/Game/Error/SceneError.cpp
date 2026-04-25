@@ -58,11 +58,7 @@ static void error_resetcallback(void) {
     sIsReset = true;
 }
 
-namespace Error {
-
-s32 sceneVer;
-
-} // namespace Error
+s32 Error::sceneVer;
 
 SCENE_IMPL_CREATE_FN(CSceneError)
 

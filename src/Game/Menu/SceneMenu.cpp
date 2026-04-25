@@ -26,11 +26,7 @@ static u8 lbl_80320141;
 static u8 lbl_80320142;
 static u8 lbl_80320143;
 
-namespace Menu {
-
-s32 sceneVer;
-
-} // namespace Menu
+s32 Menu::sceneVer;
 
 SCENE_IMPL_CREATE_FN(CSceneMenu)
 

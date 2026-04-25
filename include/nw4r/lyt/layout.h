@@ -32,7 +32,7 @@ public:
     virtual void SetAnimationEnable(AnimTransform *pAnimTrans, bool bEnable);
     virtual void CalculateMtx(const DrawInfo &drawInfo);
     virtual void Draw(const DrawInfo &drawInfo);
-    virtual void Animate(unsigned long option);
+    virtual void Animate(u32 option);
     virtual void SetTagProcessor(ut::WideTagProcessor *pProcessor);
 
     ut::Rect GetLayoutRect() const;

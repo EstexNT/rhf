@@ -147,11 +147,8 @@ static void funcDVDErrorB(void) {
 
     if (
         sInitIsDone &&
-        (
-            gGameManager->getCurrentScene() == NULL ||
-            !gGameManager->getCurrentScene<CExScene>()->fn_80009AA0()
-        ) &&
-        (gHBMManager == NULL || !gHBMManager->getUnk414())
+        ((gGameManager->getCurrentScene() == NULL) || !gGameManager->getCurrentScene<CExScene>()->fn_80009AA0()) &&
+        ((gHBMManager == NULL) || !gHBMManager->getUnk414())
     ) {
         gSoundManager->nosys_player_pause(false);
     }

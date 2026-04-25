@@ -23,11 +23,7 @@
 
 #include "cellanim/strap/verE/rcad_strap_labels.h"
 
-namespace Strap {
-
-s32 sceneVer;
-
-} // namespace Strap
+s32 Strap::sceneVer;
 
 void CSceneStrap::fn_8007B270(u32) {}
 
@@ -45,6 +41,7 @@ void CSceneStrap::fn_8007B2D8(void) {
             gFileManager->startArchive(2, "content2/cellanim/strap/verS/cellanim.szs");
             break;
         default:
+        case SC_LANG_EN:
             gFileManager->startArchive(2, "content2/cellanim/strap/verE/cellanim.szs");
             break;
         }

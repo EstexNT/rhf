@@ -19,8 +19,8 @@ public:
     virtual void _10(void);
     virtual void _14(void);
     virtual void _18(void);
-    virtual void _1C(CScene::CreateFn initSceneCreateFn, CFaderFlash *fader, u16 initSceneMemGroup);
-    virtual void _20(CScene::CreateFn sceneCreateFn, u16 memGroup);
+    virtual void _1C(CScene::CreateFn sceneCreateFn, CFaderFlash *fader, u16 sceneMemGroup);
+    virtual void _20(CScene::CreateFn sceneCreateFn, u16 sceneMemGroup);
     virtual void _24(CFaderFlash *fader);
     virtual void _28(void);
     virtual bool _2C(void);

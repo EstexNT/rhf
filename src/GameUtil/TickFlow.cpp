@@ -54,6 +54,17 @@ TFD_RETURN()
 static nw4r::lyt::TextBox *lbl_803D5D38[8];
 static nw4r::lyt::Pane *lbl_803D5D58[8];
 
+static void setMesgPaneVisible(s32 index, bool visible) {
+    lbl_803D5D38[index]->SetVisible(visible);
+    if (lbl_803D5D58[index] != NULL) {
+        lbl_803D5D58[index]->SetVisible(visible);
+    }
+}
+
+static void setMesgPaneString(s32 index, const wchar_t *string) {
+    lbl_803D5D38[index]->SetString(string);
+}
+
 CTickFlow::CTickFlow(const TickFlowCode *code, f32 initRest) {
     mCode = code;
     mInstanceCount = gTickFlowManager->fn_801E4124();
@@ -544,15 +555,11 @@ bool CTickFlow::_1C(u32 opcode, u32 arg0, const s32 *args) {
     } break;
 
     case TF_MESG_PANE_VISIBLE: {
-        // kind of odd asm (maybe some inline?)
-        lbl_803D5D38[arg0]->SetVisible(args[0]);
-        nw4r::lyt::Pane *pane = lbl_803D5D58[arg0];
-        if (pane != NULL) {
-            pane->SetVisible(args[0]);
-        }
+        // TODO: Issues with Pane SetVisible & detail::SetBit
+        setMesgPaneVisible(arg0, args[0]);
     } break;
     case TF_MESG_PANE_SET_STRING: {
-        lbl_803D5D38[arg0]->SetString(reinterpret_cast<const wchar_t *>(args[0]));
+        setMesgPaneString(arg0, reinterpret_cast<const wchar_t *>(args[0]));
     } break;
 
     case TF_SET_INPUT_ALLOW: {

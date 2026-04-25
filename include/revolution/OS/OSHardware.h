@@ -2,14 +2,13 @@
 #define RVL_SDK_OS_HARDWARE_H
 #include <revolution/OS/OSAddress.h>
 #include <revolution/OS/OSThread.h>
+#include <revolution/OS/OSContext.h>
+#include <revolution/OS/OSExec.h>
 #include <revolution/DVD/dvd.h>
 #include <revolution/types.h>
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-typedef struct OSContext;
-typedef struct OSExecParams;
 
 /**
  * For more details, see:

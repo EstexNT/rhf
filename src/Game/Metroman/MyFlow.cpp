@@ -141,7 +141,7 @@ bool Metroman::CMyFlow::_1C(u32 opcode, u32 arg0, const s32 *args) {
                 mCondvar = mScene->mUnkA8 != 0;
             }
             else {
-                mCondvar = 0;
+                mCondvar = FALSE;
             }
         }
         else if (arg0 == 3) {

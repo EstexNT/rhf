@@ -231,11 +231,11 @@ f32 CLayoutManager::fn_801D7190(void) {
     return mScaleY;
 }
 
-void CLayoutManager::fn_801D7198(u32 size) {
+void CLayoutManager::fn_801D7198(u32 heapSize) {
     mUseTempHeap = true;
 
-    mTempHeapStart = new (eHeap_MEM2, 32) u8[size];
-    mTempHeap = MEMCreateExpHeap(mTempHeapStart, size);
+    mTempHeapStart = new (eHeap_MEM2, 32) u8[heapSize];
+    mTempHeap = MEMCreateExpHeap(mTempHeapStart, heapSize);
 
     MEMInitAllocatorForExpHeap(&mTempAllocator, mTempHeap, 4);
     nw4r::lyt::Layout::SetAllocator(&mTempAllocator);

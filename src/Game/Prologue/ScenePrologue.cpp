@@ -23,11 +23,7 @@
 static char lbl_8032A278[0x100];
 static u32 lbl_80320238;
 
-namespace Prologue {
-
-s32 sceneVer;
-
-} // namespace Prologue
+s32 Prologue::sceneVer;
 
 SCENE_IMPL_CREATE_FN(CScenePrologue)
 
