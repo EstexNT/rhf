@@ -51,10 +51,10 @@ void CSceneEpilogue::_14(void) {
     anim->setPlaying(false);
 
     s32 frame;
-    if (gCheckPointManager->getUnk2FC() == 0) {
+    if (gCheckPointManager->getUnk2FC() == eGrade_HI) {
         frame = 0;
     }
-    else if (gCheckPointManager->getUnk2FC() == 1) {
+    else if (gCheckPointManager->getUnk2FC() == eGrade_OK) {
         frame = 1;
     }
     else {

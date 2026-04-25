@@ -85,17 +85,30 @@ Game/Epilogue/SceneEpilogue.cpp:
 	.sdata2     start:0x80321208 end:0x80321210
 	.bss        start:0x8032A378 end:0x8032A478
 
-Game/Script/Prologue.cpp:
-	.rodata     start:0x801F9110 end:0x801F9664
-
 Game/Grading/MyFlow.cpp:
 	.text       start:0x8000B888 end:0x8000BA78
+	.rodata     start:0x801F8F30 end:0x801F8F48
+	.data       start:0x802E5A10 end:0x802E5A50
+	.sdata      start:0x8031EF90 end:0x8031EF98
+	.sdata2     start:0x80321210 end:0x80321218
 
 Game/Grading/MyLayout.cpp:
 	.text       start:0x8000BA78 end:0x8000C2E4
+	.rodata     start:0x801F8F48 end:0x801F9008
+	.data       start:0x802E5A50 end:0x802E5A80
+	.sdata      start:0x8031EF98 end:0x8031EFB0
+	.sbss       start:0x80320258 end:0x80320260
+	.sdata2     start:0x80321218 end:0x80321230
 
 Game/Grading/SceneGrading.cpp:
 	.text       start:0x8000C2E4 end:0x8000C640
+	.rodata     start:0x801F9008 end:0x801F9040
+	.data       start:0x802E5A80 end:0x802E5AC0
+	.sdata      start:0x8031EFB0 end:0x8031EFB8
+	.sbss       start:0x80320260 end:0x80320268
+
+Game/Script/Prologue.cpp:
+	.rodata     start:0x801F9110 end:0x801F9664
 
 Game/GameSelect/MyFlow.cpp:
 	.text       start:0x8000C640 end:0x8000C7F4

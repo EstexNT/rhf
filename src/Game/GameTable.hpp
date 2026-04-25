@@ -19,4 +19,6 @@ struct GameTableEntry {
 
 const GameTableEntry *fn_8000EB50(s32 index);
 
+u8 fn_8000EBB0(s32 index);
+
 #endif

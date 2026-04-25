@@ -42,6 +42,12 @@ enum ECheckInputType {
     eCheckInputType_Through,
 };
 
+enum EGrade {
+    eGrade_HI,
+    eGrade_OK,
+    eGrade_NG
+};
+
 class CCheckPointManager : public TSingleton<CCheckPointManager> {
 public:
 
@@ -64,14 +70,14 @@ public:
 
     void fn_801EB130(void);
 
-    u8 fn_801EB7A8(void);
-    u32 fn_801EB7B0(void);
+    bool fn_801EB7A8(void);
+    s32 fn_801EB7B0(void);
 
     wchar_t *fn_801EB7D0(s32);
     wchar_t *fn_801EB7E0(void);
     wchar_t *fn_801EB7F8(void);
 
-    u8 fn_801EB800(void);
+    bool fn_801EB800(void);
 
     s32 fn_801EB808(s32);
     s32 fn_801EB8FC(s32);
@@ -91,8 +97,8 @@ public:
     void setUnk2FC(u32 arg1) {
         unk2FC = arg1;
     }
-    s32 getUnk2FC(void) const {
-        return unk2FC;
+    EGrade getUnk2FC(void) const {
+        return static_cast<EGrade>(unk2FC);
     }
     void setUnkC4(u8 arg0) {
         unkC4 = arg0;
@@ -125,19 +131,7 @@ public:
     }
 
     u32 getUnk2FCGrade(bool arg0, bool arg1) {
-        u32 temp;
-        
-        if (arg0) {
-            temp = 0;
-        }
-        else {
-            temp = 1;
-            if (arg1) {
-                temp = 2;
-            }
-        }
-
-        return temp;
+        return arg0 ? eGrade_HI : (arg1 ? eGrade_NG : eGrade_OK); 
     }
 private:
 
@@ -169,8 +163,8 @@ private:
     f32 unkD8;
     u8 unkDC;
     u8 unkDD;
-    u8 unkDE;
-    u8 unkDF;
+    bool unkDE;
+    bool unkDF;
     wchar_t unkE0[4][64 + 1];
     wchar_t *unk2E8[4];
     wchar_t *unk2F8;

@@ -3,6 +3,8 @@
 #include "Prologue/MyLayout.hpp"
 #include "Prologue/MyFlow.hpp"
 
+#include "Grading/SceneGrading.hpp"
+
 #include <cstdio>
 
 #include "FileManager.hpp"
@@ -44,8 +46,6 @@ bool CScenePrologue::_24(void) {
     return gFileManager->getArcReady(51) && gFileManager->getArcReady(91);
 }
 
-extern "C" void fn_8000C5F4(u8);
-
 void CScenePrologue::_14(void) {
     this->CExScene::_14();
 
@@ -58,10 +58,10 @@ void CScenePrologue::_14(void) {
                 if (getPerfectEligible() && (gBackupManager != NULL)) {
                     gBackupManager->fn_80084FC8(1);
                 } 
-                fn_8000C5F4(0);
+                Grading::fn_8000C5F4(false);
             }
             else {
-                fn_8000C5F4(1);
+                Grading::fn_8000C5F4(true);
             }
         }
     }

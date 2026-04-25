@@ -134,7 +134,7 @@ void CCheckPointManager::fn_801EB11C(void) {
 // not matching (regswaps)
 void CCheckPointManager::fn_801EB130(void) {
     unkC8 = 0;
-    unkDE = 0;
+    unkDE = false;
 
     for (s32 i = 0; i < ARRAY_LENGTH(unk04); i++) {
         if (unk04[i].unk0) {
@@ -203,7 +203,7 @@ void CCheckPointManager::fn_801EB130(void) {
             }
             memset(unkE0[unkC8], 0, sizeof(unkE0[unkC8]) - 2);
             wcscat(unkE0[unkC8], reinterpret_cast<const wchar_t *>(unkA4[i]->mesgPositive));
-            unkDE = 1;
+            unkDE = true;
             unkC8++;
         }
         else {
@@ -253,12 +253,12 @@ void CCheckPointManager::fn_801EB130(void) {
     }
 }
 
-u8 CCheckPointManager::fn_801EB7A8(void) {
+bool CCheckPointManager::fn_801EB7A8(void) {
     return unkDE;
 }
 
-u32 CCheckPointManager::fn_801EB7B0(void) {
-    return (unkDE != 0) ? (unkC8 - 1) : unkC8;
+s32 CCheckPointManager::fn_801EB7B0(void) {
+    return unkDE ? (unkC8 - 1) : unkC8;
 }
 
 wchar_t *CCheckPointManager::fn_801EB7D0(s32 i) {
@@ -273,7 +273,7 @@ wchar_t *CCheckPointManager::fn_801EB7F8(void) {
     return unk2E8[3];
 }
 
-u8 CCheckPointManager::fn_801EB800(void) {
+bool CCheckPointManager::fn_801EB800(void) {
     return unkDF;
 }
 

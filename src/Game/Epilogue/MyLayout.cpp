@@ -33,9 +33,10 @@ void Epilogue::CMyLayout::_10(void) {
         getLayout()->GetRootPane()->FindPaneByName("T_Message_00")
     );
 
+    EGrade grade = gCheckPointManager->getUnk2FC();
     textBox->SetString(
-        (gCheckPointManager->getUnk2FC() == 0) ? sMessageHI :
-        (gCheckPointManager->getUnk2FC() == 1) ? sMessageOK : 
+        (grade == eGrade_HI) ? sMessageHI :
+        (grade == eGrade_OK) ? sMessageOK :
         sMessageNG
     );
 

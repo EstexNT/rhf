@@ -12,6 +12,15 @@ struct SaveDataFile_Sub00 {
     u32 unk04;
 };
 
+enum ELevelState {
+    eLevelState_Locked, // TODO: confirm
+    eLevelState_Unlocked, // TODO: confirm
+    eLevelState_AttemptNG,
+    eLevelState_CompleteOK,
+    eLevelState_CompleteHI,
+    eLevelState_Perfect,
+};
+
 struct SaveDataFile {
     u8 pad00[0x280];
 
@@ -32,9 +41,15 @@ struct SaveDataFile {
 
     void fn_80077CEC(bool);
 
+    s8 fn_80077D50(void);
+
+    ELevelState fn_80077D58(s32);
+
     s8 fn_80077DF8(void);
     u8 fn_80077E08(void);
     void fn_800786E4(void);
+
+    void fn_80078808(void);
 
     s32 fn_80077E40(s32);
 
